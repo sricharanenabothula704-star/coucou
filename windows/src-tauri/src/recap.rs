@@ -468,6 +468,20 @@ fn text<'a>(payload: &'a Value, key: &str) -> &'a str {
     payload.get(key).and_then(Value::as_str).unwrap_or_default()
 }
 
+/// claudeCliSession in src/core/pills.ts: Claude Code in a plain terminal, once
+/// the relay says where it runs.
+fn claude_cli(payload: &Value) -> bool {
+    let has = |k: &str| payload.get(k).is_some();
+    if !has("claude_entrypoint") && !has("term_program") {
+        return false;
+    }
+    let entry = text(payload, "claude_entrypoint");
+    if !entry.is_empty() && entry != "cli" {
+        return false;
+    }
+    text(payload, "vscode_pid").is_empty() && !text(payload, "term_program").eq_ignore_ascii_case("vscode")
+}
+
 /// Same routing as hooks.ts, so a turn counts for the pill it showed on: a
 /// valid `coucou_agent` → `agent_<name>` (every agent the relay normalises,
 /// Claude Desktop included); otherwise Claude Code's own pill — Cursor's when
@@ -482,6 +496,8 @@ fn agent_id(payload: &Value) -> String {
         format!("agent_{raw}")
     } else if text(payload, "term_editor") == "cursor" {
         "agent_cursor".to_string()
+    } else if claude_cli(payload) {
+        "agent_claude-cli".to_string()
     } else {
         "integration_claude".to_string()
     }
@@ -864,6 +880,11 @@ mod tests {
     fn a_turn_counts_for_the_pill_it_showed_on() {
         // Claude Code in Cursor's terminal is the Cursor pill, as in hooks.ts.
         assert_eq!(agent_id(&json!({ "term_editor": "cursor" })), "agent_cursor");
+        // A plain terminal is Claude CLI; VS Code's terminal or extension, and an older relay, stay VS Code.
+        assert_eq!(agent_id(&json!({ "claude_entrypoint": "cli", "term_program": "", "vscode_pid": "" })), "agent_claude-cli");
+        assert_eq!(agent_id(&json!({ "claude_entrypoint": "cli", "term_program": "vscode", "vscode_pid": "42" })), "integration_claude");
+        assert_eq!(agent_id(&json!({ "claude_entrypoint": "claude-vscode", "term_program": "" })), "integration_claude");
+        assert_eq!(agent_id(&json!({})), "integration_claude");
         // An explicit agent wins over the terminal it runs in.
         assert_eq!(agent_id(&json!({ "coucou_agent": "claude-desktop", "term_editor": "cursor" })), "agent_claude-desktop");
         assert_eq!(agent_id(&json!({ "coucou_agent": "copilot" })), "agent_copilot");

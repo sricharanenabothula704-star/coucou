@@ -62,6 +62,8 @@ pub fn status() -> HashMap<String, bool> {
     // Claude Code's own hooks report.
     if claude {
         out.insert("agent_cursor".to_string(), true);
+        // And Claude CLI: Claude Code in a plain terminal.
+        out.insert("agent_claude-cli".to_string(), true);
     }
     out
 }

@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import {
   DEFAULT_MAIN_PILL, MAX_DECLARED, PILL_CATALOG, PILL_CATEGORIES, availablePills, chooseMainPill,
   isComingSoon, isHookPill, mainPillChoices, orderPills, pillDefinition, sanitizeDeclared, sessionSubtitle,
-  toggleDeclared,
+  toggleDeclared, claudeCliSession,
 } from "../src/core/pills.ts";
 import { DEFAULT_SETTINGS, State } from "../src/core/state.ts";
 
@@ -50,8 +50,26 @@ test("the catalog holds the Mac's pills, in the Mac's order, with the Mac's valu
   ]);
 });
 
-test("after the Mac's pills come the dashboard's, on Windows only, with nothing to set up", () => {
-  const extra = PILL_CATALOG.slice(25);
+test("after the Mac's pills: Claude CLI, on Claude Code's hooks", () => {
+  const cli = PILL_CATALOG[25];
+  assert.deepEqual([cli.id, cli.name, cli.category, cli.support, cli.connect.kind], ["agent_claude-cli", "Claude CLI", "workspace", "yes", "hooks"]);
+  assert.equal(sessionSubtitle("agent_claude-cli"), "Claude CLI");
+});
+
+test("a Claude Code session in a plain terminal is Claude CLI, in VS Code or Cursor it is not", () => {
+  // Windows Terminal, PowerShell, cmd.
+  assert.ok(claudeCliSession({ claude_entrypoint: "cli", term_program: "", vscode_pid: "" }));
+  assert.ok(claudeCliSession({ term_program: "", vscode_pid: "" }));
+  // VS Code's integrated terminal, its extension, Cursor's terminal.
+  assert.ok(!claudeCliSession({ claude_entrypoint: "cli", term_program: "vscode", vscode_pid: "4242" }));
+  assert.ok(!claudeCliSession({ claude_entrypoint: "claude-vscode", term_program: "", vscode_pid: "" }));
+  assert.ok(!claudeCliSession({ claude_entrypoint: "cli", term_editor: "cursor", term_program: "vscode" }));
+  // An older relay says nothing of it: the session stays where it always was.
+  assert.ok(!claudeCliSession({}));
+});
+
+test("after them come the dashboard's, on Windows only, with nothing to set up", () => {
+  const extra = PILL_CATALOG.slice(26);
   assert.deepEqual(extra.map((p) => p.id), [
     "integration_system", "integration_nowplaying", "integration_focus", "integration_news", "integration_screentime",
   ]);
@@ -149,7 +167,7 @@ test("no chat provider that works here says Coming soon", () => {
 
 test("the main pill is a workspace tool that works here", () => {
   assert.deepEqual(mainPillChoices("linux").map((p) => p.id), [
-    "integration_claude", "agent_cursor", "agent_antigravity", "agent_codex",
+    "integration_claude", "agent_cursor", "agent_antigravity", "agent_codex", "agent_claude-cli",
   ]);
   assert.equal(DEFAULT_MAIN_PILL, "integration_claude");
 });

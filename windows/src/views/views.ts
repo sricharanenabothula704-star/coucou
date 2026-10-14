@@ -12,7 +12,7 @@ import { buildPrompt } from "./chat";
 import { buildChoose, buildUpload, buildUploading } from "./upload";
 import { renderIntegrationCard, type IntegrationCardHooks } from "./integrations";
 import { highlightRow, listRows, openRow } from "./github";
-import { pillDefinition, sessionSubtitle } from "../core/pills";
+import { CLAUDE_CLI_ID, pillDefinition, sessionSubtitle } from "../core/pills";
 import {
   PlanCard, buildPlanPill, claudePillVisible, codexPillVisible, planCardOpen, refreshCodexPlanUsage,
 } from "./usage";
@@ -105,6 +105,9 @@ function stack(padLeft: number, padRight: number, ...children: Node[]): HTMLElem
   el.style.padding = `4px ${padRight}px 4px ${padLeft}px`;
   return el;
 }
+
+/** A session at work: Claude CLI's card and pill animate. */
+const BUSY_STATES: ReadonlySet<string> = new Set(["working", "thinking", "searching"]);
 
 // ── Header ────────────────────────────────────────────────────────────────────
 
@@ -348,6 +351,15 @@ function buildOverview(actions: ViewActions): ViewHost {
           cardKey = "";
         }
         clear(who);
+        // Claude CLI's card (not the Mac's): a prompt, a blinking cursor and a
+        // scan line while it works, a green sweep when it is done — only while
+        // the island is open, so a hidden island animates nothing.
+        const cli = task.id === CLAUDE_CLI_ID;
+        const open = State.mode === "expanded";
+        tickerBody.classList.toggle("cli", cli);
+        tickerBody.classList.toggle("busy", cli && open && BUSY_STATES.has(task.state));
+        tickerBody.classList.toggle("done", cli && open && task.state === "finished");
+        if (cli) who.append(h("span", { class: "cli-prompt", text: "❯" }));
         // The agent's name is already the pill's: the label says what kind of
         // pill it is, as on the Mac (PillDefinition.sessionSubtitle).
         who.append(
@@ -361,6 +373,7 @@ function buildOverview(actions: ViewActions): ViewHost {
             text: `${Math.min(task.stepIndex + 1, task.steps.length)}/${task.steps.length}`,
           }));
         }
+        if (cli) who.append(h("i", { class: "cli-caret" }));
         ticker.sync(task);
       } else if (task && task.id === SPOTIFY_ID) {
         // Its own card for every state: playing, idle, not installed.
@@ -404,7 +417,9 @@ function buildOverview(actions: ViewActions): ViewHost {
       shownSelection = State.cardSelection;
 
       const others = State.otherTasks.slice(0, 4);
-      const pillKey = others.map((t) => `${t.id}:${t.color}:${t.pillBadge ?? ""}`).join("|");
+      // Claude CLI's pill glows while it works (and only while the island is open).
+      const pillKey = others.map((t) => `${t.id}:${t.color}:${t.pillBadge ?? ""}${
+        t.id === CLAUDE_CLI_ID && State.mode === "expanded" && BUSY_STATES.has(t.state) ? ":busy" : ""}`).join("|");
       if (pillKey !== pillIds) {
         pillIds = pillKey;
         clear(pills);
@@ -439,11 +454,12 @@ export function hasSessionTicker(task: AgentTask): boolean {
 }
 
 function buildPill(task: AgentTask, actions: ViewActions): HTMLElement {
-  const label = task.id === "integration_claude" ? "VS Code" : task.name;
+  const label = task.id === "integration_claude" ? "VS Code" : task.id === CLAUDE_CLI_ID ? "Claude CLI" : task.name;
   const canvas = createMiniBot(task, 24);
+  const cliBusy = task.id === CLAUDE_CLI_ID && State.mode === "expanded" && BUSY_STATES.has(task.state);
   const pill = h(
     "div",
-    { class: "pill", onclick: () => actions.setFocus(task.id) },
+    { class: `pill${task.id === CLAUDE_CLI_ID ? " cli" : ""}${cliBusy ? " busy" : ""}`, onclick: () => actions.setFocus(task.id) },
     canvas,
     h("span", { class: "lbl", text: label }),
   );

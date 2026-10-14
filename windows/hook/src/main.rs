@@ -211,6 +211,9 @@ fn add_terminal_context(map: &mut Map<String, Value>, env: &dyn Fn(&str) -> Opti
         ("term_session_id", "TERM_SESSION_ID"),
         ("vscode_pid", "VSCODE_PID"),
         ("session_pid", "CLAUDE_CODE_SSE_PORT"),
+        // "cli" in a terminal, "claude-vscode" from the VS Code extension: which
+        // workspace pill the session shows on (Claude CLI or VS Code).
+        ("claude_entrypoint", "CLAUDE_CODE_ENTRYPOINT"),
     ] {
         if !map.contains_key(key) {
             map.insert(key.into(), Value::String(env(var).unwrap_or_default()));

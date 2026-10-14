@@ -134,6 +134,12 @@ export const PILL_CATALOG: readonly PillDefinition[] = [
   // Windows has nothing to read it from yet.
   { id: "integration_spotify", name: "Spotify", color: "#1DB954", category: "service",
     subtitle: N_("Integration"), source: "n8n", support: "linux", connect: none },
+  // ── Not on the Mac: Claude Code run in a plain terminal ────────────────────
+  // The same hooks as the VS Code pill; a session lands here when it isn't in
+  // VS Code or Cursor (claudeCliSession below). A workspace pill, so it can be
+  // the main one and its permission requests get Allow / Deny like VS Code's.
+  { id: "agent_claude-cli", name: "Claude CLI", color: "#E8825F", category: "workspace",
+    subtitle: N_("Integration"), source: "claudeCode", support: "yes", connect: hooks },
   // ── Windows only: the dashboard's pills (src-tauri/src/dashboard) ───────────
   // Not on the Mac. Read from Windows itself (performance counters, the system
   // media controls, the window in front), or from the feeds the user lists.
@@ -191,6 +197,7 @@ export function sessionSubtitle(id: string): string {
   switch (id) {
     case "integration_claude": return "Claude Code";
     case "agent_cursor": return "Cursor";
+    case "agent_claude-cli": return "Claude CLI";
     case "agent_codex": return "Codex";
     case "agent_hermes": return "Hermes";
     case "agent_claude-desktop": return "Claude Desktop";
@@ -257,4 +264,25 @@ export function orderPills<T extends { id: string }>(tasks: T[], mainPill: strin
     .map((t, i) => ({ t, i }))
     .sort((a, b) => rank(a.t) - rank(b.t) || a.i - b.i)
     .map(({ t }) => t);
+}
+
+/** Claude CLI's pill: Claude Code run in a plain terminal. */
+export const CLAUDE_CLI_ID = "agent_claude-cli";
+
+/**
+ * Claude Code run in a plain terminal (Windows Terminal, PowerShell, cmd…),
+ * not in VS Code (its extension, or its integrated terminal) nor in Cursor.
+ * Only once the relay says where it runs: an older relay sends none of it, and
+ * its sessions stay on the VS Code pill as before.
+ */
+export function claudeCliSession(p: {
+  claude_entrypoint?: string;
+  term_program?: string;
+  vscode_pid?: string;
+  term_editor?: string;
+}): boolean {
+  if (p.term_editor === "cursor") return false;
+  if (p.claude_entrypoint === undefined && p.term_program === undefined) return false;
+  if (p.claude_entrypoint && p.claude_entrypoint !== "cli") return false;
+  return !p.vscode_pid && (p.term_program ?? "").toLowerCase() !== "vscode";
 }
