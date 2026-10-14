@@ -3899,6 +3899,115 @@
    "pt-BR": "Este código também inclui a chave de acesso e a chave de ponta a ponta do relay {host}. «Parear de novo» cria uma chave e uma sala novas.",
    "ru": "Этот код также содержит ключ доступа и сквозной ключ для ретранслятора {host}. «Сопрячь заново» создаёт новый ключ и новую комнату.",
    "id": "Kode ini juga memuat kunci akses dan kunci ujung ke ujung untuk relay {host}. «Sandingkan ulang» membuat kunci dan ruang baru."
-  }
- }
+  },
+  "Usage stats": {
+   "zh-Hans": "用量统计",
+   "hi": "उपयोग आँकड़े",
+   "es": "Estadísticas de uso",
+   "ar": "إحصاءات الاستخدام",
+   "fr": "Statistiques d'usage",
+   "bn": "ব্যবহারের পরিসংখ্যান",
+   "pt-BR": "Estatísticas de uso",
+   "ru": "Статистика использования",
+   "id": "Statistik penggunaan"
+  },
+  "Last 30 days": {
+   "zh-Hans": "最近 30 天",
+   "hi": "पिछले 30 दिन",
+   "es": "Últimos 30 días",
+   "ar": "آخر 30 يومًا",
+   "fr": "30 derniers jours",
+   "bn": "গত ৩০ দিন",
+   "pt-BR": "Últimos 30 dias",
+   "ru": "Последние 30 дней",
+   "id": "30 hari terakhir"
+  },
+  "Tokens per day": {
+   "zh-Hans": "每日令牌数",
+   "hi": "प्रति दिन टोकन",
+   "es": "Tokens por día",
+   "ar": "الرموز في اليوم",
+   "fr": "Tokens par jour",
+   "bn": "প্রতিদিনের টোকেন",
+   "pt-BR": "Tokens por dia",
+   "ru": "Токены в день",
+   "id": "Token per hari"
+  },
+  "Top tools": {
+   "zh-Hans": "常用工具",
+   "hi": "शीर्ष टूल",
+   "es": "Herramientas más usadas",
+   "ar": "أكثر الأدوات استخدامًا",
+   "fr": "Outils les plus utilisés",
+   "bn": "সবচেয়ে বেশি ব্যবহৃত টুল",
+   "pt-BR": "Ferramentas mais usadas",
+   "ru": "Самые используемые инструменты",
+   "id": "Alat paling sering dipakai"
+  },
+  "Models": {
+   "zh-Hans": "模型",
+   "hi": "मॉडल",
+   "es": "Modelos",
+   "ar": "النماذج",
+   "fr": "Modèles",
+   "bn": "মডেল",
+   "pt-BR": "Modelos",
+   "ru": "Модели",
+   "id": "Model"
+  },
+  "Calls": {
+   "zh-Hans": "次数",
+   "hi": "कॉल",
+   "es": "Llamadas",
+   "ar": "الاستدعاءات",
+   "fr": "Appels",
+   "bn": "কল",
+   "pt-BR": "Chamadas",
+   "ru": "Вызовы",
+   "id": "Panggilan"
+  },
+  "Tokens": {
+   "zh-Hans": "令牌",
+   "hi": "टोकन",
+   "es": "Tokens",
+   "ar": "الرموز",
+   "fr": "Tokens",
+   "bn": "টোকেন",
+   "pt-BR": "Tokens",
+   "ru": "Токены",
+   "id": "Token"
+  },
+  "No usage yet": {
+   "zh-Hans": "还没有用量",
+   "hi": "अभी तक कोई उपयोग नहीं",
+   "es": "Aún no hay uso",
+   "ar": "لا يوجد استخدام بعد",
+   "fr": "Pas encore d'usage",
+   "bn": "এখনও কোনো ব্যবহার নেই",
+   "pt-BR": "Ainda sem uso",
+   "ru": "Пока нет данных",
+   "id": "Belum ada penggunaan"
+  },
+  "Count Claude Code usage from its transcripts": {
+   "zh-Hans": "统计 Claude Code 用量（读取本地记录）",
+   "hi": "Claude Code के ट्रांसक्रिप्ट से उपयोग गिनें",
+   "es": "Contar el uso de Claude Code desde sus transcripciones",
+   "ar": "احسب استخدام Claude Code من سجلاته",
+   "fr": "Compter l'usage de Claude Code depuis ses transcriptions",
+   "bn": "Claude Code-এর ট্রান্সক্রিপ্ট থেকে ব্যবহার গণনা করুন",
+   "pt-BR": "Contar o uso do Claude Code pelas transcrições",
+   "ru": "Считать использование Claude Code по его журналам",
+   "id": "Hitung penggunaan Claude Code dari transkripnya"
+  },
+  "Coucou reads only the transcripts Claude Code keeps on this computer, to count tokens and tool calls. Nothing is sent anywhere.": {
+   "zh-Hans": "Coucou 只读取 Claude Code 保存在本机的对话记录，仅统计令牌数和工具调用次数，不会发送到任何地方。",
+   "hi": "Coucou केवल इस कंप्यूटर पर Claude Code के रखे ट्रांसक्रिप्ट पढ़ता है, सिर्फ़ टोकन और टूल कॉल गिनने के लिए। कुछ भी कहीं भेजा नहीं जाता।",
+   "es": "Coucou solo lee las transcripciones que Claude Code guarda en este equipo, para contar tokens y llamadas a herramientas. No se envía nada a ningún sitio.",
+   "ar": "يقرأ Coucou السجلات التي يحفظها Claude Code على هذا الجهاز فقط، لحساب الرموز واستدعاءات الأدوات. لا يُرسل شيء إلى أي مكان.",
+   "fr": "Coucou lit uniquement les transcriptions que Claude Code garde sur cet ordinateur, pour compter les tokens et les appels d'outils. Rien n'est envoyé nulle part.",
+   "bn": "Coucou শুধু এই কম্পিউটারে Claude Code-এর রাখা ট্রান্সক্রিপ্ট পড়ে, টোকেন ও টুল কল গোনার জন্য। কিছুই কোথাও পাঠানো হয় না।",
+   "pt-BR": "O Coucou lê apenas as transcrições que o Claude Code guarda neste computador, para contar tokens e chamadas de ferramentas. Nada é enviado para lugar nenhum.",
+   "ru": "Coucou читает только журналы, которые Claude Code хранит на этом компьютере, и считает только токены и вызовы инструментов. Ничего никуда не отправляется.",
+   "id": "Coucou hanya membaca transkrip yang disimpan Claude Code di komputer ini, hanya untuk menghitung token dan panggilan alat. Tidak ada yang dikirim ke mana pun."
+  } }
 }

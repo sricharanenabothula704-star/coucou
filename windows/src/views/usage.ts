@@ -18,7 +18,77 @@ import {
 import { State } from "../core/state";
 import { clear, dot, h, svg } from "./dom";
 import { ICONS } from "./icons";
-import { language, tl } from "../i18n/i18n";
+import { language, t, tl } from "../i18n/i18n";
+import {
+  compactNumber, dailyTotals, parseUsage, top, totalTokens, type ClaudeUsage,
+} from "../usage/usage";
+
+/** Claude Code usage counted from its transcripts; only read while the card is open. */
+let claudeUsage: ClaudeUsage | null = null;
+let claudeUsageVersion = 0;
+let claudeUsageLoadedAt = 0;
+let claudeUsageLoading = false;
+const CLAUDE_USAGE_STALE_MS = 60_000;
+
+/**
+ * Asks Rust to count the transcripts again when the card shows them and the
+ * numbers are older than a minute. Does nothing while the setting is off.
+ */
+export function refreshClaudeUsage(now = Date.now()) {
+  if (!State.settings.showUsageStats || claudeUsageLoading) return;
+  if (now - claudeUsageLoadedAt < CLAUDE_USAGE_STALE_MS) return;
+  claudeUsageLoading = true;
+  claudeUsageLoadedAt = now;
+  void Bridge.claudeUsageStats()
+    .then((raw) => {
+      claudeUsage = parseUsage(raw);
+      claudeUsageVersion++;
+    })
+    .catch(() => {})
+    .finally(() => {
+      claudeUsageLoading = false;
+      State.notify();
+    });
+}
+
+/** Daily tokens as bars, then the top tools and models, for the Claude card. */
+function usageSection(usage: ClaudeUsage | null, now: number): HTMLElement {
+  const section = h("div", { class: "usage-stats" },
+    h("div", { class: "usage-head" },
+      h("span", { class: "usage-title", text: t("Usage stats") }),
+      h("span", { class: "usage-range", text: t("Last 30 days") }),
+    ),
+  );
+  if (!usage || usage.hours.length === 0) {
+    section.append(h("div", { class: "usage-empty", text: t("No usage yet") }));
+    return section;
+  }
+  const days = dailyTotals(usage, new Date(now), 30);
+  const peak = Math.max(1, ...days.map((d) => d.tokens));
+  section.append(
+    h("div", { class: "usage-label", text: `${t("Tokens per day")} · ${t("Tokens")} ${compactNumber(totalTokens(usage))}` }),
+    h("div", { class: "usage-bars" },
+      ...days.map((d) => h("span", {
+        class: "usage-bar",
+        title: `${d.day}: ${compactNumber(d.tokens)}`,
+        style: `height:${Math.max(4, Math.round((d.tokens / peak) * 100))}%`,
+      })),
+    ),
+  );
+  const rank = (label: string, unit: string, rows: [string, number][]) => {
+    if (rows.length === 0) return;
+    section.append(
+      h("div", { class: "usage-label", text: `${label} · ${unit}` }),
+      ...top(rows, 4).map(([name, n]) => h("div", { class: "usage-rank" },
+        h("span", { class: "usage-name", text: name }),
+        h("span", { class: "usage-count", text: compactNumber(n) }),
+      )),
+    );
+  };
+  rank(t("Top tools"), t("Calls"), usage.tools);
+  rank(t("Models"), t("Tokens"), usage.models);
+  return section;
+}
 
 /** The Claude pill is in the header: overview, turned on, relay in. */
 export function claudePillVisible(): boolean {
@@ -180,7 +250,8 @@ export class PlanCard {
   sync(now = Date.now()) {
     const codex = State.planDetailIsCodex;
     const u = codex ? State.codexPlanUsage : State.planUsage;
-    const key = `${language()}|${codex}|${JSON.stringify(u)}|${Math.floor(now / 30_000)}`;
+    if (!codex) refreshClaudeUsage(now);
+    const key = `${language()}|${codex}|${JSON.stringify(u)}|${Math.floor(now / 30_000)}|${claudeUsageVersion}|${State.settings.showUsageStats}`;
     if (key === this.key) return;
     this.key = key;
     clear(this.el);
@@ -196,6 +267,7 @@ export class PlanCard {
         gaugeRow(PLAN_TEXT.week, u?.sevenDay, true, now),
       ),
     );
+    if (State.settings.showUsageStats) this.el.append(usageSection(claudeUsage, now));
   }
 
   private drawCodex(u: CodexPlanUsage | null, now: number) {

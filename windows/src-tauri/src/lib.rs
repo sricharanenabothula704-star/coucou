@@ -4,6 +4,7 @@ mod agent_hooks;
 mod agents;
 mod chat;
 mod claude;
+mod claude_usage;
 mod codex_plan;
 mod config_file;
 mod desktop;
@@ -420,6 +421,13 @@ async fn codex_plan_usage() -> Option<serde_json::Value> {
     tauri::async_runtime::spawn_blocking(codex_plan::read).await.ok().flatten()
 }
 
+/// Claude Code usage counted from its local transcripts (claude_usage.rs). Only
+/// asked while the "Usage stats" setting is on; off the main thread.
+#[tauri::command]
+async fn claude_usage_stats() -> Option<serde_json::Value> {
+    tauri::async_runtime::spawn_blocking(claude_usage::read).await.ok().flatten()
+}
+
 #[tauri::command]
 fn approval_decision(app: AppHandle, request_id: String, decision: String) {
     recap::record_decision(&app, &request_id, &decision);
@@ -704,6 +712,7 @@ pub fn run() {
             status_line_preview,
             status_line_apply,
             codex_plan_usage,
+            claude_usage_stats,
             approval_decision,
             approval_answer,
             approval_ack,

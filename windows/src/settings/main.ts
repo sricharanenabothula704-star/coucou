@@ -312,6 +312,15 @@ function planSection(status: HookStatus): HTMLElement {
           void save();
         }),
       ),
+      // Usage stats: Coucou reads the transcripts Claude Code keeps here, for counts only.
+      h("div", { class: "hint", text: t("Coucou reads only the transcripts Claude Code keeps on this computer, to count tokens and tool calls. Nothing is sent anywhere.") }),
+      h("div", { class: "row" },
+        h("label", { text: t("Count Claude Code usage from its transcripts") }),
+        toggle(settings.showUsageStats, (on) => {
+          settings.showUsageStats = on;
+          void save();
+        }),
+      ),
     );
   }
 

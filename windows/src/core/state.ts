@@ -120,6 +120,8 @@ export interface Settings {
   planRelayInstalled: boolean;
   /** Show the Codex plan pill in the island's header. */
   showCodexPlanInNotch: boolean;
+  /** Count Claude Code usage from its local transcripts (off until turned on). */
+  showUsageStats: boolean;
   /** Who the chat talks to (see core/providers.ts); picked in the chat view. */
   chatProvider: ProviderId;
   /** The model picked for each provider other than Anthropic, by provider id. */
@@ -181,6 +183,7 @@ export const DEFAULT_SETTINGS: Settings = {
   showPlanInNotch: false,
   planRelayInstalled: false,
   showCodexPlanInNotch: false,
+  showUsageStats: false,
   chatProvider: "anthropic",
   chatModels: {},
   ollamaUrl: "",

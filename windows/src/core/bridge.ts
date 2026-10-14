@@ -272,6 +272,12 @@ export const Bridge = {
    * is missing, not signed in or slow (15 s).
    */
   codexPlanUsage: () => call<unknown>("codex_plan_usage"),
+  /**
+   * Claude Code usage counted from its transcripts (src-tauri/src/claude_usage.rs):
+   * tokens per hour and per model, and tool calls, for the last 30 days. Null when
+   * there is nothing to count or Coucou is paused.
+   */
+  claudeUsageStats: () => call<unknown>("claude_usage_stats"),
 
   approvalDecision: (requestId: string, decision: "allow" | "deny") =>
     call<void>("approval_decision", { requestId, decision }),

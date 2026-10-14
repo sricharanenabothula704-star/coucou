@@ -1945,6 +1945,51 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--dim-3);
 }
 
+/* Usage stats under the Claude plan card (views/usage.ts usageSection), off by default. */
+.usage-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 11px;
+}
+.usage-head,
+.usage-rank {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.usage-title {
+  font-weight: 600;
+}
+.usage-range,
+.usage-label,
+.usage-empty {
+  color: var(--dim-3);
+}
+.usage-label {
+  margin-top: 2px;
+  font-size: 10px;
+}
+.usage-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 26px;
+}
+.usage-bar {
+  flex: 1;
+  min-height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.usage-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .plan-bar {
   flex: 0 0 50px;
   height: 4px;
