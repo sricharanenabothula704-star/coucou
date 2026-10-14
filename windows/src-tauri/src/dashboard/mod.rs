@@ -59,7 +59,7 @@ impl Default for DashboardPrefs {
             ],
             news_keywords: [
                 "breaking", "live", "urgent", "earthquake", "explosion", "attack", "tsunami",
-                "cyclone", "evacuat", "killed", "dies", "dead", "crash", "war",
+                "cyclone", "evacuat*", "killed", "dies", "dead", "deadly", "crash", "war",
             ]
             .map(String::from)
             .to_vec(),

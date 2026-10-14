@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Dashboard** *(Windows)* — one window with your whole PC and day: music from any player with its controls, an automatic Pomodoro, Claude Code tokens and plan limits, CPU and temperature, memory, the system drive, network speed, uptime and battery, the apps using memory (and which run in the background), screen time, breaking news from your RSS feeds, weather, a speed test and quick actions, with Mochi reacting to it all. Tray → Dashboard or `Ctrl+Alt+B`. Five new pills bring it to the island: System, Now Playing, Focus, News and Screen Time. Screen time is off until you turn it on; nothing is read while the window is closed
 - **Flow dictation** *(macOS, GitHub build)* — hold a key anywhere on the Mac (right ⌥ by default, or right ⌘, right ⌃ or fn), speak, let go: your words are pasted where you type, like Wispr Flow. A small pill at the bottom of the screen shows Mochi listening, its nine dots rising and falling with the graves and the aigus of your voice. Two quick taps keep it listening hands-free until the next tap; Esc cancels. Speech is recognised by the Mac (on-device when it can), and the clipboard gets back what it held after the paste. Off by default — Settings → Voice; it needs the Accessibility permission to see the key and paste
 
 ## Android 0.2.0 — October 13, 2026

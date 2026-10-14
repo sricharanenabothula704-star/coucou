@@ -70,6 +70,7 @@ You can also [build it yourself](#build-it-yourself).
 | `Ctrl+Alt+G` | Opens the wardrobe |
 | `Ctrl+Alt+D` | Sends Mochi to the desktop, or brings him home |
 | `Ctrl+Alt+N` | Opens and closes the island (off until you turn it on) |
+| `Ctrl+Alt+B` | Opens the dashboard |
 | In the open island: `Ctrl+→` `Ctrl+←`, `Ctrl+1`–`Ctrl+9` | Switch pills |
 | In the open island: `Ctrl+↓` `Ctrl+↑`, `Ctrl+O` | Walk the open GitHub list, open the highlighted row |
 | In the open island: `Ctrl+E` | Opens the latest edit's diff, or closes the diff |
@@ -138,6 +139,39 @@ and the services under **Integrations**. A pill fed by hooks says whether its
 hooks are installed, never asks for a key; a local model server's pill says
 whether the chat is connected to it. A session on a pill you didn't
 declare still shows up, for as long as it runs.
+
+## Dashboard
+
+**Tray → Dashboard**, `Ctrl+Alt+B`, or ↗ on one of its pills opens Coucou's
+dashboard: one window with every tile at once, over a backdrop that takes the
+colour of the song's cover. Drag a tile by its handle to move it.
+
+| Tile | What it shows | Where it comes from |
+|---|---|---|
+| Now playing | Cover, title, progress, ⏮ ⏯ ⏭, seek, volume, mute | Whatever plays through Windows' media controls: Spotify, YouTube in Edge or Chrome, VLC, Media Player… |
+| Music played | Minutes this week, top artists | Songs heard for 30 s or more, kept in `%APPDATA%\Coucou\listening.json` |
+| Focus | A Pomodoro ring: 25 / 5, a long break after 4 rounds | Starts the next phase by itself, starts focusing when an agent starts working, pauses while you're away (all in Settings) |
+| Claude usage | Tokens today, 7 and 30 days, by model; the 5-hour and weekly limits | Claude Code's own transcripts (Usage stats) and the plan usage status line |
+| CPU, Memory, Storage, Network, Uptime | Gauges, live graphs, the system drive's free space, ↓ / ↑, battery on a laptop | Windows' performance counters, the ones Task Manager reads. The temperature is the hottest ACPI thermal zone, when the PC has one |
+| Apps using memory | The biggest apps, which ones run in the background, End task (twice to confirm; Windows' own processes are never offered) | The process list |
+| Screen time | Hours today, a week of bars, the apps you used most, the app now and the one before | Off until you turn it on. The app in front every 5 s, not counted while you're away; only app names and seconds, 30 days |
+| News | Headlines from your RSS feeds, breaking ones in red | Your feeds, every 10 minutes. A headline with one of your keywords, less than an hour old, is breaking |
+| Weather | Now and the next five days | Open-Meteo, for the city you type, no key |
+| Speed test | Download, upload, ping | Only when you click it, Cloudflare's speed test by default |
+| Quick actions | Task Manager, Snip, Lock, Sound settings, Empty Recycle Bin (twice to confirm), Settings | |
+
+Mochi reacts at the top: he sweats when the CPU or the temperature run high,
+works through a focus round with his glasses on, sleeps through the break,
+dances to the music, and jumps when news breaks.
+
+The window reads nothing while it is closed (closing only hides it). Five
+pills bring the same things to the island — **System**, **Now Playing**,
+**Focus**, **News** and **Screen Time**, under Settings → Active pills — and
+**Settings → Dashboard** has the feeds, the keywords, the city and the
+switches. With the News pill declared, a new breaking headline opens the
+island on it; with the System pill and "Warn me" on, the PC is read once a
+minute and memory, the system drive or the temperature running high opens it
+on the System card, once each time.
 
 ## Claude Code
 

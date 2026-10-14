@@ -5,7 +5,7 @@
 // seconds while a card or the dashboard is on screen, and stops when it is
 // not, so a hidden island costs nothing. CPU, temperature and network are
 // Windows' own performance counters (PDH), the ones Task Manager reads; the
-// rates come from the time between two asks.
+// network rates come from the adapters' byte counters between two asks.
 //
 // Temperature: most PCs only expose ACPI thermal zones to Windows, which are
 // close to — not exactly — the CPU package. When there is none, the card says so.
@@ -158,8 +158,6 @@ mod imp {
         query: PDH_HQUERY,
         cpu: Option<PDH_HCOUNTER>,
         temp: Option<PDH_HCOUNTER>,
-        rx: Option<PDH_HCOUNTER>,
-        tx: Option<PDH_HCOUNTER>,
         primed: bool,
     }
     // PDH handles may be used from any thread; the mutex keeps it to one at a time.
@@ -190,8 +188,6 @@ mod imp {
             cpu: add(query, r"\Processor Information(_Total)\% Processor Utility")
                 .or_else(|| add(query, r"\Processor(_Total)\% Processor Time")),
             temp: add(query, r"\Thermal Zone Information(*)\Temperature"),
-            rx: add(query, r"\Network Interface(*)\Bytes Received/sec"),
-            tx: add(query, r"\Network Interface(*)\Bytes Sent/sec"),
             primed: false,
         })
     }
@@ -200,7 +196,7 @@ mod imp {
         let counter = counter?;
         let mut value = PDH_FMT_COUNTERVALUE::default();
         let status = unsafe { PdhGetFormattedCounterValue(counter, PDH_FMT_DOUBLE, None, &mut value) };
-        (status == 0 && value.CStatus == 0).then(|| unsafe { value.Anonymous.doubleValue })
+        (status == 0 && value.CStatus == 0).then_some(unsafe { value.Anonymous.doubleValue })
     }
 
     /// Every instance of a wildcard counter.
@@ -242,8 +238,6 @@ mod imp {
                 // A rate needs two samples: the very first ask has none to show.
                 if collected && c.primed {
                     stats.cpu = single(c.cpu).map(|v| v.clamp(0.0, 100.0));
-                    stats.net_down = array(c.rx).map(|v| v.iter().sum());
-                    stats.net_up = array(c.tx).map(|v| v.iter().sum());
                 }
                 if collected {
                     stats.temp_c = array(c.temp)
@@ -251,6 +245,11 @@ mod imp {
                 }
                 c.primed |= collected;
             }
+        }
+
+        if let Some((down, up)) = net_rates() {
+            stats.net_down = Some(down);
+            stats.net_up = Some(up);
         }
 
         let mut mem = MEMORYSTATUSEX { dwLength: std::mem::size_of::<MEMORYSTATUSEX>() as u32, ..Default::default() };
@@ -290,6 +289,42 @@ mod imp {
             stats.apps = Some(group_apps(processes()));
         }
         Some(stats)
+    }
+
+    /// The previous byte counts, for the rates.
+    static NET_PREV: Mutex<Option<(u64, u64, std::time::Instant)>> = Mutex::new(None);
+
+    /// Bytes per second down and up over the physical adapters that are up,
+    /// from their octet counters (the network performance counters are not on
+    /// every PC). None on the first ask.
+    fn net_rates() -> Option<(f64, f64)> {
+        use windows::Win32::NetworkManagement::IpHelper::{FreeMibTable, GetIfTable2, MIB_IF_TABLE2};
+        use windows::Win32::NetworkManagement::Ndis::IfOperStatusUp;
+        let (mut rx, mut tx) = (0u64, 0u64);
+        unsafe {
+            let mut table: *mut MIB_IF_TABLE2 = std::ptr::null_mut();
+            if GetIfTable2(&mut table).is_err() || table.is_null() {
+                return None;
+            }
+            let rows = std::slice::from_raw_parts((*table).Table.as_ptr(), (*table).NumEntries as usize);
+            for row in rows {
+                // Bit 0: a hardware interface (not a filter, a tunnel or the loopback).
+                let hardware = row.InterfaceAndOperStatusFlags._bitfield & 1 == 1;
+                if hardware && row.OperStatus == IfOperStatusUp && row.Type != 24 {
+                    rx += row.InOctets;
+                    tx += row.OutOctets;
+                }
+            }
+            FreeMibTable(table as *const _);
+        }
+        let now = std::time::Instant::now();
+        let mut prev = NET_PREV.lock().ok()?;
+        let out = prev.and_then(|(prx, ptx, at)| {
+            let secs = now.duration_since(at).as_secs_f64();
+            (secs > 0.2).then(|| (rx.saturating_sub(prx) as f64 / secs, tx.saturating_sub(ptx) as f64 / secs))
+        });
+        *prev = Some((rx, tx, now));
+        out
     }
 
     /// Processes that own a visible, titled, top-level window: the "apps" of Task Manager.
@@ -423,4 +458,5 @@ mod tests {
         assert!(!apps[0].can_end);
     }
 }
+
 

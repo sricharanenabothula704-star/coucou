@@ -2673,3 +2673,568 @@ html[data-dir="rtl"] #views :is(.bubble, .reply .md-p, .reply .md-h, .reply .md-
   unicode-bidi: plaintext;
   text-align: start;
 }
+
+/* ── Dashboard pills' cards (src/views/hub.ts) ──────────────────────────── */
+
+.hub-host {
+  height: 100%;
+}
+
+.hub-card {
+  gap: 6px;
+}
+
+.hub-gauges {
+  display: flex;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.hub-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font: 500 9.5px var(--font);
+  color: var(--dim-2);
+}
+
+.hub-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.hub-ring b {
+  position: absolute;
+  font: 600 11px var(--font);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.hub-ring-arc {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hub-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font: 400 10.5px var(--font);
+  color: var(--dim-3);
+  font-variant-numeric: tabular-nums;
+  padding-right: 24px;
+}
+
+.hub-music {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.hub-cover {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #f472b6, #1d1f23);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 22px;
+}
+
+.hub-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hub-music-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 24px;
+}
+
+.hub-title {
+  font: 600 12.5px var(--font);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-sub {
+  font: 400 10.5px var(--font);
+  color: var(--dim-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-progress {
+  height: 3px;
+  margin: 3px 0;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.hub-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+}
+
+.hub-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hub-btn {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.hub-btn.main {
+  width: 26px;
+  height: 26px;
+  background: var(--ink);
+  color: #0b0c0e;
+}
+
+.hub-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.hub-focus {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.hub-focus-ring {
+  --p: 0;
+  width: 64px;
+  height: 64px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(closest-side, #141518 82%, transparent 84%),
+    conic-gradient(var(--phase) calc(var(--p) * 100%), rgba(255, 255, 255, 0.08) 0);
+}
+
+.hub-focus-clock {
+  font: 650 14px var(--font);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-focus-side {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.link-btn.dim {
+  color: var(--dim-2);
+}
+
+.hub-headline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  padding: 3px 24px 3px 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font: 400 11px var(--font);
+  text-align: left;
+  cursor: pointer;
+}
+
+.hub-headline:hover .hub-headline-title {
+  text-decoration: underline;
+}
+
+.hub-headline-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-headline.urgent .hub-headline-title {
+  color: var(--red-text);
+  font-weight: 600;
+}
+
+.hub-apps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 24px 0 0;
+}
+
+.hub-app {
+  display: grid;
+  grid-template-columns: 84px 1fr 56px;
+  align-items: center;
+  gap: 8px;
+  font: 400 10.5px var(--font);
+  color: var(--ink-2);
+}
+
+.hub-app span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-app b {
+  font-weight: 500;
+  color: var(--dim-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.hub-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* ── Dashboard tab in the island (src/views/hub-dashboard.ts) ───────────── */
+
+.view.idash {
+  display: flex;
+  gap: 6px;
+  padding: 2px 0 10px;
+}
+
+.idash-rail {
+  width: 90px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 4px 8px;
+  border-radius: 18px;
+  background: var(--card);
+  border: 1px solid var(--hairline);
+}
+
+/* Mochi is drawn over this (VIEW_LAYOUTS.dashboard). */
+.idash-mochi-spot {
+  height: 84px;
+  flex: none;
+}
+
+.idash-time {
+  font: 650 17px var(--font);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-date {
+  font: 400 10px var(--font);
+  color: var(--dim-2);
+  text-align: center;
+}
+
+.idash-open {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--dim-2);
+  font: 500 9.5px var(--font);
+  text-align: center;
+  cursor: pointer;
+}
+
+.idash-open:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+}
+
+.idash-grid {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.idash-tile {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  animation: idash-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.idash-tile.wide {
+  grid-column: span 2;
+}
+
+@keyframes idash-in {
+  from { opacity: 0; transform: translateY(4px); }
+}
+
+.idash-label {
+  font: 700 8.5px var(--font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.idash-empty {
+  font: 400 10px var(--font);
+  color: var(--dim-2);
+  line-height: 1.35;
+}
+
+.idash-gauge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.idash-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  font: 400 9.5px var(--font);
+  color: var(--dim-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-lines span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.idash-music {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.idash-cover {
+  width: 50px;
+  height: 50px;
+  flex: none;
+  border-radius: 9px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #f472b6, #1d1f23);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.idash-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.idash-music-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.idash-progress {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+}
+
+.idash-focus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.idash-focus-ring {
+  width: 50px;
+  height: 50px;
+}
+
+.idash-focus-clock {
+  font: 650 11.5px var(--font);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-focus-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.idash-limit {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1px 6px;
+  font: 400 9.5px var(--font);
+  color: var(--dim-2);
+}
+
+.idash-limit b {
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-limit .hub-bar {
+  grid-column: 1 / -1;
+  height: 3px;
+}
+
+.idash-net {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font: 600 11px var(--font);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-net i {
+  font-style: normal;
+  margin-right: 4px;
+}
+
+.idash-net i.down { color: var(--cyan); }
+.idash-net i.up { color: var(--pink); }
+
+.idash-link {
+  margin-top: auto;
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 2px 7px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--dim-2);
+  font: 500 9.5px var(--font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.idash-link:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.idash-big {
+  font: 700 15px var(--font);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font: 400 9.5px var(--font);
+  color: var(--ink-2);
+  min-width: 0;
+}
+
+.idash-row span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.idash-row b {
+  font-weight: 500;
+  color: var(--dim-2);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.idash-row.dim span {
+  color: var(--dim-3);
+}
+
+.idash-weather {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.idash-weather-icon {
+  font-size: 22px;
+}
+
+.idash-tile.news {
+  gap: 0;
+}
+
+.idash-tile.news .hub-headline {
+  padding: 1px 0;
+  font-size: 10.5px;
+}

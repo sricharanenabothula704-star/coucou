@@ -18,6 +18,7 @@ import {
 import { h, clear } from "../views/dom";
 import { agentsSection } from "./agents";
 import { phoneSection } from "./phone";
+import { dashboardSection } from "./dashboard";
 import { colorDot } from "./colors";
 import { renderDiff, statusDot } from "./parts";
 import {
@@ -1381,6 +1382,10 @@ async function render() {
     integrationsSection(present),
     phoneSection(settings.phoneLink ?? false, toggle, settings),
     generalSection(),
+    dashboardSection(() => settings, (prefs) => {
+      settings.dashboard = prefs;
+      void save();
+    }, toggle),
     shortcutsSection(shortcutReport),
     h("div", {
       class: "hint",

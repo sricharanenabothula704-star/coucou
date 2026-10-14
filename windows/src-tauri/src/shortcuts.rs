@@ -21,6 +21,7 @@
 //   Ctrl+Alt+T       open the terminal       Ctrl+Alt+G      wardrobe
 //   Ctrl+Alt+D       Mochi to the desktop, or home again (the Mac's ⌃⌥D)
 //   Ctrl+Alt+N       open / close the island (off by default, as on the Mac)
+//   Ctrl+Alt+B       the dashboard window (Windows and Linux only, not a Mac action)
 //
 // ⌃⌥[ and ⌃⌥] became the arrows (brackets are AltGr characters almost
 // everywhere) and ⌃⌥M became S (AltGr+M is µ in German). Layouts outside that
@@ -69,6 +70,9 @@ pub const ACTIONS: &[ActionDef] = &[
     action("muteToggle", "Ctrl+Alt+S", true, true),
     action("desktopToggle", "Ctrl+Alt+D", true, true),
     action("wardrobeToggle", "Ctrl+Alt+G", true, true),
+    // Not a Mac action: the dashboard window (dashboard/mod.rs). After the Mac's,
+    // so their order stays the Mac's.
+    action("dashboardToggle", "Ctrl+Alt+B", true, true),
 ];
 
 pub fn find(id: &str) -> Option<&'static ActionDef> {
@@ -92,6 +96,7 @@ pub fn description(id: &str) -> &'static str {
         "muteToggle" => n_("Mute or unmute Mochi"),
         "desktopToggle" => n_("Send Mochi to the desktop"),
         "wardrobeToggle" => n_("Open the wardrobe"),
+        "dashboardToggle" => n_("Open the dashboard"),
         _ => "Coucou",
     }
 }
@@ -701,7 +706,8 @@ mod tests {
     #[test]
     fn every_mac_action_has_a_default_and_keeps_its_id() {
         let ids: Vec<_> = ACTIONS.iter().map(|a| a.id).collect();
-        assert_eq!(ids, MAC_IDS);
+        assert_eq!(ids[..MAC_IDS.len()], MAC_IDS);
+        assert_eq!(ids[MAC_IDS.len()..], ["dashboardToggle"]);
     }
 
     // testAllDefaultsHaveModifier

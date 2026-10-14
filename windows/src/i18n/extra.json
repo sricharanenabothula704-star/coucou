@@ -4009,5 +4009,1275 @@
    "pt-BR": "O Coucou lê apenas as transcrições que o Claude Code guarda neste computador, para contar tokens e chamadas de ferramentas. Nada é enviado para lugar nenhum.",
    "ru": "Coucou читает только журналы, которые Claude Code хранит на этом компьютере, и считает только токены и вызовы инструментов. Ничего никуда не отправляется.",
    "id": "Coucou hanya membaca transkrip yang disimpan Claude Code di komputer ini, hanya untuk menghitung token dan panggilan alat. Tidak ada yang dikirim ke mana pun."
+  },
+  "{d} d {h} h": {
+   "zh-Hans": "{d} 天 {h} 小时",
+   "hi": "{d} दिन {h} घं",
+   "es": "{d} d {h} h",
+   "ar": "{d} ي {h} س",
+   "fr": "{d} j {h} h",
+   "bn": "{d} দিন {h} ঘ",
+   "pt-BR": "{d} d {h} h",
+   "ru": "{d} д {h} ч",
+   "id": "{d} h {h} j"
+  },
+  "{h} h {m} min": {
+   "zh-Hans": "{h} 小时 {m} 分",
+   "hi": "{h} घं {m} मि",
+   "es": "{h} h {m} min",
+   "ar": "{h} س {m} د",
+   "fr": "{h} h {m} min",
+   "bn": "{h} ঘ {m} মি",
+   "pt-BR": "{h} h {m} min",
+   "ru": "{h} ч {m} мин",
+   "id": "{h} j {m} mnt"
+  },
+  "{m} min": {
+   "zh-Hans": "{m} 分钟",
+   "hi": "{m} मिनट",
+   "es": "{m} min",
+   "ar": "{m} د",
+   "fr": "{m} min",
+   "bn": "{m} মিনিট",
+   "pt-BR": "{m} min",
+   "ru": "{m} мин",
+   "id": "{m} mnt"
+  },
+  "{s} s": {
+   "zh-Hans": "{s} 秒",
+   "hi": "{s} से",
+   "es": "{s} s",
+   "ar": "{s} ث",
+   "fr": "{s} s",
+   "bn": "{s} সে",
+   "pt-BR": "{s} s",
+   "ru": "{s} с",
+   "id": "{s} dtk"
+  },
+  "Focus": {
+   "zh-Hans": "专注",
+   "hi": "फ़ोकस",
+   "es": "Enfoque",
+   "ar": "تركيز",
+   "fr": "Concentration",
+   "bn": "ফোকাস",
+   "pt-BR": "Foco",
+   "ru": "Фокус",
+   "id": "Fokus"
+  },
+  "Short break": {
+   "zh-Hans": "短休息",
+   "hi": "छोटा ब्रेक",
+   "es": "Descanso corto",
+   "ar": "استراحة قصيرة",
+   "fr": "Pause courte",
+   "bn": "ছোট বিরতি",
+   "pt-BR": "Pausa curta",
+   "ru": "Короткий перерыв",
+   "id": "Istirahat singkat"
+  },
+  "Long break": {
+   "zh-Hans": "长休息",
+   "hi": "लंबा ब्रेक",
+   "es": "Descanso largo",
+   "ar": "استراحة طويلة",
+   "fr": "Pause longue",
+   "bn": "লম্বা বিরতি",
+   "pt-BR": "Pausa longa",
+   "ru": "Длинный перерыв",
+   "id": "Istirahat panjang"
+  },
+  "Clear sky": {
+   "zh-Hans": "晴",
+   "hi": "साफ़ आसमान",
+   "es": "Despejado",
+   "ar": "سماء صافية",
+   "fr": "Ciel dégagé",
+   "bn": "পরিষ্কার আকাশ",
+   "pt-BR": "Céu limpo",
+   "ru": "Ясно",
+   "id": "Cerah"
+  },
+  "Partly cloudy": {
+   "zh-Hans": "多云间晴",
+   "hi": "आंशिक बादल",
+   "es": "Parcialmente nublado",
+   "ar": "غائم جزئيًا",
+   "fr": "Partiellement nuageux",
+   "bn": "আংশিক মেঘলা",
+   "pt-BR": "Parcialmente nublado",
+   "ru": "Переменная облачность",
+   "id": "Berawan sebagian"
+  },
+  "Cloudy": {
+   "zh-Hans": "阴",
+   "hi": "बादल",
+   "es": "Nublado",
+   "ar": "غائم",
+   "fr": "Nuageux",
+   "bn": "মেঘলা",
+   "pt-BR": "Nublado",
+   "ru": "Облачно",
+   "id": "Berawan"
+  },
+  "Fog": {
+   "zh-Hans": "雾",
+   "hi": "कोहरा",
+   "es": "Niebla",
+   "ar": "ضباب",
+   "fr": "Brouillard",
+   "bn": "কুয়াশা",
+   "pt-BR": "Neblina",
+   "ru": "Туман",
+   "id": "Kabut"
+  },
+  "Rain": {
+   "zh-Hans": "雨",
+   "hi": "बारिश",
+   "es": "Lluvia",
+   "ar": "مطر",
+   "fr": "Pluie",
+   "bn": "বৃষ্টি",
+   "pt-BR": "Chuva",
+   "ru": "Дождь",
+   "id": "Hujan"
+  },
+  "Snow": {
+   "zh-Hans": "雪",
+   "hi": "बर्फ़",
+   "es": "Nieve",
+   "ar": "ثلج",
+   "fr": "Neige",
+   "bn": "তুষার",
+   "pt-BR": "Neve",
+   "ru": "Снег",
+   "id": "Salju"
+  },
+  "Showers": {
+   "zh-Hans": "阵雨",
+   "hi": "बौछारें",
+   "es": "Chubascos",
+   "ar": "زخات",
+   "fr": "Averses",
+   "bn": "ঝরো বৃষ্টি",
+   "pt-BR": "Pancadas de chuva",
+   "ru": "Ливни",
+   "id": "Hujan lokal"
+  },
+  "Thunderstorm": {
+   "zh-Hans": "雷暴",
+   "hi": "आंधी-तूफ़ान",
+   "es": "Tormenta",
+   "ar": "عاصفة رعدية",
+   "fr": "Orage",
+   "bn": "বজ্রঝড়",
+   "pt-BR": "Tempestade",
+   "ru": "Гроза",
+   "id": "Badai petir"
+  },
+  "Weather": {
+   "zh-Hans": "天气",
+   "hi": "मौसम",
+   "es": "Tiempo",
+   "ar": "الطقس",
+   "fr": "Météo",
+   "bn": "আবহাওয়া",
+   "pt-BR": "Clima",
+   "ru": "Погода",
+   "id": "Cuaca"
+  },
+  "Dashboard": {
+   "zh-Hans": "仪表板",
+   "hi": "डैशबोर्ड",
+   "es": "Panel",
+   "ar": "لوحة المعلومات",
+   "fr": "Tableau de bord",
+   "bn": "ড্যাশবোর্ড",
+   "pt-BR": "Painel",
+   "ru": "Панель",
+   "id": "Dasbor"
+  },
+  "Open the dashboard": {
+   "zh-Hans": "打开仪表板",
+   "hi": "डैशबोर्ड खोलें",
+   "es": "Abrir el panel",
+   "ar": "فتح لوحة المعلومات",
+   "fr": "Ouvrir le tableau de bord",
+   "bn": "ড্যাশবোর্ড খুলুন",
+   "pt-BR": "Abrir o painel",
+   "ru": "Открыть панель",
+   "id": "Buka dasbor"
+  },
+  "Now playing": {
+   "zh-Hans": "正在播放",
+   "hi": "अभी चल रहा है",
+   "es": "Reproduciendo",
+   "ar": "يُشغَّل الآن",
+   "fr": "En cours de lecture",
+   "bn": "এখন চলছে",
+   "pt-BR": "Tocando agora",
+   "ru": "Сейчас играет",
+   "id": "Sedang diputar"
+  },
+  "Claude usage": {
+   "zh-Hans": "Claude 用量",
+   "hi": "Claude उपयोग",
+   "es": "Uso de Claude",
+   "ar": "استخدام Claude",
+   "fr": "Utilisation de Claude",
+   "bn": "Claude ব্যবহার",
+   "pt-BR": "Uso do Claude",
+   "ru": "Использование Claude",
+   "id": "Penggunaan Claude"
+  },
+  "CPU": {
+   "zh-Hans": "CPU",
+   "hi": "CPU",
+   "es": "CPU",
+   "ar": "المعالج",
+   "fr": "Processeur",
+   "bn": "CPU",
+   "pt-BR": "CPU",
+   "ru": "ЦП",
+   "id": "CPU"
+  },
+  "Memory": {
+   "zh-Hans": "内存",
+   "hi": "मेमोरी",
+   "es": "Memoria",
+   "ar": "الذاكرة",
+   "fr": "Mémoire",
+   "bn": "মেমরি",
+   "pt-BR": "Memória",
+   "ru": "Память",
+   "id": "Memori"
+  },
+  "Storage": {
+   "zh-Hans": "存储",
+   "hi": "स्टोरेज",
+   "es": "Almacenamiento",
+   "ar": "التخزين",
+   "fr": "Stockage",
+   "bn": "স্টোরেজ",
+   "pt-BR": "Armazenamento",
+   "ru": "Хранилище",
+   "id": "Penyimpanan"
+  },
+  "Network": {
+   "zh-Hans": "网络",
+   "hi": "नेटवर्क",
+   "es": "Red",
+   "ar": "الشبكة",
+   "fr": "Réseau",
+   "bn": "নেটওয়ার্ক",
+   "pt-BR": "Rede",
+   "ru": "Сеть",
+   "id": "Jaringan"
+  },
+  "Uptime": {
+   "zh-Hans": "运行时间",
+   "hi": "चालू समय",
+   "es": "Tiempo encendido",
+   "ar": "مدة التشغيل",
+   "fr": "Allumé depuis",
+   "bn": "চালু থাকার সময়",
+   "pt-BR": "Tempo ligado",
+   "ru": "Время работы",
+   "id": "Waktu menyala"
+  },
+  "Screen time": {
+   "zh-Hans": "屏幕使用时间",
+   "hi": "स्क्रीन टाइम",
+   "es": "Tiempo de pantalla",
+   "ar": "مدة استخدام الشاشة",
+   "fr": "Temps d'écran",
+   "bn": "স্ক্রিন টাইম",
+   "pt-BR": "Tempo de tela",
+   "ru": "Экранное время",
+   "id": "Waktu layar"
+  },
+  "Apps using memory": {
+   "zh-Hans": "占用内存的应用",
+   "hi": "मेमोरी इस्तेमाल करने वाले ऐप",
+   "es": "Apps que usan memoria",
+   "ar": "التطبيقات التي تستخدم الذاكرة",
+   "fr": "Apps qui utilisent la mémoire",
+   "bn": "মেমরি ব্যবহারকারী অ্যাপ",
+   "pt-BR": "Apps usando memória",
+   "ru": "Приложения в памяти",
+   "id": "Aplikasi yang memakai memori"
+  },
+  "News": {
+   "zh-Hans": "新闻",
+   "hi": "समाचार",
+   "es": "Noticias",
+   "ar": "الأخبار",
+   "fr": "Actualités",
+   "bn": "সংবাদ",
+   "pt-BR": "Notícias",
+   "ru": "Новости",
+   "id": "Berita"
+  },
+  "Speed test": {
+   "zh-Hans": "网速测试",
+   "hi": "स्पीड टेस्ट",
+   "es": "Test de velocidad",
+   "ar": "اختبار السرعة",
+   "fr": "Test de débit",
+   "bn": "স্পিড টেস্ট",
+   "pt-BR": "Teste de velocidade",
+   "ru": "Тест скорости",
+   "id": "Tes kecepatan"
+  },
+  "Quick actions": {
+   "zh-Hans": "快捷操作",
+   "hi": "त्वरित कार्य",
+   "es": "Acciones rápidas",
+   "ar": "إجراءات سريعة",
+   "fr": "Actions rapides",
+   "bn": "দ্রুত কাজ",
+   "pt-BR": "Ações rápidas",
+   "ru": "Быстрые действия",
+   "id": "Tindakan cepat"
+  },
+  "Music played": {
+   "zh-Hans": "听过的音乐",
+   "hi": "सुना गया संगीत",
+   "es": "Música escuchada",
+   "ar": "الموسيقى المسموعة",
+   "fr": "Musique écoutée",
+   "bn": "শোনা গান",
+   "pt-BR": "Músicas ouvidas",
+   "ru": "Прослушанная музыка",
+   "id": "Musik yang diputar"
+  },
+  "Drag to move": {
+   "zh-Hans": "拖动以移动",
+   "hi": "खिसकाने के लिए खींचें",
+   "es": "Arrastra para mover",
+   "ar": "اسحب للنقل",
+   "fr": "Faites glisser pour déplacer",
+   "bn": "সরাতে টানুন",
+   "pt-BR": "Arraste para mover",
+   "ru": "Перетащите, чтобы переместить",
+   "id": "Seret untuk memindahkan"
+  },
+  "Nothing is playing. Play something in Spotify, a browser or any player.": {
+   "zh-Hans": "没有正在播放的内容。在 Spotify、浏览器或任何播放器中播放点什么吧。",
+   "hi": "कुछ नहीं चल रहा। Spotify, ब्राउज़र या किसी भी प्लेयर में कुछ चलाएँ।",
+   "es": "No suena nada. Reproduce algo en Spotify, un navegador o cualquier reproductor.",
+   "ar": "لا شيء قيد التشغيل. شغّل شيئًا في Spotify أو متصفح أو أي مشغّل.",
+   "fr": "Rien en lecture. Lancez quelque chose dans Spotify, un navigateur ou n'importe quel lecteur.",
+   "bn": "কিছু চলছে না। Spotify, ব্রাউজার বা যেকোনো প্লেয়ারে কিছু চালান।",
+   "pt-BR": "Nada tocando. Toque algo no Spotify, num navegador ou em qualquer player.",
+   "ru": "Ничего не играет. Включите что-нибудь в Spotify, браузере или любом плеере.",
+   "id": "Tidak ada yang diputar. Putar sesuatu di Spotify, browser, atau pemutar apa pun."
+  },
+  "Media": {
+   "zh-Hans": "媒体",
+   "hi": "मीडिया",
+   "es": "Multimedia",
+   "ar": "وسائط",
+   "fr": "Média",
+   "bn": "মিডিয়া",
+   "pt-BR": "Mídia",
+   "ru": "Медиа",
+   "id": "Media"
+  },
+  "Live": {
+   "zh-Hans": "直播",
+   "hi": "लाइव",
+   "es": "En directo",
+   "ar": "مباشر",
+   "fr": "En direct",
+   "bn": "লাইভ",
+   "pt-BR": "Ao vivo",
+   "ru": "Эфир",
+   "id": "Langsung"
+  },
+  "Paused — you're away": {
+   "zh-Hans": "已暂停 — 你不在",
+   "hi": "रुका — आप दूर हैं",
+   "es": "En pausa — no estás",
+   "ar": "متوقف — أنت بعيد",
+   "fr": "En pause — vous êtes absent",
+   "bn": "থামানো — আপনি দূরে",
+   "pt-BR": "Pausado — você saiu",
+   "ru": "Пауза — вас нет",
+   "id": "Dijeda — Anda pergi"
+  },
+  "Reset": {
+   "zh-Hans": "重置",
+   "hi": "रीसेट",
+   "es": "Restablecer",
+   "ar": "إعادة ضبط",
+   "fr": "Réinitialiser",
+   "bn": "রিসেট",
+   "pt-BR": "Redefinir",
+   "ru": "Сбросить",
+   "id": "Atur ulang"
+  },
+  "Start": {
+   "zh-Hans": "开始",
+   "hi": "शुरू करें",
+   "es": "Iniciar",
+   "ar": "ابدأ",
+   "fr": "Démarrer",
+   "bn": "শুরু",
+   "pt-BR": "Iniciar",
+   "ru": "Старт",
+   "id": "Mulai"
+  },
+  "Skip": {
+   "zh-Hans": "跳过",
+   "hi": "छोड़ें",
+   "es": "Saltar",
+   "ar": "تخطٍّ",
+   "fr": "Passer",
+   "bn": "এড়িয়ে যান",
+   "pt-BR": "Pular",
+   "ru": "Пропустить",
+   "id": "Lewati"
+  },
+  "Auto": {
+   "zh-Hans": "自动",
+   "hi": "ऑटो",
+   "es": "Auto",
+   "ar": "تلقائي",
+   "fr": "Auto",
+   "bn": "অটো",
+   "pt-BR": "Auto",
+   "ru": "Авто",
+   "id": "Otomatis"
+  },
+  "Resets in {time}": {
+   "zh-Hans": "{time}后重置",
+   "hi": "{time} में रीसेट",
+   "es": "Se restablece en {time}",
+   "ar": "يُعاد الضبط خلال {time}",
+   "fr": "Réinitialisé dans {time}",
+   "bn": "{time} পরে রিসেট",
+   "pt-BR": "Reinicia em {time}",
+   "ru": "Сброс через {time}",
+   "id": "Diatur ulang dalam {time}"
+  },
+  "Count the tokens Claude Code uses, from its own files on this PC.": {
+   "zh-Hans": "根据本机上 Claude Code 自己的文件统计它使用的 token。",
+   "hi": "इस PC पर Claude Code की अपनी फ़ाइलों से उसके टोकन गिनें।",
+   "es": "Cuenta los tokens que usa Claude Code, a partir de sus propios archivos en este PC.",
+   "ar": "احسب الرموز التي يستخدمها Claude Code من ملفاته على هذا الحاسوب.",
+   "fr": "Compte les jetons utilisés par Claude Code, à partir de ses propres fichiers sur ce PC.",
+   "bn": "এই পিসিতে Claude Code-এর নিজের ফাইল থেকে তার টোকেন গুনুন।",
+   "pt-BR": "Conta os tokens que o Claude Code usa, a partir dos arquivos dele neste PC.",
+   "ru": "Подсчёт токенов Claude Code по его собственным файлам на этом ПК.",
+   "id": "Hitung token yang dipakai Claude Code dari berkasnya sendiri di PC ini."
+  },
+  "Turn on": {
+   "zh-Hans": "开启",
+   "hi": "चालू करें",
+   "es": "Activar",
+   "ar": "تشغيل",
+   "fr": "Activer",
+   "bn": "চালু করুন",
+   "pt-BR": "Ativar",
+   "ru": "Включить",
+   "id": "Aktifkan"
+  },
+  "Today": {
+   "zh-Hans": "今天",
+   "hi": "आज",
+   "es": "Hoy",
+   "ar": "اليوم",
+   "fr": "Aujourd'hui",
+   "bn": "আজ",
+   "pt-BR": "Hoje",
+   "ru": "Сегодня",
+   "id": "Hari ini"
+  },
+  "7 days": {
+   "zh-Hans": "7 天",
+   "hi": "7 दिन",
+   "es": "7 días",
+   "ar": "7 أيام",
+   "fr": "7 jours",
+   "bn": "৭ দিন",
+   "pt-BR": "7 dias",
+   "ru": "7 дней",
+   "id": "7 hari"
+  },
+  "30 days": {
+   "zh-Hans": "30 天",
+   "hi": "30 दिन",
+   "es": "30 días",
+   "ar": "30 يومًا",
+   "fr": "30 jours",
+   "bn": "৩০ দিন",
+   "pt-BR": "30 dias",
+   "ru": "30 дней",
+   "id": "30 hari"
+  },
+  "Temperature: n/a": {
+   "zh-Hans": "温度：不可用",
+   "hi": "तापमान: उपलब्ध नहीं",
+   "es": "Temperatura: n/d",
+   "ar": "الحرارة: غير متاحة",
+   "fr": "Température : n/d",
+   "bn": "তাপমাত্রা: নেই",
+   "pt-BR": "Temperatura: n/d",
+   "ru": "Температура: н/д",
+   "id": "Suhu: t/a"
+  },
+  "Temperature: {c} °C": {
+   "zh-Hans": "温度：{c} °C",
+   "hi": "तापमान: {c} °C",
+   "es": "Temperatura: {c} °C",
+   "ar": "الحرارة: {c} °م",
+   "fr": "Température : {c} °C",
+   "bn": "তাপমাত্রা: {c} °C",
+   "pt-BR": "Temperatura: {c} °C",
+   "ru": "Температура: {c} °C",
+   "id": "Suhu: {c} °C"
+  },
+  "{size} free": {
+   "zh-Hans": "可用 {size}",
+   "hi": "{size} ख़ाली",
+   "es": "{size} libres",
+   "ar": "{size} متاحة",
+   "fr": "{size} libres",
+   "bn": "{size} খালি",
+   "pt-BR": "{size} livres",
+   "ru": "Свободно {size}",
+   "id": "{size} kosong"
+  },
+  "Running out of space": {
+   "zh-Hans": "空间快用完了",
+   "hi": "जगह कम हो रही है",
+   "es": "Te quedas sin espacio",
+   "ar": "المساحة توشك على النفاد",
+   "fr": "Bientôt plus de place",
+   "bn": "জায়গা ফুরিয়ে আসছে",
+   "pt-BR": "Ficando sem espaço",
+   "ru": "Заканчивается место",
+   "id": "Ruang hampir habis"
+  },
+  "Since {time}": {
+   "zh-Hans": "自 {time} 起",
+   "hi": "{time} से",
+   "es": "Desde {time}",
+   "ar": "منذ {time}",
+   "fr": "Depuis {time}",
+   "bn": "{time} থেকে",
+   "pt-BR": "Desde {time}",
+   "ru": "С {time}",
+   "id": "Sejak {time}"
+  },
+  "{time} left": {
+   "zh-Hans": "剩余 {time}",
+   "hi": "{time} बाकी",
+   "es": "Quedan {time}",
+   "ar": "متبقٍ {time}",
+   "fr": "{time} restantes",
+   "bn": "{time} বাকি",
+   "pt-BR": "{time} restantes",
+   "ru": "Осталось {time}",
+   "id": "Sisa {time}"
+  },
+  "Background": {
+   "zh-Hans": "后台",
+   "hi": "बैकग्राउंड",
+   "es": "Segundo plano",
+   "ar": "في الخلفية",
+   "fr": "Arrière-plan",
+   "bn": "ব্যাকগ্রাউন্ড",
+   "pt-BR": "Segundo plano",
+   "ru": "Фон",
+   "id": "Latar belakang"
+  },
+  "End": {
+   "zh-Hans": "结束",
+   "hi": "बंद करें",
+   "es": "Finalizar",
+   "ar": "إنهاء",
+   "fr": "Fermer",
+   "bn": "বন্ধ করুন",
+   "pt-BR": "Encerrar",
+   "ru": "Снять",
+   "id": "Akhiri"
+  },
+  "Sure?": {
+   "zh-Hans": "确定？",
+   "hi": "पक्का?",
+   "es": "¿Seguro?",
+   "ar": "متأكد؟",
+   "fr": "Sûr ?",
+   "bn": "নিশ্চিত?",
+   "pt-BR": "Certeza?",
+   "ru": "Точно?",
+   "id": "Yakin?"
+  },
+  "See how long you use each app. Only app names and times are kept, on this PC.": {
+   "zh-Hans": "查看每个应用的使用时长。只在本机保存应用名称和时间。",
+   "hi": "देखें कि आप हर ऐप कितनी देर इस्तेमाल करते हैं। सिर्फ़ ऐप के नाम और समय, इसी PC पर रखे जाते हैं।",
+   "es": "Mira cuánto tiempo usas cada app. Solo se guardan nombres de apps y tiempos, en este PC.",
+   "ar": "اعرف كم تستخدم كل تطبيق. تُحفظ أسماء التطبيقات والأوقات فقط، على هذا الحاسوب.",
+   "fr": "Voyez combien de temps vous utilisez chaque app. Seuls les noms d'apps et les durées sont gardés, sur ce PC.",
+   "bn": "প্রতিটি অ্যাপ কতক্ষণ ব্যবহার করেন দেখুন। শুধু অ্যাপের নাম ও সময় এই পিসিতে রাখা হয়।",
+   "pt-BR": "Veja quanto tempo você usa cada app. Só nomes de apps e tempos ficam guardados, neste PC.",
+   "ru": "Сколько времени вы проводите в каждом приложении. Хранятся только названия и время, на этом ПК.",
+   "id": "Lihat berapa lama Anda memakai tiap aplikasi. Hanya nama aplikasi dan waktu yang disimpan, di PC ini."
+  },
+  "Active today · first at {time}": {
+   "zh-Hans": "今天活跃 · 最早于 {time}",
+   "hi": "आज सक्रिय · पहली बार {time}",
+   "es": "Activo hoy · desde las {time}",
+   "ar": "نشط اليوم · أول مرة {time}",
+   "fr": "Actif aujourd'hui · dès {time}",
+   "bn": "আজ সক্রিয় · প্রথম {time}",
+   "pt-BR": "Ativo hoje · desde {time}",
+   "ru": "Активно сегодня · с {time}",
+   "id": "Aktif hari ini · pertama {time}"
+  },
+  "vs yesterday": {
+   "zh-Hans": "较昨天",
+   "hi": "कल की तुलना में",
+   "es": "frente a ayer",
+   "ar": "مقارنة بالأمس",
+   "fr": "par rapport à hier",
+   "bn": "গতকালের তুলনায়",
+   "pt-BR": "em relação a ontem",
+   "ru": "к вчерашнему",
+   "id": "dibanding kemarin"
+  },
+  "Now": {
+   "zh-Hans": "当前",
+   "hi": "अभी",
+   "es": "Ahora",
+   "ar": "الآن",
+   "fr": "Maintenant",
+   "bn": "এখন",
+   "pt-BR": "Agora",
+   "ru": "Сейчас",
+   "id": "Sekarang"
+  },
+  "Last used": {
+   "zh-Hans": "上次使用",
+   "hi": "पिछली बार इस्तेमाल",
+   "es": "Usada antes",
+   "ar": "آخر استخدام",
+   "fr": "Utilisée avant",
+   "bn": "শেষ ব্যবহৃত",
+   "pt-BR": "Usado antes",
+   "ru": "Предыдущее",
+   "id": "Terakhir dipakai"
+  },
+  "Add RSS feeds in Settings → Dashboard.": {
+   "zh-Hans": "在 设置 → 仪表板 中添加 RSS 源。",
+   "hi": "सेटिंग्स → डैशबोर्ड में RSS फ़ीड जोड़ें।",
+   "es": "Añade fuentes RSS en Ajustes → Panel.",
+   "ar": "أضف خلاصات RSS في الإعدادات ← لوحة المعلومات.",
+   "fr": "Ajoutez des flux RSS dans Réglages → Tableau de bord.",
+   "bn": "সেটিংস → ড্যাশবোর্ডে RSS ফিড যোগ করুন।",
+   "pt-BR": "Adicione feeds RSS em Ajustes → Painel.",
+   "ru": "Добавьте RSS-ленты в Настройки → Панель.",
+   "id": "Tambahkan feed RSS di Pengaturan → Dasbor."
+  },
+  "Couldn't load the news.": {
+   "zh-Hans": "无法加载新闻。",
+   "hi": "समाचार लोड नहीं हो सके।",
+   "es": "No se pudieron cargar las noticias.",
+   "ar": "تعذّر تحميل الأخبار.",
+   "fr": "Impossible de charger les actualités.",
+   "bn": "সংবাদ লোড করা যায়নি।",
+   "pt-BR": "Não foi possível carregar as notícias.",
+   "ru": "Не удалось загрузить новости.",
+   "id": "Gagal memuat berita."
+  },
+  "Breaking": {
+   "zh-Hans": "突发",
+   "hi": "ब्रेकिंग",
+   "es": "Última hora",
+   "ar": "عاجل",
+   "fr": "Urgent",
+   "bn": "ব্রেকিং",
+   "pt-BR": "Urgente",
+   "ru": "Срочно",
+   "id": "Terkini"
+  },
+  "Your city": {
+   "zh-Hans": "你的城市",
+   "hi": "आपका शहर",
+   "es": "Tu ciudad",
+   "ar": "مدينتك",
+   "fr": "Votre ville",
+   "bn": "আপনার শহর",
+   "pt-BR": "Sua cidade",
+   "ru": "Ваш город",
+   "id": "Kota Anda"
+  },
+  "Couldn't load the weather.": {
+   "zh-Hans": "无法加载天气。",
+   "hi": "मौसम लोड नहीं हो सका।",
+   "es": "No se pudo cargar el tiempo.",
+   "ar": "تعذّر تحميل الطقس.",
+   "fr": "Impossible de charger la météo.",
+   "bn": "আবহাওয়া লোড করা যায়নি।",
+   "pt-BR": "Não foi possível carregar o clima.",
+   "ru": "Не удалось загрузить погоду.",
+   "id": "Gagal memuat cuaca."
+  },
+  "Feels like {t}° · wind {w} km/h · humidity {h}%": {
+   "zh-Hans": "体感 {t}° · 风速 {w} km/h · 湿度 {h}%",
+   "hi": "महसूस {t}° · हवा {w} km/h · नमी {h}%",
+   "es": "Sensación {t}° · viento {w} km/h · humedad {h}%",
+   "ar": "الإحساس {t}° · الرياح {w} كم/س · الرطوبة {h}%",
+   "fr": "Ressenti {t}° · vent {w} km/h · humidité {h} %",
+   "bn": "অনুভূত {t}° · বাতাস {w} km/h · আর্দ্রতা {h}%",
+   "pt-BR": "Sensação {t}° · vento {w} km/h · umidade {h}%",
+   "ru": "Ощущается как {t}° · ветер {w} км/ч · влажность {h}%",
+   "id": "Terasa {t}° · angin {w} km/j · kelembapan {h}%"
+  },
+  "The test didn't finish.": {
+   "zh-Hans": "测试未完成。",
+   "hi": "टेस्ट पूरा नहीं हुआ।",
+   "es": "La prueba no terminó.",
+   "ar": "لم يكتمل الاختبار.",
+   "fr": "Le test n'a pas abouti.",
+   "bn": "পরীক্ষা শেষ হয়নি।",
+   "pt-BR": "O teste não terminou.",
+   "ru": "Тест не завершился.",
+   "id": "Tes tidak selesai."
+  },
+  "Testing…": {
+   "zh-Hans": "测试中…",
+   "hi": "जाँच हो रही है…",
+   "es": "Probando…",
+   "ar": "جارٍ الاختبار…",
+   "fr": "Test en cours…",
+   "bn": "পরীক্ষা চলছে…",
+   "pt-BR": "Testando…",
+   "ru": "Проверка…",
+   "id": "Menguji…"
+  },
+  "Run test": {
+   "zh-Hans": "开始测试",
+   "hi": "टेस्ट चलाएँ",
+   "es": "Iniciar prueba",
+   "ar": "تشغيل الاختبار",
+   "fr": "Lancer le test",
+   "bn": "পরীক্ষা চালান",
+   "pt-BR": "Iniciar teste",
+   "ru": "Запустить тест",
+   "id": "Jalankan tes"
+  },
+  "Task Manager": {
+   "zh-Hans": "任务管理器",
+   "hi": "टास्क मैनेजर",
+   "es": "Administrador de tareas",
+   "ar": "مدير المهام",
+   "fr": "Gestionnaire des tâches",
+   "bn": "টাস্ক ম্যানেজার",
+   "pt-BR": "Gerenciador de Tarefas",
+   "ru": "Диспетчер задач",
+   "id": "Pengelola Tugas"
+  },
+  "Snip": {
+   "zh-Hans": "截图",
+   "hi": "स्निप",
+   "es": "Recorte",
+   "ar": "قصاصة",
+   "fr": "Capture",
+   "bn": "স্নিপ",
+   "pt-BR": "Recorte",
+   "ru": "Снимок",
+   "id": "Tangkap layar"
+  },
+  "Lock": {
+   "zh-Hans": "锁定",
+   "hi": "लॉक",
+   "es": "Bloquear",
+   "ar": "قفل",
+   "fr": "Verrouiller",
+   "bn": "লক",
+   "pt-BR": "Bloquear",
+   "ru": "Блокировать",
+   "id": "Kunci"
+  },
+  "Empty Recycle Bin": {
+   "zh-Hans": "清空回收站",
+   "hi": "रीसायकल बिन ख़ाली करें",
+   "es": "Vaciar la papelera",
+   "ar": "إفراغ سلة المحذوفات",
+   "fr": "Vider la corbeille",
+   "bn": "রিসাইকেল বিন খালি করুন",
+   "pt-BR": "Esvaziar a Lixeira",
+   "ru": "Очистить корзину",
+   "id": "Kosongkan Recycle Bin"
+  },
+  "Empty it?": {
+   "zh-Hans": "确定清空？",
+   "hi": "ख़ाली करें?",
+   "es": "¿Vaciarla?",
+   "ar": "إفراغها؟",
+   "fr": "La vider ?",
+   "bn": "খালি করবেন?",
+   "pt-BR": "Esvaziar?",
+   "ru": "Очистить?",
+   "id": "Kosongkan?"
+  },
+  "Songs you listen to for 30 seconds or more show up here.": {
+   "zh-Hans": "收听 30 秒以上的歌曲会显示在这里。",
+   "hi": "जो गाने आप 30 सेकंड या ज़्यादा सुनते हैं, वे यहाँ दिखते हैं।",
+   "es": "Las canciones que escuchas 30 segundos o más aparecen aquí.",
+   "ar": "تظهر هنا الأغاني التي تستمع إليها 30 ثانية أو أكثر.",
+   "fr": "Les morceaux écoutés 30 secondes ou plus apparaissent ici.",
+   "bn": "৩০ সেকেন্ড বা তার বেশি শোনা গান এখানে দেখা যায়।",
+   "pt-BR": "Músicas que você ouve por 30 segundos ou mais aparecem aqui.",
+   "ru": "Здесь появятся песни, которые вы слушали от 30 секунд.",
+   "id": "Lagu yang Anda dengarkan 30 detik atau lebih muncul di sini."
+  },
+  "minutes this week": {
+   "zh-Hans": "本周分钟数",
+   "hi": "इस हफ़्ते के मिनट",
+   "es": "minutos esta semana",
+   "ar": "دقيقة هذا الأسبوع",
+   "fr": "minutes cette semaine",
+   "bn": "এই সপ্তাহের মিনিট",
+   "pt-BR": "minutos nesta semana",
+   "ru": "минут за неделю",
+   "id": "menit minggu ini"
+  },
+  "songs": {
+   "zh-Hans": "首歌",
+   "hi": "गाने",
+   "es": "canciones",
+   "ar": "أغانٍ",
+   "fr": "morceaux",
+   "bn": "গান",
+   "pt-BR": "músicas",
+   "ru": "песен",
+   "id": "lagu"
+  },
+  "Up late?": {
+   "zh-Hans": "还没睡？",
+   "hi": "देर तक जाग रहे हैं?",
+   "es": "¿Trasnochando?",
+   "ar": "ساهر الليلة؟",
+   "fr": "Couche-tard ?",
+   "bn": "এত রাত জেগে?",
+   "pt-BR": "Acordado até tarde?",
+   "ru": "Не спится?",
+   "id": "Begadang?"
+  },
+  "Good morning": {
+   "zh-Hans": "早上好",
+   "hi": "सुप्रभात",
+   "es": "Buenos días",
+   "ar": "صباح الخير",
+   "fr": "Bonjour",
+   "bn": "সুপ্রভাত",
+   "pt-BR": "Bom dia",
+   "ru": "Доброе утро",
+   "id": "Selamat pagi"
+  },
+  "Good afternoon": {
+   "zh-Hans": "下午好",
+   "hi": "नमस्कार",
+   "es": "Buenas tardes",
+   "ar": "مساء الخير",
+   "fr": "Bon après-midi",
+   "bn": "শুভ অপরাহ্ন",
+   "pt-BR": "Boa tarde",
+   "ru": "Добрый день",
+   "id": "Selamat siang"
+  },
+  "Good evening": {
+   "zh-Hans": "晚上好",
+   "hi": "शुभ संध्या",
+   "es": "Buenas noches",
+   "ar": "مساء الخير",
+   "fr": "Bonsoir",
+   "bn": "শুভ সন্ধ্যা",
+   "pt-BR": "Boa noite",
+   "ru": "Добрый вечер",
+   "id": "Selamat malam"
+  },
+  "Dashboard — Coucou": {
+   "zh-Hans": "仪表板 — Coucou",
+   "hi": "डैशबोर्ड — Coucou",
+   "es": "Panel — Coucou",
+   "ar": "لوحة المعلومات — Coucou",
+   "fr": "Tableau de bord — Coucou",
+   "bn": "ড্যাশবোর্ড — Coucou",
+   "pt-BR": "Painel — Coucou",
+   "ru": "Панель — Coucou",
+   "id": "Dasbor — Coucou"
+  },
+  "{n} rounds today": {
+   "zh-Hans": {
+    "other": "今天 {n} 轮"
+   },
+   "hi": {
+    "one": "आज {n} राउंड",
+    "other": "आज {n} राउंड"
+   },
+   "es": {
+    "one": "{n} ronda hoy",
+    "other": "{n} rondas hoy"
+   },
+   "ar": {
+    "zero": "لا جولات اليوم",
+    "one": "جولة واحدة اليوم",
+    "two": "جولتان اليوم",
+    "few": "{n} جولات اليوم",
+    "many": "{n} جولة اليوم",
+    "other": "{n} جولة اليوم"
+   },
+   "fr": {
+    "one": "{n} session aujourd'hui",
+    "other": "{n} sessions aujourd'hui"
+   },
+   "bn": {
+    "one": "আজ {n} রাউন্ড",
+    "other": "আজ {n} রাউন্ড"
+   },
+   "pt-BR": {
+    "one": "{n} rodada hoje",
+    "other": "{n} rodadas hoje"
+   },
+   "ru": {
+    "one": "{n} раунд сегодня",
+    "few": "{n} раунда сегодня",
+    "many": "{n} раундов сегодня",
+    "other": "{n} раунда сегодня"
+   },
+   "id": {
+    "other": "{n} putaran hari ini"
+   }
+  },
+  "{n} cores": {
+   "zh-Hans": {
+    "other": "{n} 核"
+   },
+   "hi": {
+    "one": "{n} कोर",
+    "other": "{n} कोर"
+   },
+   "es": {
+    "one": "{n} núcleo",
+    "other": "{n} núcleos"
+   },
+   "ar": {
+    "zero": "{n} نواة",
+    "one": "نواة واحدة",
+    "two": "نواتان",
+    "few": "{n} أنوية",
+    "many": "{n} نواة",
+    "other": "{n} نواة"
+   },
+   "fr": {
+    "one": "{n} cœur",
+    "other": "{n} cœurs"
+   },
+   "bn": {
+    "one": "{n}টি কোর",
+    "other": "{n}টি কোর"
+   },
+   "pt-BR": {
+    "one": "{n} núcleo",
+    "other": "{n} núcleos"
+   },
+   "ru": {
+    "one": "{n} ядро",
+    "few": "{n} ядра",
+    "many": "{n} ядер",
+    "other": "{n} ядра"
+   },
+   "id": {
+    "other": "{n} inti"
+   }
+  },
+  "{n} apps in the background": {
+   "zh-Hans": {
+    "other": "{n} 个应用在后台"
+   },
+   "hi": {
+    "one": "{n} ऐप बैकग्राउंड में",
+    "other": "{n} ऐप बैकग्राउंड में"
+   },
+   "es": {
+    "one": "{n} app en segundo plano",
+    "other": "{n} apps en segundo plano"
+   },
+   "ar": {
+    "zero": "لا تطبيقات في الخلفية",
+    "one": "تطبيق واحد في الخلفية",
+    "two": "تطبيقان في الخلفية",
+    "few": "{n} تطبيقات في الخلفية",
+    "many": "{n} تطبيقًا في الخلفية",
+    "other": "{n} تطبيق في الخلفية"
+   },
+   "fr": {
+    "one": "{n} app en arrière-plan",
+    "other": "{n} apps en arrière-plan"
+   },
+   "bn": {
+    "one": "{n}টি অ্যাপ ব্যাকগ্রাউন্ডে",
+    "other": "{n}টি অ্যাপ ব্যাকগ্রাউন্ডে"
+   },
+   "pt-BR": {
+    "one": "{n} app em segundo plano",
+    "other": "{n} apps em segundo plano"
+   },
+   "ru": {
+    "one": "{n} приложение в фоне",
+    "few": "{n} приложения в фоне",
+    "many": "{n} приложений в фоне",
+    "other": "{n} приложения в фоне"
+   },
+   "id": {
+    "other": "{n} aplikasi di latar belakang"
+   }
+  },
+  "Your PC, music, focus timer, screen time, news and weather in one window. It reads nothing while it is closed.": {
+   "zh-Hans": "电脑状态、音乐、专注计时、屏幕时间、新闻和天气，尽在一个窗口。关闭时它不读取任何内容。",
+   "hi": "आपका PC, संगीत, फ़ोकस टाइमर, स्क्रीन टाइम, समाचार और मौसम एक ही विंडो में। बंद होने पर यह कुछ नहीं पढ़ता।",
+   "es": "Tu PC, música, temporizador de enfoque, tiempo de pantalla, noticias y tiempo en una ventana. Cerrada, no lee nada.",
+   "ar": "حاسوبك والموسيقى ومؤقت التركيز ومدة الشاشة والأخبار والطقس في نافذة واحدة. لا تقرأ شيئًا وهي مغلقة.",
+   "fr": "Votre PC, la musique, le minuteur, le temps d'écran, l'actualité et la météo dans une seule fenêtre. Fermée, elle ne lit rien.",
+   "bn": "আপনার পিসি, গান, ফোকাস টাইমার, স্ক্রিন টাইম, সংবাদ ও আবহাওয়া এক উইন্ডোতে। বন্ধ থাকলে এটি কিছুই পড়ে না।",
+   "pt-BR": "Seu PC, música, timer de foco, tempo de tela, notícias e clima numa só janela. Fechada, ela não lê nada.",
+   "ru": "ПК, музыка, таймер фокуса, экранное время, новости и погода в одном окне. Закрытое, оно ничего не читает.",
+   "id": "PC, musik, timer fokus, waktu layar, berita, dan cuaca dalam satu jendela. Saat ditutup, tidak membaca apa pun."
+  },
+  "Open dashboard": {
+   "zh-Hans": "打开仪表板",
+   "hi": "डैशबोर्ड खोलें",
+   "es": "Abrir panel",
+   "ar": "فتح لوحة المعلومات",
+   "fr": "Ouvrir le tableau de bord",
+   "bn": "ড্যাশবোর্ড খুলুন",
+   "pt-BR": "Abrir painel",
+   "ru": "Открыть панель",
+   "id": "Buka dasbor"
+  },
+  "Notes which app is in front every 5 seconds. Only app names and times are kept, on this PC, for 30 days.": {
+   "zh-Hans": "每 5 秒记录一次前台应用。只在本机保存应用名称和时间，保留 30 天。",
+   "hi": "हर 5 सेकंड में देखता है कि कौन-सा ऐप सामने है। सिर्फ़ ऐप के नाम और समय, इसी PC पर, 30 दिन रखे जाते हैं।",
+   "es": "Anota qué app está delante cada 5 segundos. Solo se guardan nombres de apps y tiempos, en este PC, durante 30 días.",
+   "ar": "يسجّل التطبيق الظاهر في المقدمة كل 5 ثوانٍ. تُحفظ أسماء التطبيقات والأوقات فقط، على هذا الحاسوب، لمدة 30 يومًا.",
+   "fr": "Note l'app au premier plan toutes les 5 secondes. Seuls les noms d'apps et les durées sont gardés, sur ce PC, 30 jours.",
+   "bn": "প্রতি ৫ সেকেন্ডে সামনের অ্যাপটি লিখে রাখে। শুধু অ্যাপের নাম ও সময় এই পিসিতে ৩০ দিন রাখা হয়।",
+   "pt-BR": "Anota qual app está na frente a cada 5 segundos. Só nomes de apps e tempos ficam guardados, neste PC, por 30 dias.",
+   "ru": "Каждые 5 секунд отмечает активное приложение. Хранятся только названия и время, на этом ПК, 30 дней.",
+   "id": "Mencatat aplikasi di depan setiap 5 detik. Hanya nama aplikasi dan waktu yang disimpan, di PC ini, selama 30 hari."
+  },
+  "Track screen time": {
+   "zh-Hans": "记录屏幕时间",
+   "hi": "स्क्रीन टाइम ट्रैक करें",
+   "es": "Registrar tiempo de pantalla",
+   "ar": "تتبّع مدة الشاشة",
+   "fr": "Suivre le temps d'écran",
+   "bn": "স্ক্রিন টাইম ট্র্যাক করুন",
+   "pt-BR": "Registrar tempo de tela",
+   "ru": "Учитывать экранное время",
+   "id": "Lacak waktu layar"
+  },
+  "Focus (min)": {
+   "zh-Hans": "专注（分钟）",
+   "hi": "फ़ोकस (मिनट)",
+   "es": "Enfoque (min)",
+   "ar": "التركيز (دقيقة)",
+   "fr": "Concentration (min)",
+   "bn": "ফোকাস (মিনিট)",
+   "pt-BR": "Foco (min)",
+   "ru": "Фокус (мин)",
+   "id": "Fokus (mnt)"
+  },
+  "Rounds": {
+   "zh-Hans": "轮数",
+   "hi": "राउंड",
+   "es": "Rondas",
+   "ar": "الجولات",
+   "fr": "Sessions",
+   "bn": "রাউন্ড",
+   "pt-BR": "Rodadas",
+   "ru": "Раунды",
+   "id": "Putaran"
+  },
+  "Start the next phase by itself": {
+   "zh-Hans": "自动开始下一阶段",
+   "hi": "अगला चरण अपने आप शुरू करें",
+   "es": "Iniciar la siguiente fase sola",
+   "ar": "بدء المرحلة التالية تلقائيًا",
+   "fr": "Enchaîner la phase suivante tout seul",
+   "bn": "পরের ধাপ নিজে থেকে শুরু করুন",
+   "pt-BR": "Iniciar a próxima fase sozinho",
+   "ru": "Сам запускать следующую фазу",
+   "id": "Mulai fase berikutnya sendiri"
+  },
+  "Start focusing when an agent starts working": {
+   "zh-Hans": "当智能体开始工作时开始专注",
+   "hi": "एजेंट के काम शुरू करते ही फ़ोकस शुरू करें",
+   "es": "Empezar a enfocarse cuando un agente empieza a trabajar",
+   "ar": "ابدأ التركيز عندما يبدأ وكيل العمل",
+   "fr": "Se concentrer quand un agent se met au travail",
+   "bn": "এজেন্ট কাজ শুরু করলে ফোকাস শুরু করুন",
+   "pt-BR": "Começar o foco quando um agente começa a trabalhar",
+   "ru": "Начинать фокус, когда агент начинает работу",
+   "id": "Mulai fokus saat agen mulai bekerja"
+  },
+  "Pause while I'm away": {
+   "zh-Hans": "我离开时暂停",
+   "hi": "मेरे दूर रहने पर रोकें",
+   "es": "Pausar cuando no estoy",
+   "ar": "إيقاف مؤقت أثناء غيابي",
+   "fr": "Mettre en pause quand je m'absente",
+   "bn": "আমি দূরে থাকলে থামান",
+   "pt-BR": "Pausar quando eu sair",
+   "ru": "Пауза, пока меня нет",
+   "id": "Jeda saat saya pergi"
+  },
+  "RSS or Atom feeds, one per line. Read every 10 minutes while the News pill or the dashboard is on.": {
+   "zh-Hans": "RSS 或 Atom 源，每行一个。新闻标签或仪表板开启时每 10 分钟读取一次。",
+   "hi": "RSS या Atom फ़ीड, हर पंक्ति में एक। न्यूज़ पिल या डैशबोर्ड चालू होने पर हर 10 मिनट में पढ़े जाते हैं।",
+   "es": "Fuentes RSS o Atom, una por línea. Se leen cada 10 minutos mientras la píldora Noticias o el panel están activos.",
+   "ar": "خلاصات RSS أو Atom، واحدة في كل سطر. تُقرأ كل 10 دقائق ما دامت حبة الأخبار أو لوحة المعلومات مفعّلة.",
+   "fr": "Flux RSS ou Atom, un par ligne. Lus toutes les 10 minutes tant que la pastille Actualités ou le tableau de bord est actif.",
+   "bn": "RSS বা Atom ফিড, প্রতি লাইনে একটি। নিউজ পিল বা ড্যাশবোর্ড চালু থাকলে প্রতি ১০ মিনিটে পড়া হয়।",
+   "pt-BR": "Feeds RSS ou Atom, um por linha. Lidos a cada 10 minutos enquanto a aba Notícias ou o painel estiver ativo.",
+   "ru": "Ленты RSS или Atom, по одной в строке. Читаются каждые 10 минут, пока включена вкладка «Новости» или панель.",
+   "id": "Feed RSS atau Atom, satu per baris. Dibaca setiap 10 menit selama pil Berita atau dasbor aktif."
+  },
+  "A headline with one of these words, less than an hour old, is breaking news (end a word with * to match its start):": {
+   "zh-Hans": "包含以下词语且发布不到一小时的标题视为突发新闻（词尾加 * 可匹配词首）：",
+   "hi": "इनमें से किसी शब्द वाली, एक घंटे से कम पुरानी हेडलाइन ब्रेकिंग न्यूज़ है (शब्द की शुरुआत मिलाने के लिए अंत में * लगाएँ):",
+   "es": "Un titular con una de estas palabras, de hace menos de una hora, es noticia de última hora (termina una palabra con * para buscar su inicio):",
+   "ar": "العنوان الذي يحوي إحدى هذه الكلمات وعمره أقل من ساعة يُعد خبرًا عاجلًا (أنهِ الكلمة بـ * لمطابقة بدايتها):",
+   "fr": "Un titre contenant l'un de ces mots, de moins d'une heure, est une info urgente (terminez un mot par * pour en chercher le début) :",
+   "bn": "এই শব্দগুলোর কোনোটি থাকা এক ঘণ্টার কম পুরোনো শিরোনাম ব্রেকিং নিউজ (শব্দের শুরু মেলাতে শেষে * দিন):",
+   "pt-BR": "Uma manchete com uma destas palavras, de menos de uma hora, é notícia urgente (termine uma palavra com * para buscar o início):",
+   "ru": "Заголовок с одним из этих слов, вышедший меньше часа назад, — срочная новость (* в конце слова ищет его начало):",
+   "id": "Judul dengan salah satu kata ini, kurang dari satu jam, adalah berita terkini (akhiri kata dengan * untuk mencocokkan awalnya):"
+  },
+  "Open the island for breaking news": {
+   "zh-Hans": "有突发新闻时打开浮岛",
+   "hi": "ब्रेकिंग न्यूज़ पर आइलैंड खोलें",
+   "es": "Abrir la isla con noticias de última hora",
+   "ar": "افتح الجزيرة عند الأخبار العاجلة",
+   "fr": "Ouvrir l'îlot pour les infos urgentes",
+   "bn": "ব্রেকিং নিউজে আইল্যান্ড খুলুন",
+   "pt-BR": "Abrir a ilha para notícias urgentes",
+   "ru": "Открывать остров при срочных новостях",
+   "id": "Buka pulau untuk berita terkini"
+  },
+  "PC": {
+   "zh-Hans": "电脑",
+   "hi": "PC",
+   "es": "PC",
+   "ar": "الحاسوب",
+   "fr": "PC",
+   "bn": "পিসি",
+   "pt-BR": "PC",
+   "ru": "ПК",
+   "id": "PC"
+  },
+  "Warn me when memory, storage or temperature run high": {
+   "zh-Hans": "内存、存储或温度过高时提醒我",
+   "hi": "मेमोरी, स्टोरेज या तापमान ज़्यादा होने पर बताएँ",
+   "es": "Avisarme cuando la memoria, el almacenamiento o la temperatura suban mucho",
+   "ar": "نبّهني عند ارتفاع الذاكرة أو التخزين أو الحرارة",
+   "fr": "M'avertir quand la mémoire, le stockage ou la température sont trop hauts",
+   "bn": "মেমরি, স্টোরেজ বা তাপমাত্রা বেশি হলে জানান",
+   "pt-BR": "Avisar quando memória, armazenamento ou temperatura ficarem altos",
+   "ru": "Предупреждать, когда память, диск или температура на пределе",
+   "id": "Peringatkan saat memori, penyimpanan, atau suhu terlalu tinggi"
+  },
+  "Speed test server": {
+   "zh-Hans": "测速服务器",
+   "hi": "स्पीड टेस्ट सर्वर",
+   "es": "Servidor del test de velocidad",
+   "ar": "خادم اختبار السرعة",
+   "fr": "Serveur du test de débit",
+   "bn": "স্পিড টেস্ট সার্ভার",
+   "pt-BR": "Servidor do teste de velocidade",
+   "ru": "Сервер теста скорости",
+   "id": "Server tes kecepatan"
+  },
+  "The speed test only runs when you click it.": {
+   "zh-Hans": "只有点击时才会测速。",
+   "hi": "स्पीड टेस्ट सिर्फ़ क्लिक करने पर चलता है।",
+   "es": "El test de velocidad solo se ejecuta cuando haces clic.",
+   "ar": "لا يعمل اختبار السرعة إلا عند النقر عليه.",
+   "fr": "Le test de débit ne se lance que quand vous cliquez.",
+   "bn": "স্পিড টেস্ট শুধু ক্লিক করলে চলে।",
+   "pt-BR": "O teste de velocidade só roda quando você clica.",
+   "ru": "Тест скорости запускается только по нажатию.",
+   "id": "Tes kecepatan hanya berjalan saat Anda mengekliknya."
+  },
+  "Up {time}": {
+   "zh-Hans": "已运行 {time}",
+   "hi": "{time} से चालू",
+   "es": "Encendido {time}",
+   "ar": "يعمل منذ {time}",
+   "fr": "Allumé depuis {time}",
+   "bn": "{time} ধরে চালু",
+   "pt-BR": "Ligado há {time}",
+   "ru": "Работает {time}",
+   "id": "Menyala {time}"
+  },
+  "Music": {
+   "zh-Hans": "音乐",
+   "hi": "संगीत",
+   "es": "Música",
+   "ar": "موسيقى",
+   "fr": "Musique",
+   "bn": "গান",
+   "pt-BR": "Música",
+   "ru": "Музыка",
+   "id": "Musik"
+  },
+  "Nothing is playing": {
+   "zh-Hans": "没有正在播放的内容",
+   "hi": "कुछ नहीं चल रहा",
+   "es": "No suena nada",
+   "ar": "لا شيء قيد التشغيل",
+   "fr": "Rien en lecture",
+   "bn": "কিছু চলছে না",
+   "pt-BR": "Nada tocando",
+   "ru": "Ничего не играет",
+   "id": "Tidak ada yang diputar"
+  },
+  "Round {n} of {total}": {
+   "zh-Hans": "第 {n} 轮，共 {total} 轮",
+   "hi": "{total} में से राउंड {n}",
+   "es": "Ronda {n} de {total}",
+   "ar": "الجولة {n} من {total}",
+   "fr": "Session {n} sur {total}",
+   "bn": "{total}-এর মধ্যে রাউন্ড {n}",
+   "pt-BR": "Rodada {n} de {total}",
+   "ru": "Раунд {n} из {total}",
+   "id": "Putaran {n} dari {total}"
+  },
+  "Headlines": {
+   "zh-Hans": "头条",
+   "hi": "सुर्ख़ियाँ",
+   "es": "Titulares",
+   "ar": "العناوين",
+   "fr": "À la une",
+   "bn": "শিরোনাম",
+   "pt-BR": "Manchetes",
+   "ru": "Заголовки",
+   "id": "Judul utama"
+  },
+  "Off — turn it on in Settings → Dashboard.": {
+   "zh-Hans": "已关闭 — 在 设置 → 仪表板 中开启。",
+   "hi": "बंद — सेटिंग्स → डैशबोर्ड में चालू करें।",
+   "es": "Desactivado — actívalo en Ajustes → Panel.",
+   "ar": "متوقف — شغّله من الإعدادات ← لوحة المعلومات.",
+   "fr": "Désactivé — activez-le dans Réglages → Tableau de bord.",
+   "bn": "বন্ধ — সেটিংস → ড্যাশবোর্ডে চালু করুন।",
+   "pt-BR": "Desativado — ative em Ajustes → Painel.",
+   "ru": "Выключено — включите в Настройки → Панель.",
+   "id": "Mati — aktifkan di Pengaturan → Dasbor."
   } }
 }

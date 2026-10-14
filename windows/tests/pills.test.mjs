@@ -42,12 +42,24 @@ test("the catalog holds the Mac's pills, in the Mac's order, with the Mac's valu
     ["integration_spotify", "Spotify", "#1DB954", "service", "Integration"],
   ];
   assert.deepEqual(
-    PILL_CATALOG.map((p) => [p.id, p.name, p.color, p.category, p.subtitle]),
+    PILL_CATALOG.slice(0, mac.length).map((p) => [p.id, p.name, p.color, p.category, p.subtitle]),
     mac,
   );
   assert.deepEqual(PILL_CATEGORIES.map((c) => c.title), [
     "Where you code", "Agents", "AI for the chat", "Services",
   ]);
+});
+
+test("after the Mac's pills come the dashboard's, on Windows only, with nothing to set up", () => {
+  const extra = PILL_CATALOG.slice(25);
+  assert.deepEqual(extra.map((p) => p.id), [
+    "integration_system", "integration_nowplaying", "integration_focus", "integration_news", "integration_screentime",
+  ]);
+  for (const p of extra) {
+    assert.equal(p.support, "windows");
+    assert.equal(p.connect.kind, "none");
+    assert.equal(p.category, "service");
+  }
 });
 
 test("the pills Windows always had keep their IDs, names, colours and sources", () => {
@@ -73,7 +85,7 @@ test("IDs are unique", () => {
   assert.equal(new Set(ids).size, ids.length);
 });
 
-test("this build leaves out what only macOS has, Claude Desktop on Linux and Spotify on Windows", () => {
+test("this build leaves out what only macOS has, Claude Desktop and the dashboard on Linux, Spotify on Windows", () => {
   const windows = availablePills("windows").map((p) => p.id);
   const linux = availablePills("linux").map((p) => p.id);
   for (const id of ["integration_music"]) {
@@ -91,9 +103,15 @@ test("this build leaves out what only macOS has, Claude Desktop on Linux and Spo
   // Spotify is read over MPRIS, which only Linux has.
   assert.ok(linux.includes("integration_spotify"));
   assert.ok(!windows.includes("integration_spotify"));
+  // The dashboard's pills read Windows itself.
+  const dashboard = ["integration_system", "integration_nowplaying", "integration_focus", "integration_news", "integration_screentime"];
+  for (const id of dashboard) {
+    assert.ok(windows.includes(id), id);
+    assert.ok(!linux.includes(id), id);
+  }
   assert.deepEqual(
     linux.filter((id) => id !== "integration_spotify"),
-    windows.filter((id) => id !== "agent_claude-desktop"),
+    windows.filter((id) => id !== "agent_claude-desktop" && !dashboard.includes(id)),
   );
 });
 

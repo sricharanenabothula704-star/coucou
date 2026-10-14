@@ -8,6 +8,9 @@ import { getCurrentWebview } from "@tauri-apps/api/webview";
 import type { Settings } from "./state";
 import type { RecapHistory, RecapPrefs } from "../recap/summary";
 import type { SpotifyState } from "./spotify";
+import type {
+  FocusAction, FocusState, MediaAction, MediaState, Play, QuickAction, ScreenTime, SpeedResult, SystemStats, Weather,
+} from "./dashboard";
 
 export const IS_TAURI =
   typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
@@ -414,6 +417,27 @@ export const Bridge = {
   spotifyOpen: () => call<boolean>("spotify_open"),
   /** Whether there is a Spotify to launch (Settings). */
   spotifyInstalled: () => call<boolean>("spotify_installed"),
+
+  // ── Dashboard (src-tauri/src/dashboard/, Windows) ─────────────────────────
+  openDashboard: () => call<void>("open_dashboard"),
+  /** One reading; `detail` adds the apps (a scan of every process). */
+  systemStats: (detail: boolean) => call<SystemStats | null>("system_stats", { detail }),
+  /** Ends every process of an app; the number ended, null when refused. */
+  systemEndApp: (name: string) => call<number>("system_end_app", { name }),
+  mediaRefresh: () => call<MediaState | null>("media_refresh"),
+  /** `value`: seconds for seek, 0…100 for volume. */
+  mediaControl: (action: MediaAction, value?: number) =>
+    call<boolean>("media_control", { action, value: value ?? null }),
+  mediaPlays: () => call<Play[]>("media_plays"),
+  screenTime: () => call<ScreenTime>("screentime_get"),
+  screenTimeClear: () => call<void>("screentime_clear"),
+  focusGet: () => call<FocusState>("focus_get"),
+  focusCommand: (action: FocusAction) => call<FocusState>("focus_command", { action }),
+  /** The feeds saved in Settings, as text. */
+  newsFetch: () => call<{ url: string; body: string | null; error: string | null }[]>("news_fetch"),
+  weather: () => call<Weather>("weather_fetch"),
+  speedTest: () => call<SpeedResult>("speed_test"),
+  quickAction: (action: QuickAction) => call<boolean>("quick_action", { action }),
 };
 
 export type SpotifyAction = "playPause" | "next" | "previous" | "seek" | "shuffle" | "repeat" | "volume";

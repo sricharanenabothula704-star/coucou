@@ -1,5 +1,7 @@
 // App state — mirror of AppState.swift (the parts the island needs).
 
+import { Hub } from "./hub";
+import { DEFAULT_DASHBOARD, NOWPLAYING_ID, type DashboardPrefs } from "./dashboard";
 import type { BotEmoteName, BotStateName, IslandMode, IslandViewName } from "./layout";
 import type { EyeShape } from "../mochi/engine";
 import {
@@ -164,6 +166,14 @@ export interface Settings {
     onDesktop: boolean;
     spot: { x: number; y: number; space: string } | null;
   };
+  /** The dashboard and its pills; read it through dashboardPrefs(). */
+  dashboard?: Partial<DashboardPrefs>;
+}
+
+/** The dashboard's preferences with every default filled in. */
+export function dashboardPrefs(s: Pick<Settings, "dashboard">): DashboardPrefs {
+  const d = s.dashboard ?? {};
+  return { ...DEFAULT_DASHBOARD, ...d, focus: { ...DEFAULT_DASHBOARD.focus, ...(d.focus ?? {}) } };
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -287,9 +297,11 @@ class AppState {
     return this.stateOverride ?? this.focusTask?.state ?? "idle";
   }
 
-  /** Spotify plays on a declared pill: Mochi dances (Linux; never on Windows yet). */
+  /** Music plays on a declared pill — Spotify (Linux) or Now Playing (Windows): Mochi dances. */
   get spotifyPlaying(): boolean {
-    return musicPlaying(Spotify.state, sanitizeDeclared(this.settings, this.os).activeIntegrations);
+    const declared = sanitizeDeclared(this.settings, this.os).activeIntegrations;
+    if (Hub.media?.playing && declared.includes(NOWPLAYING_ID)) return true;
+    return musicPlaying(Spotify.state, declared);
   }
 
   get otherTasks(): AgentTask[] {

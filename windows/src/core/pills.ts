@@ -134,6 +134,19 @@ export const PILL_CATALOG: readonly PillDefinition[] = [
   // Windows has nothing to read it from yet.
   { id: "integration_spotify", name: "Spotify", color: "#1DB954", category: "service",
     subtitle: N_("Integration"), source: "n8n", support: "linux", connect: none },
+  // ── Windows only: the dashboard's pills (src-tauri/src/dashboard) ───────────
+  // Not on the Mac. Read from Windows itself (performance counters, the system
+  // media controls, the window in front), or from the feeds the user lists.
+  { id: "integration_system", name: "System", color: "#60A5FA", category: "service",
+    subtitle: N_("Dashboard"), source: "n8n", support: "windows", connect: none },
+  { id: "integration_nowplaying", name: "Now Playing", color: "#F472B6", category: "service",
+    subtitle: N_("Dashboard"), source: "n8n", support: "windows", connect: none },
+  { id: "integration_focus", name: "Focus", color: "#F4505E", category: "service",
+    subtitle: N_("Dashboard"), source: "n8n", support: "windows", connect: none },
+  { id: "integration_news", name: "News", color: "#F5A524", category: "service",
+    subtitle: N_("Dashboard"), source: "n8n", support: "windows", connect: none },
+  { id: "integration_screentime", name: "Screen Time", color: "#A78BFA", category: "service",
+    subtitle: N_("Dashboard"), source: "n8n", support: "windows", connect: none },
 ];
 
 /** The always-on pill unless the user picks another workspace tool. */

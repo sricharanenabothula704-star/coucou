@@ -132,6 +132,11 @@ export function runGlobalShortcut(host: ShortcutHost, action: string, resume: ()
       host.flyOutOrHome();
       break;
 
+    // The dashboard window (Windows and Linux only).
+    case "dashboardToggle":
+      void Bridge.openDashboard();
+      break;
+
     // wardrobeToggle never comes this way (Rust sends `open-wardrobe`), and
     // attachFrontWindow isn't in this version.
     default:

@@ -23,7 +23,8 @@ export type IslandViewName =
   | "settings"
   | "greeting"
   | "recap"
-  | "wardrobe";
+  | "wardrobe"
+  | "dashboard";
 
 export type BotStateName =
   | "idle"
@@ -93,6 +94,9 @@ export const VIEW_LAYOUTS: Record<IslandViewName, ViewLayout> = {
   // to the shared image.
   recap: { height: 184, botX: 62, botY: null, botDiameter: 58, agentMode: "column" },
   wardrobe: { height: 160, botX: 68, botY: null, botDiameter: 58, agentMode: "none" },
+  // Windows and Linux only: the dashboard in the island (views/hub-dashboard.ts).
+  // Mochi sits at the top of its left rail; 312 stays inside the 320 panel.
+  dashboard: { height: 312, botX: 55, botY: 92, botDiameter: 50, agentMode: "none" },
 };
 
 // The upload views above are only the fallback geometry. Once a file is actually

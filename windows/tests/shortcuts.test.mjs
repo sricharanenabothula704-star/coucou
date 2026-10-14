@@ -22,7 +22,8 @@ const MAC_IDS = [
 // ── Defaults (testDefaultsExhaustive, testAllDefaultsHaveModifier, testNoDefaultDuplicates) ──
 
 test("every Mac action has a default, in the Mac's order, with its Mac id", () => {
-  assert.deepEqual(SHORTCUTS.map((d) => d.id), MAC_IDS);
+  // The Mac's, in the Mac's order, then the dashboard (not a Mac action).
+  assert.deepEqual(SHORTCUTS.map((d) => d.id), [...MAC_IDS, "dashboardToggle"]);
   for (const d of SHORTCUTS) assert.ok(SHORTCUT_TEXT[d.id], `${d.id} has no label`);
 });
 
@@ -80,7 +81,7 @@ test("only the island toggle is off by default; the one not ported yet is reserv
   }
   assert.deepEqual(activeKeys({}).map(([id]) => id), [
     "openChat", "goToAlert", "jumpToTerminal", "nextPill", "prevPill", "muteToggle", "desktopToggle",
-    "wardrobeToggle",
+    "wardrobeToggle", "dashboardToggle",
   ]);
   // The Mac's ⌃⌥D, on the same letter.
   assert.equal(SHORTCUTS.find((d) => d.id === "desktopToggle").defaultKeys, "Ctrl+Alt+D");

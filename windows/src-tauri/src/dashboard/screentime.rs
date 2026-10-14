@@ -153,7 +153,7 @@ fn run() {
             with_history(|h| record(h, &day, t.hour * 60 + t.minute, &app, TICK_SECS));
         }
         ticks += 1;
-        if ticks % SAVE_EVERY_TICKS == 0 {
+        if ticks.is_multiple_of(SAVE_EVERY_TICKS) {
             with_history(|h| {
                 prune(h, KEEP_DAYS);
                 save(h);
