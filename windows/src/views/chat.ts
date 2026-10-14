@@ -17,6 +17,8 @@ import { Sound } from "../core/sound";
 import { State, type ChatMessage } from "../core/state";
 import type { ViewHost } from "./views";
 import { N_, t, tl } from "../i18n/i18n";
+import { readActions, type PcAction } from "../core/pc-context";
+import { confirmClaudeJob, runQuickAction, sharePcWithChat } from "../island/pc-actions";
 
 const STRINGS = {
   placeholderFirst: N_("Ask me anything…"),
@@ -211,7 +213,11 @@ export function buildPrompt(onHeightChange: () => void): ViewHost {
     spellcheck: "false",
   }) as HTMLInputElement;
   const send = h("button", { class: "send-btn", title: tl(STRINGS.send) }, svg(ICONS.arrowUp, 11));
-  const bar = h("div", { class: "chat-bar" }, input, send);
+  // Speak instead of typing: click, talk, click again — the words are sent.
+  const mic = h("button", { class: "mic-btn", title: tl("Speak") }, h("i", { class: "mic-ring" }), svg(ICONS.mic, 12));
+  const bar = h("div", { class: "chat-bar" }, input, mic, send);
+  // Claude Code jobs the answer proposed: they wait here for a click.
+  const proposals = h("div", { class: "chat-proposals" });
 
   const modelDot = h("i", { class: "model-dot" });
   const modelName = h("span", { class: "model-name" });
@@ -229,7 +235,7 @@ export function buildPrompt(onHeightChange: () => void): ViewHost {
     body.classList.toggle("picking", picker.isOpen);
     drawModelButton();
   });
-  body.append(chipRow, log, picker.el, modelRow, bar);
+  body.append(chipRow, log, picker.el, proposals, modelRow, bar);
 
   const el = h("div", { class: "view" }, h("div", { class: "card wash chat-card" }, body));
   (el.querySelector(".card") as HTMLElement).style.setProperty("--wash", "rgba(99,102,241,0.5)");
@@ -260,9 +266,82 @@ export function buildPrompt(onHeightChange: () => void): ViewHost {
       log.querySelector(".typing")?.parentElement?.remove();
       log.append(h("div", { class: "chat-row" }, live));
     }
-    renderMarkdown(live, text);
+    renderMarkdown(live, readActions(text).text);
     log.scrollTop = log.scrollHeight;
   });
+
+  // ── The microphone ─────────────────────────────────────────────────────────
+  let recording = false;
+  let transcribing = false;
+  void onEvent<number>("voice-level", (lvl) => mic.style.setProperty("--lvl", String(Math.min(1, Math.max(0, lvl)))));
+  function drawMic() {
+    mic.classList.toggle("rec", recording);
+    mic.classList.toggle("busy", transcribing);
+    mic.title = recording ? t("Stop and send") : transcribing ? t("Listening…") : t("Speak");
+  }
+  mic.addEventListener("click", async () => {
+    if (sending || transcribing) return;
+    if (!recording) {
+      try {
+        await Bridge.voiceStart();
+        recording = true;
+        State.stateOverride = "searching";
+        Sound.play("pop");
+      } catch (err) {
+        State.noteMessage = String(err).replace(/^Error:\s*/, "");
+        State.view = "note";
+      }
+      drawMic();
+      State.notify();
+      return;
+    }
+    recording = false;
+    transcribing = true;
+    drawMic();
+    try {
+      const text = await Bridge.voiceStop(true);
+      transcribing = false;
+      State.stateOverride = null;
+      drawMic();
+      if (text.trim()) {
+        input.value = text.trim();
+        void submit();
+      }
+    } catch (err) {
+      transcribing = false;
+      State.stateOverride = null;
+      drawMic();
+      State.noteMessage = String(err).replace(/^Error:\s*/, "");
+      State.view = "note";
+      Sound.play("error");
+    }
+    State.notify();
+  });
+
+  function propose(a: Extract<PcAction, { kind: "claude" }>) {
+    const when = a.when === "now" ? t("Now") : `${a.when.at} · ${a.when.repeat === "once" ? t("Once") : a.when.repeat === "daily" ? t("Every day") : t("Weekdays")}`;
+    const row = h("div", { class: "proposal" },
+      h("div", { class: "proposal-text" },
+        h("b", { text: t("Claude Code job") }),
+        h("span", { text: `${when} · ${a.folder || "~"}` }),
+        h("i", { text: a.prompt }),
+      ),
+    );
+    const yes = h("button", { class: "proposal-yes", text: a.when === "now" ? t("Run") : t("Schedule") });
+    const no = h("button", { class: "proposal-no", text: t("Dismiss") });
+    yes.addEventListener("click", async () => {
+      yes.setAttribute("disabled", "");
+      const ok = await confirmClaudeJob(a);
+      row.classList.add(ok ? "done" : "failed");
+      yes.textContent = ok ? (a.when === "now" ? t("Running…") : t("Scheduled")) : t("Failed");
+      no.remove();
+      Sound.play(ok ? "approve" : "error");
+      window.setTimeout(() => row.remove(), 4000);
+    });
+    no.addEventListener("click", () => row.remove());
+    row.append(h("div", { class: "proposal-btns" }, yes, no));
+    proposals.append(row);
+  }
 
   async function submit() {
     const query = input.value.trim();
@@ -283,8 +362,20 @@ export function buildPrompt(onHeightChange: () => void): ViewHost {
       State.chatHistory.length === 1 && file ? { kind: "file", name: file.name, path: file.path } : null;
 
     try {
+      // What the chat may know of the PC right now, and whether it may act on it.
+      await sharePcWithChat().catch(() => {});
       const reply = await Bridge.chatSend(query, context);
-      State.chatHistory.push({ id: nextId++, role: "assistant", content: reply.text });
+      const { text, actions } = readActions(reply.text);
+      const done: string[] = [];
+      for (const a of actions) {
+        if (a.kind === "claude") propose(a);
+        else {
+          const label = await runQuickAction(a).catch(() => null);
+          if (label) done.push(label);
+        }
+      }
+      const content = [text, done.length ? `✓ ${done.join(" · ")}` : ""].filter(Boolean).join("\n\n") || "✓";
+      State.chatHistory.push({ id: nextId++, role: "assistant", content });
       State.stateOverride = null;
       Sound.play("finish");
     } catch (err) {

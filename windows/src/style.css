@@ -3019,7 +3019,13 @@ html[data-dir="rtl"] #views :is(.bubble, .reply .md-p, .reply .md-h, .reply .md-
   border-radius: 14px;
   background: var(--card);
   border: 1px solid var(--hairline);
-  animation: idash-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: border-color 0.4s ease;
+}
+
+/* Only when the tab opens: a redrawn tile just appears in place. */
+.idash-grid.entering .idash-tile {
+  animation: idash-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 25ms);
 }
 
 .idash-tile.wide {
@@ -3356,4 +3362,159 @@ html[data-dir="rtl"] #views :is(.bubble, .reply .md-p, .reply .md-h, .reply .md-
   .pill.cli {
     animation: none !important;
   }
+}
+
+/* ── Chat: the microphone and Claude Code proposals ─────────────────────── */
+
+.mic-btn {
+  --lvl: 0;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--dim-2);
+  display: grid;
+  place-items: center;
+  cursor: default;
+  transition: background 0.2s, color 0.2s, transform 0.08s ease-out;
+}
+
+.mic-btn:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.mic-btn:active {
+  transform: scale(0.92);
+}
+
+.mic-btn svg {
+  position: relative;
+  z-index: 1;
+}
+
+.mic-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Recording: red, and a ring that grows with the voice. */
+.mic-btn.rec {
+  background: var(--red);
+  color: #fff;
+}
+
+.mic-btn.rec .mic-ring {
+  opacity: 1;
+  background: rgba(244, 80, 94, 0.35);
+  transform: scale(calc(1 + var(--lvl) * 0.9));
+  transition: transform 0.08s linear;
+  animation: mic-breathe 1.2s ease-in-out infinite;
+}
+
+@keyframes mic-breathe {
+  50% { box-shadow: 0 0 0 4px rgba(244, 80, 94, 0.25); }
+}
+
+/* Writing down what was said. */
+.mic-btn.busy {
+  color: var(--ink);
+  background: conic-gradient(from 0deg, var(--indigo), var(--pink), var(--indigo));
+  animation: mic-spin 1s linear infinite;
+}
+
+.mic-btn.busy svg {
+  animation: mic-spin 1s linear infinite reverse;
+}
+
+@keyframes mic-spin {
+  to { transform: rotate(360deg); }
+}
+
+.chat-proposals {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chat-proposals:empty {
+  display: none;
+}
+
+.proposal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(232, 130, 95, 0.1);
+  border: 1px solid rgba(232, 130, 95, 0.35);
+  animation: proposal-in 0.35s cubic-bezier(0.3, 1.2, 0.4, 1) both;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.proposal.done {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.proposal.failed {
+  border-color: rgba(244, 80, 94, 0.55);
+}
+
+@keyframes proposal-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+}
+
+.proposal-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font: 400 10.5px var(--font);
+  color: var(--dim-2);
+}
+
+.proposal-text b {
+  font: 600 11px var(--font);
+  color: #f3a688;
+}
+
+.proposal-text i {
+  font-style: normal;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proposal-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.proposal-yes,
+.proposal-no {
+  border: 0;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font: 600 11px var(--font);
+  cursor: default;
+}
+
+.proposal-yes {
+  background: #e8825f;
+  color: #1b0f0a;
+}
+
+.proposal-no {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--dim-2);
 }

@@ -11,6 +11,7 @@ import type { SpotifyState } from "./spotify";
 import type {
   FocusAction, FocusState, MediaAction, MediaState, Play, QuickAction, ScreenTime, SpeedResult, SystemStats, Weather,
 } from "./dashboard";
+import type { ClaudeJob } from "./pc-context";
 
 export const IS_TAURI =
   typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
@@ -438,6 +439,20 @@ export const Bridge = {
   weather: () => call<Weather>("weather_fetch"),
   speedTest: () => call<SpeedResult>("speed_test"),
   quickAction: (action: QuickAction) => call<boolean>("quick_action", { action }),
+  /** Claude Code jobs (dashboard/jobs.rs), and where `claude` was found. */
+  jobsList: () => call<{ jobs: ClaudeJob[]; claude: string | null }>("jobs_list"),
+  jobSave: (job: Partial<ClaudeJob> & { prompt: string; at: string }) => call<ClaudeJob>("job_save", { job }),
+  jobDelete: (id: string) => call<void>("job_delete", { id }),
+  jobRun: (id: string) => call<void>("job_run", { id }),
+  /** Hands a prompt to Claude Code now; the job's id. */
+  claudePrompt: (prompt: string, folder: string, autoEdit: boolean) =>
+    call<string>("claude_prompt", { prompt, folder, autoEdit }),
+  /** The microphone (dashboard/voice.rs): records until voiceStop. */
+  voiceStart: () => callOrThrow<void>("voice_start"),
+  /** Stops; with `transcribe`, what was said (Gemini, with the user's key). */
+  voiceStop: (transcribe: boolean) => callOrThrow<string>("voice_stop", { transcribe }),
+  /** What the chat's system prompt says about the PC for the next message. */
+  chatSetPcContext: (note: string, act: boolean) => call<void>("chat_set_pc_context", { note, act }),
 };
 
 export type SpotifyAction = "playPause" | "next" | "previous" | "seek" | "shuffle" | "repeat" | "volume";

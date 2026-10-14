@@ -80,7 +80,7 @@ export function isUrgent(title: string, at: number, keywords: readonly string[],
 
 /** A feed's name as a reader would say it: "Top Headlines | The Hindu" is "The Hindu". */
 export function feedName(title: string, url: string): string {
-  const parts = title.split(/\s+[|–—]\s+/).map((p) => p.trim()).filter(Boolean);
+  const parts = title.split(/\s+[-|–—]\s+/).map((p) => p.trim()).filter(Boolean);
   const name = parts.length > 1 ? parts[parts.length - 1] : title.trim();
   return name && name.length <= 32 ? name : host(url);
 }

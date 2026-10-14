@@ -23,11 +23,14 @@ import { Sound } from "../core/sound";
 import { State, dashboardPrefs } from "../core/state";
 import { mergeFeeds, parseFeed, storyKey } from "../news/news";
 import { parseUsage } from "../usage/usage";
+import type { BotEmoteName } from "../core/layout";
 
 export interface HubHost {
   revealSilently(): void;
   reveal(): void;
   alert(view: "overview"): void;
+  /** Mochi reacts: a focus round done, breaking news, a Claude job finished. */
+  emote(name: BotEmoteName): void;
 }
 
 const NEWS_EVERY_MS = 10 * 60_000;
@@ -76,13 +79,23 @@ export function registerHubHandlers(island: HubHost) {
     Hub.focus = f;
     State.notify();
   });
-  void onEvent<{ ended: string; next: string }>("focus-end", () => {
+  void onEvent<{ ended: string; next: string }>("focus-end", (e) => {
     if (State.paused) return;
     Sound.play("finish");
+    // Proud after a focus round, a yawn when a break is over.
+    island.emote(e.ended === "focus" ? "proud" : "yawn");
     if (declared(FOCUS_ID)) {
       State.setFocus(FOCUS_ID);
       if (State.mode === "hidden") island.reveal();
     }
+  });
+
+  // A Claude Code job (dashboard/jobs.rs) finished: Mochi says so.
+  void onEvent<{ id: string; ok: boolean; prompt: string }>("job-done", (d) => {
+    if (State.paused) return;
+    Sound.play(d.ok ? "finish" : "error");
+    if (State.mode === "hidden") island.reveal();
+    island.emote(d.ok ? "happy" : "annoyed");
   });
 
   // Ask once: the media thread and the timer may have spoken before this page listened.
@@ -145,6 +158,7 @@ export function registerHubHandlers(island: HubHost) {
       State.setFocus(NEWS_ID);
       Sound.play("question");
       island.alert("overview");
+      island.emote("surprised");
     }
     State.notify();
   };

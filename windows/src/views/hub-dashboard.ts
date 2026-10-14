@@ -6,7 +6,7 @@
 // It reads only while it is on screen (src/island/hub.ts); the clocks move
 // every second then, and nothing runs once it closes.
 
-import { h, svg, clear, dot } from "./dom";
+import { h, svg, dot } from "./dom";
 import { ICONS } from "./icons";
 import { Bridge } from "../core/bridge";
 import {
@@ -234,7 +234,23 @@ export function buildIslandDashboard(): ViewHost {
     });
   };
 
-  let key = "";
+  // Each tile is redrawn only when what it shows changed, so the grid never
+  // flashes; the tiles slide in only when the tab opens.
+  const shown: { key: string; el: HTMLElement }[] = [];
+  let wasOpen = false;
+  const round = (n: number | null | undefined, step = 1) => (n == null ? null : Math.round(n / step));
+  const tiles: [() => unknown, () => HTMLElement][] = [
+    [() => [Hub.media && { ...Hub.media, position: 0, positionAt: 0 }, hubArtwork() != null], musicTile],
+    [() => Hub.focus && { ...Hub.focus, leftMs: 0, endsAt: 0 }, focusTile],
+    [() => [State.planUsage?.fiveHour?.usedPct, State.planUsage?.sevenDay?.usedPct, Hub.claude?.hours.length], claudeTile],
+    [() => [round(Hub.stats?.cpu), round(Hub.stats?.tempC), round(Hub.stats?.uptimeSecs, 60)], cpuTile],
+    [() => [round(Hub.stats?.memUsed, 2 ** 26), Hub.stats?.memTotal, Hub.stats?.apps?.[0]?.name, round(Hub.stats?.apps?.[0]?.mem, 2 ** 26)], memoryTile],
+    [() => [round(Hub.stats?.diskFree, 2 ** 27), Hub.stats?.diskTotal], diskTile],
+    [() => [round(Hub.stats?.netDown, 256), round(Hub.stats?.netUp, 256), speed.running, speed.result], () => networkTile(speed, runSpeed)],
+    [() => Hub.news.slice(0, 3).map((n) => [n.title, n.urgent]), newsTile],
+    [() => [Hub.screen, dashboardPrefs(State.settings).screenTime], screenTile],
+    [() => [Hub.weather?.current, Hub.weather?.place, dashboardPrefs(State.settings).weatherCity], weatherTile],
+  ];
   const tick = () => {
     const now = Date.now();
     const d = new Date(now);
@@ -253,21 +269,23 @@ export function buildIslandDashboard(): ViewHost {
   return {
     el,
     sync() {
-      if (State.view !== "dashboard") return;
-      const k = JSON.stringify([
-        language(), Hub.stats && { ...Hub.stats, apps: Hub.stats.apps?.[0] ?? null }, Hub.media && { ...Hub.media, position: 0, positionAt: 0 },
-        hubArtwork() != null, Hub.focus && { ...Hub.focus, leftMs: 0, endsAt: 0 }, State.planUsage, Hub.claude?.hours.length,
-        Hub.screen, Hub.news.slice(0, 3).map((n) => n.title), Hub.weather?.current, speed, dashboardPrefs(State.settings).screenTime,
-      ]);
-      if (k !== key) {
-        key = k;
-        clear(grid);
-        grid.append(
-          musicTile(), focusTile(), claudeTile(),
-          cpuTile(), memoryTile(), diskTile(), networkTile(speed, runSpeed),
-          newsTile(), screenTile(), weatherTile(),
-        );
+      const open = State.view === "dashboard" && State.mode === "expanded";
+      if (open && !wasOpen) {
+        grid.classList.add("entering");
+        window.setTimeout(() => grid.classList.remove("entering"), 700);
       }
+      wasOpen = open;
+      if (State.view !== "dashboard") return;
+      const lang = language();
+      tiles.forEach(([keyOf, build], i) => {
+        const key = JSON.stringify([lang, keyOf()]);
+        if (shown[i]?.key === key) return;
+        const el = build();
+        el.style.setProperty("--i", String(i));
+        if (shown[i]) shown[i].el.replaceWith(el);
+        else grid.append(el);
+        shown[i] = { key, el };
+      });
       tick();
     },
   };

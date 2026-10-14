@@ -91,6 +91,7 @@ test("the same story twice shows once, breaking first then newest", () => {
 test("feeds are named the way a reader would say it", () => {
   assert.equal(feedName("India Latest News: Top National Headlines Today & Breaking News | The Hindu", "https://www.thehindu.com/x"), "The Hindu");
   assert.equal(feedName("BBC News", "https://feeds.bbci.co.uk/x"), "BBC News");
+  assert.equal(feedName("Top stories - Google News", "https://news.google.com/rss"), "Google News");
   assert.equal(feedName("A feed with a really very long name and no separator at all", "https://www.example.org/rss"), "example.org");
   assert.equal(feedName("", "https://www.example.org/rss"), "example.org");
 });

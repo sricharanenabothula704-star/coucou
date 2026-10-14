@@ -22,6 +22,7 @@ import { compactNumber, dailyTotals, parseUsage, totalTokens, type ClaudeUsage }
 import type { PlanUsage } from "../core/plan";
 import { ageMinutes, mergeFeeds, parseFeed, type Headline } from "../news/news";
 import { BotEngine } from "../mochi/engine";
+import type { ClaudeJob } from "../core/pc-context";
 import { resolveOutfit, parseOutfit } from "../mochi/wardrobe";
 import { h, clear } from "../views/dom";
 import {
@@ -54,6 +55,9 @@ const data = {
   speedError: false,
   claude: null as ClaudeUsage | null,
   plan: null as PlanUsage | null,
+  jobs: [] as ClaudeJob[],
+  /** Where `claude` is; null when it wasn't found, undefined before the first ask. */
+  claudeExe: undefined as string | null | undefined,
 };
 
 const root = document.getElementById("dashboard-root")!;
@@ -120,9 +124,9 @@ function sparkline(values: number[], color: string, max?: number, w = 220, hgt =
 }
 
 function bar(fraction: number, color: string): HTMLElement {
-  const fill = h("i", { style: `background:${color}` });
-  // Set after layout so the width animates in.
-  requestAnimationFrame(() => (fill.style.width = `${(Math.min(1, Math.max(0, fraction)) * 100).toFixed(1)}%`));
+  // At its width at once: a redrawn tile must not replay the bar filling up
+  // (the grid's entrance does that, once, in CSS).
+  const fill = h("i", { style: `background:${color};width:${(Math.min(1, Math.max(0, fraction)) * 100).toFixed(1)}%` });
   return h("div", { class: "bar" }, fill);
 }
 
@@ -201,9 +205,10 @@ const TITLES: Record<TileId, () => string> = {
   speed: () => t("Speed test"),
   actions: () => t("Quick actions"),
   listening: () => t("Music played"),
+  jobs: () => t("Claude jobs"),
 };
 
-const WIDE: ReadonlySet<TileId> = new Set(["music", "news", "screentime", "apps"]);
+const WIDE: ReadonlySet<TileId> = new Set(["music", "news", "screentime", "apps", "jobs"]);
 
 function shell(id: TileId, extra?: HTMLElement): { el: HTMLElement; body: HTMLElement; title: HTMLElement } {
   const title = h("span", { class: "tile-title", text: TITLES[id]() });
@@ -459,9 +464,13 @@ const memoryTile = () => gaugeTile("memory", (st) => {
 
 function diskTile(): Tile {
   const { el, body } = shell("disk");
+  let key = "";
   const render = () => {
     const st = data.stats;
     if (!st) return;
+    const k = JSON.stringify([Math.round(st.diskFree / 2 ** 27), st.diskTotal, language()]);
+    if (k === key) return;
+    key = k;
     clear(body);
     const used = st.diskTotal - st.diskFree;
     const f = ratio(used, st.diskTotal);
@@ -496,9 +505,13 @@ function networkTile(): Tile {
 
 function uptimeTile(): Tile {
   const { el, body } = shell("uptime");
+  let key = "";
   const render = () => {
     const st = data.stats;
     if (!st) return;
+    const k = JSON.stringify([Math.floor(st.uptimeSecs / 60), st.battery, language()]);
+    if (k === key) return;
+    key = k;
     clear(body);
     const since = new Date(Date.now() - st.uptimeSecs * 1000);
     body.append(
@@ -614,7 +627,7 @@ function newsTile(): Tile {
   const { el, body } = shell("news", refresh);
   let key = "";
   const render = () => {
-    const k = JSON.stringify([data.news.map((n) => n.title), data.newsError, Math.floor(Date.now() / 60000), language()]);
+    const k = JSON.stringify([data.news.map((n) => [n.title, n.urgent]), data.newsError, Math.floor(Date.now() / 300_000), language()]);
     if (k === key) return;
     key = k;
     clear(body);
@@ -790,7 +803,124 @@ function listeningTile(): Tile {
   return { id: "listening", el, body, render };
 }
 
+
+// Claude jobs ──────────────────────────────────────────────────────────────────
+
+const FOLDER_KEY = "coucou.jobFolder";
+
+function jobsTile(): Tile {
+  const { el, body } = shell("jobs");
+  const savedFolder = (() => {
+    try {
+      return window.localStorage?.getItem(FOLDER_KEY) ?? "";
+    } catch {
+      return "";
+    }
+  })();
+  const prompt = h("textarea", { class: "text job-prompt", rows: 2, placeholder: t("What should Claude Code do?") }) as HTMLTextAreaElement;
+  const folder = h("input", { class: "text", value: savedFolder, placeholder: t("Folder (e.g. C:\\Users\\you\\project)"), spellcheck: "false" }) as HTMLInputElement;
+  const when = h("select", { class: "text job-when" }) as HTMLSelectElement;
+  for (const [v, label] of [["now", t("Now")], ["once", t("Once")], ["daily", t("Every day")], ["weekdays", t("Weekdays")]]) {
+    when.append(h("option", { value: v, text: label }));
+  }
+  const now = new Date(Date.now() + 5 * 60_000);
+  const time = h("input", { class: "text job-time", type: "time", value: `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}` }) as HTMLInputElement;
+  const autoEdit = h("input", { type: "checkbox" }) as HTMLInputElement;
+  const go = h("button", { class: "pill-btn", text: t("Run now") }) as HTMLButtonElement;
+  const status = h("div", { class: "muted small" });
+  const list = h("div", { class: "job-list" });
+  const syncForm = () => {
+    time.style.display = when.value === "now" ? "none" : "";
+    go.textContent = when.value === "now" ? t("Run now") : t("Schedule");
+  };
+  when.onchange = syncForm;
+  syncForm();
+  go.onclick = async () => {
+    const p = prompt.value.trim();
+    if (!p) return prompt.focus();
+    const f = folder.value.trim();
+    try {
+      window.localStorage?.setItem(FOLDER_KEY, f);
+    } catch {
+      /* a convenience only */
+    }
+    go.disabled = true;
+    const ok = when.value === "now"
+      ? (await Bridge.claudePrompt(p, f, autoEdit.checked)) != null
+      : (await Bridge.jobSave({ id: "", prompt: p, folder: f, at: time.value, date: "", repeat: when.value as "once" | "daily" | "weekdays", enabled: true, autoEdit: autoEdit.checked })) != null;
+    go.disabled = false;
+    if (ok) {
+      prompt.value = "";
+      el.classList.add("sent");
+      window.setTimeout(() => el.classList.remove("sent"), 900);
+    }
+    status.textContent = ok ? "" : t("Couldn't add it.");
+    void loadJobs();
+  };
+  prompt.onkeydown = (e) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      go.click();
+    }
+  };
+  body.append(
+    h("div", { class: "job-form" },
+      prompt,
+      h("div", { class: "row" }, folder),
+      h("div", { class: "row" }, when, time, h("label", { class: "muted small check" }, autoEdit, t("Let it edit files")), h("span", { class: "spacer" }), go),
+    ),
+    status,
+    list,
+  );
+
+  let key = "";
+  const render = () => {
+    const k = JSON.stringify([data.jobs, data.claudeExe, language()]);
+    if (k === key) return;
+    key = k;
+    clear(list);
+    if (data.claudeExe === null) {
+      list.append(h("div", { class: "warn-line", text: t("Claude Code was not found. Install it, or add `claude` to your PATH.") }));
+    }
+    const jobs = [...data.jobs].sort((a, b) => Number(b.running) - Number(a.running) || (b.lastRun ?? 0) - (a.lastRun ?? 0));
+    for (const j of jobs.slice(0, 12)) {
+      const state = j.running ? "running" : j.lastOk === true ? "ok" : j.lastOk === false ? "failed" : "waiting";
+      const sched = j.enabled
+        ? `${j.at} · ${j.repeat === "once" ? (j.date || t("Once")) : j.repeat === "daily" ? t("Every day") : t("Weekdays")}`
+        : j.lastRun ? new Date(j.lastRun).toLocaleString(language(), { weekday: "short", hour: "2-digit", minute: "2-digit" }) : t("Off");
+      const row = h("details", { class: `job ${state}` },
+        h("summary", {},
+          h("span", { class: "job-dot" }),
+          h("span", { class: "job-text", text: j.prompt }),
+          h("span", { class: "job-meta", text: `${sched} · ${(j.folder || "~").split(/[\\/]/).pop()}` }),
+          h("span", { class: "job-actions" },
+            h("button", { class: "mini-btn", title: t("Run now"), disabled: j.running, onclick: (e: Event) => { e.preventDefault(); void Bridge.jobRun(j.id); } }, "▶"),
+            j.repeat !== "once" || j.enabled
+              ? h("button", { class: "mini-btn", text: j.enabled ? t("On") : t("Off"), onclick: (e: Event) => { e.preventDefault(); void Bridge.jobSave({ ...j, enabled: !j.enabled }).then(loadJobs); } })
+              : null,
+            confirmButton("✕", t("Sure?"), "mini-btn", () => void Bridge.jobDelete(j.id).then(loadJobs)),
+          ),
+        ),
+        j.lastOutput ? h("pre", { class: "job-output", text: j.lastOutput }) : h("div", { class: "muted small", text: j.running ? t("Claude Code is working…") : t("Not run yet") }),
+      );
+      list.append(row);
+    }
+    if (!jobs.length && data.claudeExe !== null) list.append(h("div", { class: "muted small", text: t("Give Claude Code a job now, or for later — it runs in that folder and its answer shows here.") }));
+  };
+  return { id: "jobs", el, body, render };
+}
+
+async function loadJobs() {
+  const r = await Bridge.jobsList();
+  if (r) {
+    data.jobs = r.jobs;
+    data.claudeExe = r.claude;
+  }
+  tiles.get("jobs")?.render();
+}
+
 const BUILDERS: Record<TileId, () => Tile> = {
+  jobs: jobsTile,
   music: musicTile, focus: focusTile, claude: claudeTile, cpu: cpuTile, memory: memoryTile, disk: diskTile,
   network: networkTile, uptime: uptimeTile, screentime: screenTile, apps: appsTile, news: newsTile,
   weather: weatherTile, speed: speedTile, actions: actionsTile, listening: listeningTile,
@@ -911,6 +1041,16 @@ function tintFromCover(dataUrl: string | null) {
 let tiles = new Map<TileId, Tile>();
 const grid = h("main", { class: "grid" });
 
+/** Tiles rise and bars grow — once, while the window is on screen. */
+let entranceTimer = 0;
+function enter() {
+  window.clearTimeout(entranceTimer);
+  grid.classList.remove("entering");
+  void grid.offsetWidth; // restart the animations
+  grid.classList.add("entering");
+  entranceTimer = window.setTimeout(() => grid.classList.remove("entering"), 1400);
+}
+
 function build() {
   clear(root);
   tiles = new Map();
@@ -922,6 +1062,7 @@ function build() {
     grid.append(tile.el);
   }
   root.append(h("div", { class: "backdrop" }, h("i"), h("i"), h("i")), header(), grid);
+  if (document.visibilityState === "visible") enter();
   // Staggered entrance.
   [...grid.children].forEach((el, i) => (el as HTMLElement).style.setProperty("--i", String(i)));
   renderAll();
@@ -1047,12 +1188,14 @@ let frame = 0;
 
 function start() {
   if (timers.length) return;
+  enter();
   void sampleSystem(true);
   void loadScreen();
   void loadNews();
   void loadWeather(false);
   void loadClaude();
   void loadMedia();
+  void loadJobs();
   void Bridge.focusGet().then((f) => f && ((data.focus = f), tiles.get("focus")?.render()));
   timers.push(
     window.setInterval(() => void sampleSystem(), 2000),
@@ -1124,6 +1267,11 @@ async function main() {
     syncMood();
   });
   void onEvent<unknown>("focus-end", () => engine.triggerEmote("proud", 1.6));
+  void onEvent<ClaudeJob[]>("job", (jobs) => {
+    data.jobs = jobs;
+    tiles.get("jobs")?.render();
+  });
+  void onEvent<{ ok: boolean }>("job-done", (d) => engine.triggerEmote(d.ok ? "happy" : "annoyed", 1.6));
   // The island keeps the plan numbers; another window writing them reaches here.
   window.addEventListener("storage", (e) => e.key === "coucou.claudePlanUsage" && void loadClaude());
   document.addEventListener("visibilitychange", syncVisibility);

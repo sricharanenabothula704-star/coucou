@@ -257,6 +257,7 @@ const NOT_TEXT = new Set([
   "finished", // a task state and a pill badge
   "unknown", // a CI state
   "Resend", // the service's name (the Mac's "Resend" is a button: send again)
+  "now", // when a Claude Code job the chat proposed runs: { when: "now" }
 ]);
 
 test("no known user-facing English literal outside t() in the views and settings", () => {

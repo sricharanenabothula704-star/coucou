@@ -12,7 +12,9 @@
 // and only when a page asks.
 
 pub mod focus;
+pub mod jobs;
 pub mod media;
+pub mod voice;
 pub mod screentime;
 pub mod system;
 
@@ -45,6 +47,11 @@ pub struct DashboardPrefs {
     pub system_alerts: bool,
     /// Tile ids in the user's order; unknown ones are ignored, missing ones appended.
     pub tiles: Vec<String>,
+    /// The chat gets a snapshot of the PC (what the dashboard shows) with each message.
+    pub share_with_chat: bool,
+    /// The chat may play music, run the focus timer, open the dashboard and
+    /// propose Claude Code jobs (which wait for a click).
+    pub let_chat_act: bool,
 }
 
 impl Default for DashboardPrefs {
@@ -68,6 +75,8 @@ impl Default for DashboardPrefs {
             speed_test_url: "https://speed.cloudflare.com".into(),
             system_alerts: true,
             tiles: Vec::new(),
+            share_with_chat: true,
+            let_chat_act: true,
         }
     }
 }
@@ -76,6 +85,7 @@ impl Default for DashboardPrefs {
 
 pub fn setup(app: &AppHandle, prefs: &DashboardPrefs) {
     create_window(app);
+    jobs::setup(app);
     focus::setup(app, prefs.focus);
     screentime::sync(prefs.screen_time);
 }

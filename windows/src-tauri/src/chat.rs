@@ -115,7 +115,64 @@ impl Chat {
 /// has one worth using (identity.rs), and only claims web search where the
 /// provider runs it (Claude).
 pub fn system_prompt(web_search: bool) -> String {
-    system_prompt_for(crate::identity::first_name(), web_search)
+    let mut prompt = system_prompt_for(crate::identity::first_name(), web_search);
+    let pc = PC.lock().unwrap_or_else(|e| e.into_inner()).clone();
+    prompt.push_str(&pc_section(&pc.note, pc.act));
+    prompt
+}
+
+// ── The PC, as the dashboard sees it ──────────────────────────────────────────
+
+/// What the island read of the PC just before the message was sent (Settings →
+/// Dashboard → "Let the chat see my PC"), and whether the chat may act on it.
+#[derive(Clone, Default)]
+struct PcContext {
+    note: String,
+    act: bool,
+}
+
+static PC: Mutex<PcContext> = Mutex::new(PcContext { note: String::new(), act: false });
+const MAX_NOTE: usize = 6000;
+
+/// Set by the island before each message: the PC as it is now ("" to share nothing).
+#[tauri::command]
+pub fn chat_set_pc_context(note: String, act: bool) {
+    let mut note = note;
+    if note.len() > MAX_NOTE {
+        let mut end = MAX_NOTE;
+        while !note.is_char_boundary(end) {
+            end -= 1;
+        }
+        note.truncate(end);
+    }
+    *PC.lock().unwrap_or_else(|e| e.into_inner()) = PcContext { note, act };
+}
+
+/// The part of the prompt about the PC: what Coucou reads, and the actions the
+/// island carries out from the answer (`[[coucou: …]]` lines; Claude jobs wait for a click).
+pub fn pc_section(note: &str, act: bool) -> String {
+    let mut out = String::new();
+    if !note.trim().is_empty() {
+        out.push_str(
+            "\n\nWhat Coucou reads on the user's PC right now (use it whenever they ask about their computer, apps, \
+music, focus timer, screen time, news, weather, Claude usage or scheduled Claude jobs; it is a snapshot, so say \
+'right now'):\n",
+        );
+        out.push_str(note.trim());
+    }
+    if act {
+        out.push_str(
+            "\n\nYou can also act on the PC through Coucou. When — and only when — the user asks you to do one of \
+these, add the matching line at the very end of your reply, exactly as written, one per line:\n\
+[[coucou: media playPause]] · [[coucou: media next]] · [[coucou: media previous]] · [[coucou: media volume 40]]\n\
+[[coucou: focus start]] · [[coucou: focus pause]] · [[coucou: focus skip]] · [[coucou: focus reset]]\n\
+[[coucou: dashboard]] (opens the dashboard) · [[coucou: speedtest]]\n\
+[[coucou: claude now | C:\\path\\to\\folder | the prompt for Claude Code]] (runs Claude Code in that folder now)\n\
+[[coucou: claude at 18:30 daily | C:\\path\\to\\folder | the prompt]] (schedules it: once, daily or weekdays)\n\
+Claude Code jobs are shown to the user to confirm before they run. Say in plain words what you did.",
+        );
+    }
+    out
 }
 
 fn system_prompt_for(first_name: Option<&str>, web_search: bool) -> String {
@@ -328,6 +385,20 @@ mod tests {
         let _other = chat.begin("google");
         chat.commit(&t, json!({"role":"user","content":"q"}), json!({"role":"assistant","content":"a"}), "q", "a");
         assert!(chat.begin("google").first);
+    }
+
+    #[test]
+    fn the_pc_is_only_in_the_prompt_when_shared_and_actions_only_when_allowed() {
+        assert_eq!(pc_section("", false), "");
+        let seen = pc_section("CPU 12%", false);
+        assert!(seen.contains("CPU 12%"));
+        assert!(!seen.contains("[[coucou:"));
+        let both = pc_section("CPU 12%", true);
+        assert!(both.contains("[[coucou: media playPause]]"));
+        assert!(both.contains("confirm"));
+        chat_set_pc_context("x".repeat(MAX_NOTE + 10), false);
+        assert_eq!(PC.lock().unwrap().note.len(), MAX_NOTE);
+        chat_set_pc_context(String::new(), false);
     }
 
     #[test]

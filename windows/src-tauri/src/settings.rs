@@ -466,7 +466,9 @@ mod tests {
     "weatherCity": "Hyderabad",
     "speedTestUrl": "https://speed.example.com",
     "systemAlerts": false,
-    "tiles": ["music", "focus"]
+    "tiles": ["music", "focus"],
+    "shareWithChat": false,
+    "letChatAct": false
   }
 }"##;
 

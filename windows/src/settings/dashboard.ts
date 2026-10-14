@@ -60,6 +60,11 @@ export function dashboardSection(
       h("div", { class: "hint", text: t("Your PC, music, focus timer, screen time, news and weather in one window. It reads nothing while it is closed.") }),
       h("div", { class: "row" }, h("button", { text: t("Open dashboard"), onclick: () => void Bridge.openDashboard() })),
 
+      h("h3", { class: "sub", text: t("Chat") }),
+      h("div", { class: "hint", text: t("With each message, the chat gets what this dashboard reads right now: CPU, memory, apps, music, focus, screen time, headlines and Claude jobs. It goes to the AI you chat with.") }),
+      h("div", { class: "row" }, h("label", { text: t("Let the chat see my PC") }), toggle(p.shareWithChat, (on) => set({ shareWithChat: on }))),
+      h("div", { class: "row" }, h("label", { text: t("Let the chat play music, run the focus timer and propose Claude Code jobs") }), toggle(p.letChatAct, (on) => set({ letChatAct: on }))),
+
       h("h3", { class: "sub", text: t("Screen time") }),
       h("div", { class: "hint", text: t("Notes which app is in front every 5 seconds. Only app names and times are kept, on this PC, for 30 days.") }),
       h("div", { class: "row" }, h("label", { text: t("Track screen time") }), toggle(p.screenTime, (on) => set({ screenTime: on })), clearButton),

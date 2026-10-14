@@ -802,6 +802,14 @@ pub fn run() {
             dashboard::screentime::screentime_clear,
             dashboard::focus::focus_get,
             dashboard::focus::focus_command,
+            dashboard::jobs::jobs_list,
+            dashboard::jobs::job_save,
+            dashboard::jobs::job_delete,
+            dashboard::jobs::job_run,
+            dashboard::jobs::claude_prompt,
+            dashboard::voice::voice_start,
+            dashboard::voice::voice_stop,
+            chat::chat_set_pc_context,
         ])
         .setup(move |app| {
             let handle = app.handle().clone();

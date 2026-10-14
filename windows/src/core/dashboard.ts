@@ -148,6 +148,10 @@ export interface DashboardPrefs {
   speedTestUrl: string;
   systemAlerts: boolean;
   tiles: string[];
+  /** The chat gets a snapshot of the PC with each message. */
+  shareWithChat: boolean;
+  /** The chat may play music, run the focus timer, and propose Claude Code jobs. */
+  letChatAct: boolean;
 }
 
 export const DEFAULT_DASHBOARD: DashboardPrefs = {
@@ -167,6 +171,8 @@ export const DEFAULT_DASHBOARD: DashboardPrefs = {
   speedTestUrl: "https://speed.cloudflare.com",
   systemAlerts: true,
   tiles: [],
+  shareWithChat: true,
+  letChatAct: true,
 };
 
 // ── Formatting ────────────────────────────────────────────────────────────────
@@ -400,7 +406,7 @@ export function weatherInfo(code: number, day = true): { icon: string; label: st
 // ── Tiles ─────────────────────────────────────────────────────────────────────
 
 export const TILE_IDS = [
-  "music", "focus", "claude", "cpu", "memory", "disk", "network", "uptime",
+  "music", "jobs", "focus", "claude", "cpu", "memory", "disk", "network", "uptime",
   "screentime", "apps", "news", "weather", "speed", "actions", "listening",
 ] as const;
 export type TileId = (typeof TILE_IDS)[number];
