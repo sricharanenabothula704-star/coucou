@@ -100,6 +100,8 @@ pub struct Settings {
     pub phone_relay: bool,
     /// The relay's address (`wss://…`), empty until the user enters it. Not a secret. Owned by Rust.
     pub phone_relay_url: String,
+    /// The dashboard window and its pills (dashboard/mod.rs): screen time, focus, news, weather.
+    pub dashboard: crate::dashboard::DashboardPrefs,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
@@ -166,6 +168,7 @@ impl Default for Settings {
             phone_services: Vec::new(),
             phone_relay: false,
             phone_relay_url: String::new(),
+            dashboard: crate::dashboard::DashboardPrefs::default(),
         }
     }
 }
@@ -453,7 +456,18 @@ mod tests {
   "phoneUsage": true,
   "phoneServices": ["integration_stripe"],
   "phoneRelay": true,
-  "phoneRelayUrl": "wss://relay.example.workers.dev"
+  "phoneRelayUrl": "wss://relay.example.workers.dev",
+  "dashboard": {
+    "screenTime": true,
+    "focus": { "focusMin": 50, "shortMin": 10, "longMin": 20, "rounds": 3, "autoAdvance": false, "autoStart": false, "idlePause": false },
+    "newsFeeds": ["https://example.com/feed.xml"],
+    "newsKeywords": ["breaking"],
+    "newsAlerts": false,
+    "weatherCity": "Hyderabad",
+    "speedTestUrl": "https://speed.example.com",
+    "systemAlerts": false,
+    "tiles": ["music", "focus"]
+  }
 }"##;
 
     fn custom() -> Value {
@@ -962,6 +976,7 @@ mod tests {
                 "phoneServices",
                 "phoneRelay",
                 "phoneRelayUrl",
+                "dashboard",
             ]
         );
         let _ = std::fs::remove_dir_all(&dir);

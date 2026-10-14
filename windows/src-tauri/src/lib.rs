@@ -7,6 +7,7 @@ mod claude;
 mod claude_usage;
 mod codex_plan;
 mod config_file;
+mod dashboard;
 mod desktop;
 mod files;
 mod github;
@@ -125,6 +126,7 @@ fn save_settings(app: AppHandle, shared: State<Shared>, settings: Settings) {
     }
     integrations::settings_saved(&app, &settings.active_integrations);
     spotify::sync(&app, &settings.active_integrations);
+    dashboard::settings_saved(&settings.dashboard);
     if shortcuts_changed {
         shortcuts::apply(&app, &settings.shortcuts);
     }
@@ -786,6 +788,20 @@ pub fn run() {
             spotify::spotify_control,
             spotify::spotify_open,
             spotify::spotify_installed,
+            dashboard::open_dashboard,
+            dashboard::news_fetch,
+            dashboard::weather_fetch,
+            dashboard::speed_test,
+            dashboard::quick_action,
+            dashboard::system::system_stats,
+            dashboard::system::system_end_app,
+            dashboard::media::media_refresh,
+            dashboard::media::media_control,
+            dashboard::media::media_plays,
+            dashboard::screentime::screentime_get,
+            dashboard::screentime::screentime_clear,
+            dashboard::focus::focus_get,
+            dashboard::focus::focus_command,
         ])
         .setup(move |app| {
             let handle = app.handle().clone();
@@ -793,8 +809,9 @@ pub fn run() {
             tray::build(&handle)?;
             // Before the island: see create_settings_window.
             create_settings_window(&handle);
-            // Same rule for Mochi's desktop window.
+            // Same rule for Mochi's desktop window and the dashboard.
             desktop::setup(&handle);
+            dashboard::setup(&handle, &loaded.dashboard);
 
             if let Some(win) = island::window(&handle) {
                 // Where Tauri takes the drop itself (Linux), its paths are the
