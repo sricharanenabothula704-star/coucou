@@ -1120,6 +1120,15 @@ function shortcutsSection(initial: ShortcutsReport | null): HTMLElement {
 
   function draw() {
     clear(list);
+    // Not a global shortcut (only modifiers): watched apart, see tap.rs.
+    list.append(h("div", { class: settings.ctrlShiftTap ? "row shortcut" : "row shortcut off" },
+      toggle(settings.ctrlShiftTap ?? false, (on) => {
+        settings.ctrlShiftTap = on;
+        void save().then(draw);
+      }),
+      h("span", { class: "shortcut-name", text: t("Tap Ctrl+Shift to open or close the island") }),
+      h("span", { class: "keycap", text: "Ctrl + Shift" }),
+    ));
     const dups = duplicates(activeKeys(settings.shortcuts));
     for (const d of SHORTCUTS) {
       if (!d.ported) continue;

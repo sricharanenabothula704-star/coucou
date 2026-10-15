@@ -61,6 +61,7 @@ windows = { version = "0.61", features = [
   "Win32_NetworkManagement_Ndis",
   "Win32_Storage_FileSystem",
   "Win32_System_Com",
+  "Win32_System_LibraryLoader",
   "Win32_System_Com_StructuredStorage",
   "Win32_System_Variant",
   "Win32_System_Performance",

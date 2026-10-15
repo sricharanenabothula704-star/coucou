@@ -168,6 +168,8 @@ export interface Settings {
   };
   /** The dashboard and its pills; read it through dashboardPrefs(). */
   dashboard?: Partial<DashboardPrefs>;
+  /** Tap Ctrl+Shift (nothing else in between) to open or close the island. */
+  ctrlShiftTap?: boolean;
 }
 
 /** The dashboard's preferences with every default filled in. */

@@ -5598,5 +5598,16 @@
    "pt-BR": "Agendada",
    "ru": "Запланировано",
    "id": "Terjadwal"
+  },
+  "Tap Ctrl+Shift to open or close the island": {
+   "zh-Hans": "轻按 Ctrl+Shift 打开或关闭浮岛",
+   "hi": "आइलैंड खोलने या बंद करने के लिए Ctrl+Shift दबाएँ",
+   "es": "Pulsa Ctrl+Shift para abrir o cerrar la isla",
+   "ar": "اضغط Ctrl+Shift لفتح الجزيرة أو إغلاقها",
+   "fr": "Appuyer sur Ctrl+Maj pour ouvrir ou fermer l'îlot",
+   "bn": "আইল্যান্ড খুলতে বা বন্ধ করতে Ctrl+Shift চাপুন",
+   "pt-BR": "Toque Ctrl+Shift para abrir ou fechar a ilha",
+   "ru": "Нажмите Ctrl+Shift, чтобы открыть или закрыть остров",
+   "id": "Tekan Ctrl+Shift untuk membuka atau menutup pulau"
   } }
 }

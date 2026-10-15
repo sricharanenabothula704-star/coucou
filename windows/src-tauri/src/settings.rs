@@ -102,6 +102,8 @@ pub struct Settings {
     pub phone_relay_url: String,
     /// The dashboard window and its pills (dashboard/mod.rs): screen time, focus, news, weather.
     pub dashboard: crate::dashboard::DashboardPrefs,
+    /// Tap Ctrl+Shift (nothing else in between) to open or close the island (tap.rs). Off by default.
+    pub ctrl_shift_tap: bool,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
@@ -169,6 +171,7 @@ impl Default for Settings {
             phone_relay: false,
             phone_relay_url: String::new(),
             dashboard: crate::dashboard::DashboardPrefs::default(),
+            ctrl_shift_tap: false,
         }
     }
 }
@@ -469,7 +472,8 @@ mod tests {
     "tiles": ["music", "focus"],
     "shareWithChat": false,
     "letChatAct": false
-  }
+  },
+  "ctrlShiftTap": true
 }"##;
 
     fn custom() -> Value {
@@ -979,6 +983,7 @@ mod tests {
                 "phoneRelay",
                 "phoneRelayUrl",
                 "dashboard",
+                "ctrlShiftTap",
             ]
         );
         let _ = std::fs::remove_dir_all(&dir);

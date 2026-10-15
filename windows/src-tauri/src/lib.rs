@@ -31,6 +31,7 @@ mod session_window;
 mod settings;
 mod shortcuts;
 mod sounds;
+mod tap;
 mod spotify;
 mod tray;
 #[cfg(windows)]
@@ -127,6 +128,7 @@ fn save_settings(app: AppHandle, shared: State<Shared>, settings: Settings) {
     integrations::settings_saved(&app, &settings.active_integrations);
     spotify::sync(&app, &settings.active_integrations);
     dashboard::settings_saved(&settings.dashboard);
+    tap::sync(&app, settings.ctrl_shift_tap);
     if shortcuts_changed {
         shortcuts::apply(&app, &settings.shortcuts);
     }
@@ -820,6 +822,7 @@ pub fn run() {
             // Same rule for Mochi's desktop window and the dashboard.
             desktop::setup(&handle);
             dashboard::setup(&handle, &loaded.dashboard);
+            tap::sync(&handle, loaded.ctrl_shift_tap);
 
             if let Some(win) = island::window(&handle) {
                 // Where Tauri takes the drop itself (Linux), its paths are the
