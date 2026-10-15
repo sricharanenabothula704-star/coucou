@@ -152,6 +152,8 @@ export interface DashboardPrefs {
   shareWithChat: boolean;
   /** The chat may play music, run the focus timer, and propose Claude Code jobs. */
   letChatAct: boolean;
+  /** Keep the last 30 texts copied (memory only). */
+  clipboardHistory: boolean;
 }
 
 export const DEFAULT_DASHBOARD: DashboardPrefs = {
@@ -173,6 +175,7 @@ export const DEFAULT_DASHBOARD: DashboardPrefs = {
   tiles: [],
   shareWithChat: true,
   letChatAct: true,
+  clipboardHistory: false,
 };
 
 // ── Formatting ────────────────────────────────────────────────────────────────
@@ -403,6 +406,42 @@ export function weatherInfo(code: number, day = true): { icon: string; label: st
   return { icon: "🌡️", label: N_("Weather") };
 }
 
+// ── Keep awake, clipboard, privacy ───────────────────────────────────────────────
+
+export interface AwakeState {
+  on: boolean;
+  forever: boolean;
+  leftMs: number;
+}
+
+export interface ClipEntry {
+  id: number;
+  text: string;
+  at: number;
+}
+
+export interface InUse {
+  kind: "microphone" | "webcam";
+  app: string;
+}
+
+/** One line of a copied text, cut for a list. */
+export function clipPreview(text: string, max = 90): string {
+  const line = text.replace(/\s+/g, " ").trim();
+  return line.length > max ? `${line.slice(0, max - 1)}…` : line;
+}
+
+/** "chrome.exe" → "Chrome" for the chips; packaged apps keep their short name. */
+export function privacyLabel(i: InUse): string {
+  const app = appName(i.app);
+  return `${i.kind === "microphone" ? "🎤" : "📷"} ${app.replace(/^Microsoft\./, "")}`;
+}
+
+/** Low battery that deserves a warning: not charging, at or under 15 %. */
+export function batteryLow(b: SystemStats["battery"]): boolean {
+  return !!b && !b.charging && b.percent <= 15;
+}
+
 // ── Cleanup ───────────────────────────────────────────────────────────────────
 
 export interface CleanupItem {
@@ -426,7 +465,7 @@ export function cleanupTotal(items: readonly CleanupItem[], picked: ReadonlySet<
 // ── Tiles ─────────────────────────────────────────────────────────────────────
 
 export const TILE_IDS = [
-  "music", "jobs", "focus", "cleanup", "claude", "cpu", "memory", "disk", "network", "uptime",
+  "music", "jobs", "focus", "cleanup", "awake", "clipboard", "notes", "claude", "cpu", "memory", "disk", "network", "uptime",
   "screentime", "apps", "news", "weather", "speed", "actions", "listening",
 ] as const;
 export type TileId = (typeof TILE_IDS)[number];

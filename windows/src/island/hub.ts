@@ -14,7 +14,7 @@
 
 import { Bridge, onEvent } from "../core/bridge";
 import {
-  FOCUS_ID, NEWS_ID, NOWPLAYING_ID, SCREENTIME_ID, SYSTEM_ID, diskLow, ratio,
+  FOCUS_ID, NEWS_ID, NOWPLAYING_ID, SCREENTIME_ID, SYSTEM_ID, batteryLow, diskLow, ratio,
   type FocusState, type MediaState,
 } from "../core/dashboard";
 import { Hub } from "../core/hub";
@@ -115,7 +115,7 @@ export function registerHubHandlers(island: HubHost) {
   let wasDash = false;
   const seenUrgent = new Set<string>();
   let newsPrimed = false;
-  const raised = { mem: false, disk: false, temp: false };
+  const raised = { mem: false, disk: false, temp: false, battery: false };
 
   const readSystem = async (detail: boolean) => {
     const st = await Bridge.systemStats(detail);
@@ -131,11 +131,13 @@ export function registerHubHandlers(island: HubHost) {
     const mem = ratio(st.memUsed, st.memTotal) >= 0.92;
     const disk = diskLow(st);
     const temp = (st.tempC ?? 0) >= 90;
-    const fresh = (mem && !raised.mem) || (disk && !raised.disk) || (temp && !raised.temp);
+    const battery = batteryLow(st.battery);
+    const fresh = (mem && !raised.mem) || (disk && !raised.disk) || (temp && !raised.temp) || (battery && !raised.battery);
     // Once per episode: it must come back down before it warns again.
     raised.mem = mem;
     raised.disk = disk;
     raised.temp = temp;
+    raised.battery = battery;
     if (fresh) {
       State.setFocus(SYSTEM_ID);
       island.alert("overview");

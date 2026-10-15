@@ -14,7 +14,7 @@ import {
   DEFAULT_DASHBOARD, PHASE_COLOR, cleanupDefault, cleanupTotal, appColor, appName, diskLow, focusLeft, focusProgress,
   formatBytes, formatClock, formatDuration, formatRate, level, listeningSummary, mediaPosition, mochiMood,
   moveTile, phaseLabel, ratio, tempLevel, tileOrder, topApps, week, weatherInfo,
-  type CleanupItem, type DashboardPrefs, type FocusState, type MediaState, type Play, type ScreenTime, type SpeedResult,
+  clipPreview, privacyLabel, type AwakeState, type CleanupItem, type ClipEntry, type DashboardPrefs, type InUse, type FocusState, type MediaState, type Play, type ScreenTime, type SpeedResult,
   type SystemStats, type TileId, type Weather,
 } from "../core/dashboard";
 import { DEFAULT_SETTINGS, dashboardPrefs, type Settings } from "../core/state";
@@ -56,6 +56,9 @@ const data = {
   claude: null as ClaudeUsage | null,
   plan: null as PlanUsage | null,
   jobs: [] as ClaudeJob[],
+  awake: null as AwakeState | null,
+  clips: [] as ClipEntry[],
+  inUse: [] as InUse[],
   /** Where `claude` is; null when it wasn't found, undefined before the first ask. */
   claudeExe: undefined as string | null | undefined,
 };
@@ -207,6 +210,9 @@ const TITLES: Record<TileId, () => string> = {
   listening: () => t("Music played"),
   jobs: () => t("Claude jobs"),
   cleanup: () => t("PC cleanup"),
+  awake: () => t("Keep awake"),
+  clipboard: () => t("Clipboard"),
+  notes: () => t("Notes"),
 };
 
 const WIDE: ReadonlySet<TileId> = new Set(["music", "news", "screentime", "apps", "jobs", "cleanup"]);
@@ -1018,7 +1024,113 @@ function cleanupTile(): Tile {
   return { id: "cleanup", el, body, render };
 }
 
+
+// Keep awake ───────────────────────────────────────────────────────────────────
+
+function awakeTile(): Tile {
+  const { el, body } = shell("awake");
+  let state: AwakeState | null = null;
+  let endsAt = 0;
+  const status = h("div", { class: "big-number" });
+  const sub = h("div", { class: "muted small" });
+  const row = h("div", { class: "awake-btns" });
+
+  const apply = (s: AwakeState | null) => {
+    if (!s) return;
+    state = s;
+    endsAt = s.on && !s.forever ? Date.now() + s.leftMs : 0;
+    data.awake = s;
+    render();
+  };
+  const set = (minutes: number, forever = false) => void Bridge.awakeSet(minutes, forever).then(apply);
+
+  const choice = (label: string, minutes: number, forever = false) =>
+    h("button", { class: "mini-btn wide-mini", text: label, onclick: () => set(minutes, forever) });
+  row.append(choice(t("30 min"), 30), choice(t("1 h"), 60), choice(t("3 h"), 180), choice(t("Until I stop it"), 0, true));
+  body.append(status, sub, row);
+
+  const render = () => {
+    const on = !!state?.on;
+    el.classList.toggle("awake-on", on);
+    status.textContent = !on ? t("Off") : state?.forever ? t("Awake") : formatDuration(Math.max(0, endsAt - Date.now()) / 1000);
+    sub.textContent = on ? t("Your PC won't sleep.") : t("Let your PC sleep as usual.");
+    if (on && !row.querySelector(".stop")) row.append(h("button", { class: "mini-btn wide-mini stop", text: t("Stop"), onclick: () => set(0) }));
+    if (!on) row.querySelector(".stop")?.remove();
+  };
+  return { id: "awake", el, body, render, tick: () => state?.on && !state.forever && render() };
+}
+
+// Clipboard ────────────────────────────────────────────────────────────────────
+
+function clipboardTile(): Tile {
+  const { el, body } = shell("clipboard");
+  let key = "";
+  let flash = 0;
+  const render = () => {
+    const k = JSON.stringify([prefs.clipboardHistory, data.clips.map((c) => c.id), flash, language()]);
+    if (k === key) return;
+    key = k;
+    clear(body);
+    if (!prefs.clipboardHistory) {
+      body.append(empty(t("Keep the last 30 texts you copy, to pick one up again. Kept in memory only, never saved."),
+        h("button", { class: "pill-btn", text: t("Turn on"), onclick: () => {
+          prefs = { ...prefs, clipboardHistory: true };
+          void save().then(() => window.setTimeout(loadClips, 400));
+        } })));
+      return;
+    }
+    if (data.clips.length === 0) {
+      body.append(empty(t("Copy some text and it shows up here.")));
+      return;
+    }
+    const list = h("div", { class: "clip-list" });
+    for (const c of data.clips.slice(0, 12)) {
+      list.append(h("button", { class: `clip${flash === c.id ? " copied" : ""}`, title: c.text.slice(0, 400), onclick: () => {
+        void Bridge.clipboardCopy(c.id).then((ok) => {
+          if (!ok) return;
+          flash = c.id;
+          render();
+          window.setTimeout(() => { flash = 0; render(); }, 900);
+        });
+      } }, h("span", { text: clipPreview(c.text) }), h("i", { text: flash === c.id ? t("Copied") : t("Copy") })));
+    }
+    body.append(list, h("button", { class: "mini-btn", text: t("Clear"), onclick: () => void Bridge.clipboardClear().then(loadClips) }));
+  };
+  return { id: "clipboard", el, body, render };
+}
+
+async function loadClips() {
+  if (!prefs.clipboardHistory) {
+    data.clips = [];
+  } else {
+    data.clips = (await Bridge.clipboardList()) ?? data.clips;
+  }
+  tiles.get("clipboard")?.render();
+}
+
+// Notes ────────────────────────────────────────────────────────────────────────
+
+function notesTile(): Tile {
+  const { el, body } = shell("notes");
+  const area = h("textarea", { class: "text notes-area", placeholder: t("Jot something down…"), spellcheck: "false" }) as HTMLTextAreaElement;
+  const saved = h("span", { class: "muted small" });
+  let timer = 0;
+  area.oninput = () => {
+    saved.textContent = "";
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => void Bridge.notesSet(area.value).then((ok) => (saved.textContent = ok ? t("Saved") : "")), 600);
+  };
+  body.append(area, saved);
+  void Bridge.notesGet().then((text) => {
+    if (text != null && document.activeElement !== area) area.value = text;
+  });
+  return { id: "notes", el, body, render: () => {} };
+}
+
 const BUILDERS: Record<TileId, () => Tile> = {
+  awake: awakeTile,
+  clipboard: clipboardTile,
+  notes: notesTile,
   cleanup: cleanupTile,
   jobs: jobsTile,
   music: musicTile, focus: focusTile, claude: claudeTile, cpu: cpuTile, memory: memoryTile, disk: diskTile,
@@ -1063,6 +1175,7 @@ function renderHeader(now: Date) {
     chips.append(chip(`RAM ${Math.round(ratio(st.memUsed, st.memTotal) * 100)}%`, level(ratio(st.memUsed, st.memTotal), 0.8, 0.92)));
     if (st.tempC != null) chips.append(chip(`${Math.round(st.tempC)} °C`, tempLevel(st.tempC)));
   }
+  for (const u of data.inUse) chips.append(chip(privacyLabel(u), "hot live"));
   if (data.focus && data.focus.phase !== "idle") chips.append(chip(`${phaseLabel(data.focus.phase)} ${formatClock(focusLeft(data.focus, now.getTime()))}`, "focus"));
 }
 
@@ -1219,6 +1332,14 @@ async function sampleSystem(detail = systemTick % 3 === 0) {
     arr.push(v);
     if (arr.length > HISTORY) arr.shift();
   };
+  void Bridge.privacyInUse().then((list) => {
+    const next = list ?? [];
+    if (JSON.stringify(next) !== JSON.stringify(data.inUse)) {
+      data.inUse = next;
+      renderHeader(new Date());
+    }
+  });
+  void loadClips();
   push(data.cpu, st.cpu);
   push(data.down, st.netDown);
   push(data.up, st.netUp);
@@ -1296,6 +1417,7 @@ function start() {
   void loadClaude();
   void loadMedia();
   void loadJobs();
+  void Bridge.awakeGet().then((s) => s && tiles.get("awake") && ((data.awake = s), tiles.get("awake")?.render()));
   void Bridge.focusGet().then((f) => f && ((data.focus = f), tiles.get("focus")?.render()));
   timers.push(
     window.setInterval(() => void sampleSystem(), 2000),
@@ -1367,6 +1489,10 @@ async function main() {
     syncMood();
   });
   void onEvent<unknown>("focus-end", () => engine.triggerEmote("proud", 1.6));
+  void onEvent<AwakeState>("awake", (s) => {
+    data.awake = s;
+    void Bridge.awakeGet().then(() => tiles.get("awake")?.render());
+  });
   void onEvent<ClaudeJob[]>("job", (jobs) => {
     data.jobs = jobs;
     tiles.get("jobs")?.render();

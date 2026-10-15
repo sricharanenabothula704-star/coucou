@@ -258,6 +258,7 @@ const NOT_TEXT = new Set([
   "unknown", // a CI state
   "Resend", // the service's name (the Mac's "Resend" is a button: send again)
   "now", // when a Claude Code job the chat proposed runs: { when: "now" }
+  "Stop", // Claude Code's hook event name (island/hooks.ts), not the button
 ]);
 
 test("no known user-facing English literal outside t() in the views and settings", () => {

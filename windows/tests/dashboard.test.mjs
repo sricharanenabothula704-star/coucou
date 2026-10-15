@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import {
   appColor, appName, dayBefore, diskLow, focusLeft, focusProgress, formatBytes, formatClock, formatDuration,
   formatRate, level, listeningSummary, mediaPosition, mochiMood, moveTile, ratio, tempLevel, tileOrder, TILE_IDS,
-  topApps, weatherInfo, week, cleanupDefault, cleanupTotal,
+  topApps, weatherInfo, week, cleanupDefault, cleanupTotal, clipPreview, privacyLabel, batteryLow,
 } from "../src/core/dashboard.ts";
 import { DEFAULT_SETTINGS, dashboardPrefs } from "../src/core/state.ts";
 
@@ -146,4 +146,18 @@ test("cleanup: caches are ticked by default, a build folder (it costs a rebuild)
   picked.add(items[2].id);
   assert.equal(cleanupTotal(items, picked), 5300);
   assert.equal(cleanupTotal(items, new Set()), 0);
+});
+
+test("clipboard lines are one line and cut; privacy chips name the app", () => {
+  assert.equal(clipPreview("  hello" + String.fromCharCode(10, 10) + "   world  "), "hello world");
+  assert.equal(clipPreview("x".repeat(200), 10), "xxxxxxxxx…");
+  assert.equal(privacyLabel({ kind: "microphone", app: "chrome.exe" }), "🎤 Chrome");
+  assert.equal(privacyLabel({ kind: "webcam", app: "Microsoft.WindowsCamera" }), "📷 WindowsCamera");
+});
+
+test("low battery: at or under 15 % and not charging", () => {
+  assert.equal(batteryLow(null), false);
+  assert.equal(batteryLow({ percent: 15, charging: false, secsLeft: 900 }), true);
+  assert.equal(batteryLow({ percent: 15, charging: true, secsLeft: null }), false);
+  assert.equal(batteryLow({ percent: 40, charging: false, secsLeft: 9000 }), false);
 });

@@ -12,7 +12,7 @@ import type {
   FocusAction, FocusState, MediaAction, MediaState, Play, QuickAction, ScreenTime, SpeedResult, SystemStats, Weather,
 } from "./dashboard";
 import type { ClaudeJob } from "./pc-context";
-import type { CleanupItem } from "./dashboard";
+import type { AwakeState, CleanupItem, ClipEntry, InUse } from "./dashboard";
 
 export const IS_TAURI =
   typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
@@ -440,6 +440,17 @@ export const Bridge = {
   weather: () => call<Weather>("weather_fetch"),
   speedTest: () => call<SpeedResult>("speed_test"),
   quickAction: (action: QuickAction) => call<boolean>("quick_action", { action }),
+  /** Keep awake (dashboard/awake.rs): `minutes` 0 turns it off. */
+  awakeGet: () => call<AwakeState>("awake_get"),
+  awakeSet: (minutes: number, forever = false) => call<AwakeState>("awake_set", { minutes, forever }),
+  /** Clipboard history (dashboard/clipboard.rs), memory only. */
+  clipboardList: () => call<ClipEntry[]>("clipboard_list"),
+  clipboardCopy: (id: number) => call<boolean>("clipboard_copy", { id }),
+  clipboardClear: () => call<void>("clipboard_clear"),
+  notesGet: () => call<string>("notes_get"),
+  notesSet: (text: string) => call<boolean>("notes_set", { text }),
+  /** Apps using the microphone or the camera right now. */
+  privacyInUse: () => call<InUse[]>("privacy_in_use"),
   /** PC cleanup (dashboard/cleanup.rs): what the caches take, then clear the named ones; bytes freed. */
   cleanupScan: () => call<CleanupItem[]>("cleanup_scan"),
   cleanupRun: (ids: string[]) => call<number>("cleanup_run", { ids }),

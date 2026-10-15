@@ -55,6 +55,19 @@ Claude Code started from a plain terminal (Windows Terminal, PowerShell, cmd) no
 
 <img src="docs/command-center/island-home.png" width="752" alt="A Claude CLI session in the island">
 
+### PC cleanup
+
+A tile that shows what caches and old build folders take, then clears the ones you pick: temporary files older than a day, Chrome and Edge caches, npm and pip caches, the Recycle Bin, and the `target` / `node_modules` folders of your projects (unticked by default — they cost a rebuild). Nothing is deleted until you pick it and confirm twice, and Rust works out every path itself from a fixed list.
+
+### Small tools
+
+- **Keep awake**: 30 min, 1 h, 3 h or until you stop it, so the PC and its screen don't sleep. Nothing survives a restart.
+- **Clipboard history** (off until you turn it on): the last 30 texts you copied, click to copy one again. Memory only, never written to disk; a password manager's copies are skipped.
+- **Notes**: a scratchpad that saves itself to `%APPDATA%\Coucou
+otes.json`.
+- **Mic and camera in use**: a red chip in the dashboard header names the app using your microphone or camera right now, the same signal Windows' own taskbar dot reads.
+- **Low-battery warning**: the island opens when a laptop is under 15 % and not charging.
+
 ### And also
 
 - **Now Playing** for any Windows player — Spotify, YouTube in Edge or Chrome, VLC… — through Windows' own media controls, with cover art and volume.
@@ -81,7 +94,7 @@ All of Coucou's other shortcuts are listed in [`windows/README.md`](windows/READ
 
 - **No telemetry.** Network calls only go to what you set up: your RSS feeds, Open-Meteo for the city you type, the speed test server (only when you click), and the AI provider you chat with.
 - **Nothing is read while it is closed.** The PC is sampled only while a dashboard view is on screen; music and the focus timer arrive as events.
-- **Local files only**, in `%APPDATA%\Coucou`: `screentime.json` (app names and seconds, 30 days), `listening.json` (songs heard 30 s or more), `jobs.json`, `focus.json`.
+- **Local files only**, in `%APPDATA%\Coucou`: `screentime.json` (app names and seconds, 30 days), `listening.json` (songs heard 30 s or more), `jobs.json`, `focus.json`, `notes.json`. The clipboard history lives in memory only.
 - **The chat snapshot** goes to the AI you chat with. Turn it off in **Settings → Dashboard → Let the chat see my PC**, and the actions with **Let the chat play music…**.
 - **The microphone** records only between your two clicks; the audio goes to Google for the transcript and is never kept.
 

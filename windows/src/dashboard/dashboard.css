@@ -1306,6 +1306,94 @@ a:focus-visible {
   to { transform: rotate(360deg); }
 }
 
+/* ── Keep awake, clipboard, notes ───────────────────────────────────────── */
+
+.awake-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.wide-mini {
+  min-width: 0;
+  padding: 6px 10px;
+}
+
+.tile-awake.awake-on {
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.tile-awake.awake-on .big-number {
+  color: #86efac;
+  animation: awake-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes awake-glow {
+  50% { text-shadow: 0 0 18px rgba(34, 197, 94, 0.55); }
+}
+
+.clip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.clip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.clip:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.clip span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+
+.clip i {
+  flex: none;
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--dim-3);
+}
+
+.clip.copied {
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.clip.copied i {
+  color: #86efac;
+}
+
+.notes-area {
+  flex: 1;
+  min-height: 150px;
+  width: 100%;
+  resize: none;
+  font: inherit;
+  line-height: 1.5;
+}
+
+.chip.live {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
 /* ── Reduce motion ───────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {

@@ -11,10 +11,14 @@
 // place the user picked (their RSS feeds, their city, the speed test server)
 // and only when a page asks.
 
+pub mod awake;
 pub mod cleanup;
+pub mod clipboard;
 pub mod focus;
 pub mod jobs;
 pub mod media;
+pub mod notes;
+pub mod privacy;
 pub mod voice;
 pub mod screentime;
 pub mod system;
@@ -53,6 +57,8 @@ pub struct DashboardPrefs {
     /// The chat may play music, run the focus timer, open the dashboard and
     /// propose Claude Code jobs (which wait for a click).
     pub let_chat_act: bool,
+    /// Keep the last 30 texts you copied (clipboard.rs). Off by default; memory only.
+    pub clipboard_history: bool,
 }
 
 impl Default for DashboardPrefs {
@@ -78,6 +84,7 @@ impl Default for DashboardPrefs {
             tiles: Vec::new(),
             share_with_chat: true,
             let_chat_act: true,
+            clipboard_history: false,
         }
     }
 }
@@ -86,12 +93,15 @@ impl Default for DashboardPrefs {
 
 pub fn setup(app: &AppHandle, prefs: &DashboardPrefs) {
     create_window(app);
+    awake::setup(app);
+    clipboard::sync(prefs.clipboard_history);
     jobs::setup(app);
     focus::setup(app, prefs.focus);
     screentime::sync(prefs.screen_time);
 }
 
 pub fn settings_saved(prefs: &DashboardPrefs) {
+    clipboard::sync(prefs.clipboard_history);
     focus::set_prefs(prefs.focus);
     screentime::sync(prefs.screen_time);
 }

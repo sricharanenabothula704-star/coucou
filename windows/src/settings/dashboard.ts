@@ -65,6 +65,10 @@ export function dashboardSection(
       h("div", { class: "row" }, h("label", { text: t("Let the chat see my PC") }), toggle(p.shareWithChat, (on) => set({ shareWithChat: on }))),
       h("div", { class: "row" }, h("label", { text: t("Let the chat play music, run the focus timer and propose Claude Code jobs") }), toggle(p.letChatAct, (on) => set({ letChatAct: on }))),
 
+      h("h3", { class: "sub", text: t("Clipboard") }),
+      h("div", { class: "hint", text: t("Keeps the last 30 texts you copy so you can pick one up again. Kept in memory only, never saved to disk; a password manager's copies are skipped.") }),
+      h("div", { class: "row" }, h("label", { text: t("Keep a clipboard history") }), toggle(p.clipboardHistory, (on) => set({ clipboardHistory: on }))),
+
       h("h3", { class: "sub", text: t("Screen time") }),
       h("div", { class: "hint", text: t("Notes which app is in front every 5 seconds. Only app names and times are kept, on this PC, for 30 days.") }),
       h("div", { class: "row" }, h("label", { text: t("Track screen time") }), toggle(p.screenTime, (on) => set({ screenTime: on })), clearButton),

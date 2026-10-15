@@ -471,7 +471,8 @@ mod tests {
     "systemAlerts": false,
     "tiles": ["music", "focus"],
     "shareWithChat": false,
-    "letChatAct": false
+    "letChatAct": false,
+    "clipboardHistory": true
   },
   "ctrlShiftTap": true
 }"##;

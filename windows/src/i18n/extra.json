@@ -5796,5 +5796,192 @@
    "pt-BR": "Escolha algo",
    "ru": "Выберите что-нибудь",
    "id": "Pilih sesuatu"
+  },
+  "Keep awake": {
+   "zh-Hans": "保持唤醒",
+   "hi": "जागता रखें",
+   "es": "Mantener activo",
+   "ar": "إبقاء الجهاز مستيقظًا",
+   "fr": "Garder éveillé",
+   "bn": "জাগিয়ে রাখুন",
+   "pt-BR": "Manter ativo",
+   "ru": "Не засыпать",
+   "id": "Tetap aktif"
+  },
+  "Clipboard": {
+   "zh-Hans": "剪贴板",
+   "hi": "क्लिपबोर्ड",
+   "es": "Portapapeles",
+   "ar": "الحافظة",
+   "fr": "Presse-papiers",
+   "bn": "ক্লিপবোর্ড",
+   "pt-BR": "Área de transferência",
+   "ru": "Буфер обмена",
+   "id": "Papan klip"
+  },
+  "Notes": {
+   "zh-Hans": "笔记",
+   "hi": "नोट्स",
+   "es": "Notas",
+   "ar": "ملاحظات",
+   "fr": "Notes",
+   "bn": "নোট",
+   "pt-BR": "Notas",
+   "ru": "Заметки",
+   "id": "Catatan"
+  },
+  "30 min": {
+   "zh-Hans": "30 分钟",
+   "hi": "30 मिनट",
+   "es": "30 min",
+   "ar": "30 د",
+   "fr": "30 min",
+   "bn": "৩০ মিনিট",
+   "pt-BR": "30 min",
+   "ru": "30 мин",
+   "id": "30 mnt"
+  },
+  "1 h": {
+   "zh-Hans": "1 小时",
+   "hi": "1 घंटा",
+   "es": "1 h",
+   "ar": "1 س",
+   "fr": "1 h",
+   "bn": "১ ঘণ্টা",
+   "pt-BR": "1 h",
+   "ru": "1 ч",
+   "id": "1 jam"
+  },
+  "3 h": {
+   "zh-Hans": "3 小时",
+   "hi": "3 घंटे",
+   "es": "3 h",
+   "ar": "3 س",
+   "fr": "3 h",
+   "bn": "৩ ঘণ্টা",
+   "pt-BR": "3 h",
+   "ru": "3 ч",
+   "id": "3 jam"
+  },
+  "Until I stop it": {
+   "zh-Hans": "直到我停止",
+   "hi": "जब तक मैं रोकूँ",
+   "es": "Hasta que lo pare",
+   "ar": "حتى أوقفه",
+   "fr": "Jusqu'à ce que j'arrête",
+   "bn": "আমি থামানো পর্যন্ত",
+   "pt-BR": "Até eu parar",
+   "ru": "Пока не остановлю",
+   "id": "Sampai saya hentikan"
+  },
+  "Awake": {
+   "zh-Hans": "保持唤醒中",
+   "hi": "जागा है",
+   "es": "Activo",
+   "ar": "مستيقظ",
+   "fr": "Éveillé",
+   "bn": "জাগানো আছে",
+   "pt-BR": "Ativo",
+   "ru": "Бодрствует",
+   "id": "Aktif"
+  },
+  "Your PC won't sleep.": {
+   "zh-Hans": "你的电脑不会进入睡眠。",
+   "hi": "आपका PC सोएगा नहीं।",
+   "es": "Tu PC no se dormirá.",
+   "ar": "لن ينام حاسوبك.",
+   "fr": "Votre PC ne se mettra pas en veille.",
+   "bn": "আপনার পিসি ঘুমাবে না।",
+   "pt-BR": "Seu PC não vai dormir.",
+   "ru": "ПК не уснёт.",
+   "id": "PC Anda tidak akan tidur."
+  },
+  "Let your PC sleep as usual.": {
+   "zh-Hans": "让电脑照常睡眠。",
+   "hi": "PC को हमेशा की तरह सोने दें।",
+   "es": "Deja que tu PC se duerma como siempre.",
+   "ar": "دع حاسوبك ينام كالمعتاد.",
+   "fr": "Votre PC se met en veille comme d'habitude.",
+   "bn": "পিসিকে যথারীতি ঘুমাতে দিন।",
+   "pt-BR": "Deixe o PC dormir como sempre.",
+   "ru": "ПК засыпает как обычно.",
+   "id": "Biarkan PC tidur seperti biasa."
+  },
+  "Stop": {
+   "zh-Hans": "停止",
+   "hi": "रोकें",
+   "es": "Parar",
+   "ar": "إيقاف",
+   "fr": "Arrêter",
+   "bn": "থামান",
+   "pt-BR": "Parar",
+   "ru": "Стоп",
+   "id": "Berhenti"
+  },
+  "Keep the last 30 texts you copy, to pick one up again. Kept in memory only, never saved.": {
+   "zh-Hans": "保留你复制的最近 30 条文本，方便再次使用。仅保存在内存中，从不写入磁盘。",
+   "hi": "आपके कॉपी किए आख़िरी 30 टेक्स्ट रखें, ताकि दोबारा उठा सकें। सिर्फ़ मेमोरी में, कभी सेव नहीं।",
+   "es": "Guarda los últimos 30 textos que copias para recuperarlos. Solo en memoria, nunca se guarda.",
+   "ar": "احتفظ بآخر 30 نصًا نسخته لتعيد استخدامها. في الذاكرة فقط، ولا يُحفظ أبدًا.",
+   "fr": "Garde les 30 derniers textes copiés pour les reprendre. En mémoire seulement, jamais enregistré.",
+   "bn": "আপনার কপি করা শেষ ৩০টি টেক্সট রাখে, আবার তুলে নিতে। শুধু মেমরিতে, কখনও সেভ হয় না।",
+   "pt-BR": "Guarda os últimos 30 textos que você copia para pegá-los de novo. Só na memória, nunca salvo.",
+   "ru": "Хранит последние 30 скопированных текстов, чтобы вернуться к ним. Только в памяти, на диск не пишется.",
+   "id": "Menyimpan 30 teks terakhir yang Anda salin agar bisa diambil lagi. Hanya di memori, tidak pernah disimpan."
+  },
+  "Copy some text and it shows up here.": {
+   "zh-Hans": "复制一些文本，它就会显示在这里。",
+   "hi": "कुछ टेक्स्ट कॉपी करें, वह यहाँ दिखेगा।",
+   "es": "Copia algo de texto y aparecerá aquí.",
+   "ar": "انسخ نصًا وسيظهر هنا.",
+   "fr": "Copiez du texte et il apparaîtra ici.",
+   "bn": "কিছু টেক্সট কপি করুন, এখানে দেখা যাবে।",
+   "pt-BR": "Copie algum texto e ele aparece aqui.",
+   "ru": "Скопируйте текст, и он появится здесь.",
+   "id": "Salin teks dan akan muncul di sini."
+  },
+  "Jot something down…": {
+   "zh-Hans": "记点什么…",
+   "hi": "कुछ लिख लें…",
+   "es": "Apunta algo…",
+   "ar": "دوّن شيئًا…",
+   "fr": "Notez quelque chose…",
+   "bn": "কিছু লিখে রাখুন…",
+   "pt-BR": "Anote algo…",
+   "ru": "Запишите что-нибудь…",
+   "id": "Catat sesuatu…"
+  },
+  "Saved": {
+   "zh-Hans": "已保存",
+   "hi": "सेव हो गया",
+   "es": "Guardado",
+   "ar": "تم الحفظ",
+   "fr": "Enregistré",
+   "bn": "সেভ হয়েছে",
+   "pt-BR": "Salvo",
+   "ru": "Сохранено",
+   "id": "Tersimpan"
+  },
+  "Keeps the last 30 texts you copy so you can pick one up again. Kept in memory only, never saved to disk; a password manager's copies are skipped.": {
+   "zh-Hans": "保留你复制的最近 30 条文本，方便再次使用。仅保存在内存中，从不写入磁盘；密码管理器复制的内容会被跳过。",
+   "hi": "आपके कॉपी किए आख़िरी 30 टेक्स्ट रखता है ताकि आप दोबारा उठा सकें। सिर्फ़ मेमोरी में, डिस्क पर कभी नहीं; पासवर्ड मैनेजर की कॉपी छोड़ दी जाती हैं।",
+   "es": "Guarda los últimos 30 textos que copias para que los recuperes. Solo en memoria, nunca en disco; se omiten las copias de un gestor de contraseñas.",
+   "ar": "يحتفظ بآخر 30 نصًا نسخته لتعيد استخدامها. في الذاكرة فقط ولا يُحفظ على القرص؛ تُتجاهل نسخ مدير كلمات المرور.",
+   "fr": "Garde les 30 derniers textes copiés pour les reprendre. En mémoire seulement, jamais sur le disque ; les copies d'un gestionnaire de mots de passe sont ignorées.",
+   "bn": "আপনার কপি করা শেষ ৩০টি টেক্সট রাখে যাতে আবার তুলে নিতে পারেন। শুধু মেমরিতে, ডিস্কে কখনও নয়; পাসওয়ার্ড ম্যানেজারের কপি বাদ যায়।",
+   "pt-BR": "Guarda os últimos 30 textos que você copia para pegá-los de novo. Só na memória, nunca no disco; cópias de um gerenciador de senhas são ignoradas.",
+   "ru": "Хранит последние 30 скопированных текстов. Только в памяти, на диск не пишется; копии из менеджера паролей пропускаются.",
+   "id": "Menyimpan 30 teks terakhir yang Anda salin agar bisa diambil lagi. Hanya di memori, tidak pernah ke disk; salinan dari pengelola kata sandi dilewati."
+  },
+  "Keep a clipboard history": {
+   "zh-Hans": "保留剪贴板历史",
+   "hi": "क्लिपबोर्ड इतिहास रखें",
+   "es": "Guardar historial del portapapeles",
+   "ar": "الاحتفاظ بسجل الحافظة",
+   "fr": "Garder un historique du presse-papiers",
+   "bn": "ক্লিপবোর্ড ইতিহাস রাখুন",
+   "pt-BR": "Manter histórico da área de transferência",
+   "ru": "Хранить историю буфера обмена",
+   "id": "Simpan riwayat papan klip"
   } }
 }
