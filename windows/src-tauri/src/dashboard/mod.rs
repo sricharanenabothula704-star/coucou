@@ -11,6 +11,7 @@
 // place the user picked (their RSS feeds, their city, the speed test server)
 // and only when a page asks.
 
+pub mod cleanup;
 pub mod focus;
 pub mod jobs;
 pub mod media;

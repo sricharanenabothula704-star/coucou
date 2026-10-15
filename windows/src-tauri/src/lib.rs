@@ -804,6 +804,8 @@ pub fn run() {
             dashboard::screentime::screentime_clear,
             dashboard::focus::focus_get,
             dashboard::focus::focus_command,
+            dashboard::cleanup::cleanup_scan,
+            dashboard::cleanup::cleanup_run,
             dashboard::jobs::jobs_list,
             dashboard::jobs::job_save,
             dashboard::jobs::job_delete,

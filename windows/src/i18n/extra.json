@@ -5609,5 +5609,192 @@
    "pt-BR": "Toque Ctrl+Shift para abrir ou fechar a ilha",
    "ru": "Нажмите Ctrl+Shift, чтобы открыть или закрыть остров",
    "id": "Tekan Ctrl+Shift untuk membuka atau menutup pulau"
+  },
+  "PC cleanup": {
+   "zh-Hans": "电脑清理",
+   "hi": "PC की सफ़ाई",
+   "es": "Limpieza del PC",
+   "ar": "تنظيف الحاسوب",
+   "fr": "Nettoyage du PC",
+   "bn": "পিসি পরিষ্কার",
+   "pt-BR": "Limpeza do PC",
+   "ru": "Очистка ПК",
+   "id": "Pembersihan PC"
+  },
+  "Temporary files": {
+   "zh-Hans": "临时文件",
+   "hi": "अस्थायी फ़ाइलें",
+   "es": "Archivos temporales",
+   "ar": "ملفات مؤقتة",
+   "fr": "Fichiers temporaires",
+   "bn": "অস্থায়ী ফাইল",
+   "pt-BR": "Arquivos temporários",
+   "ru": "Временные файлы",
+   "id": "Berkas sementara"
+  },
+  "Chrome cache": {
+   "zh-Hans": "Chrome 缓存",
+   "hi": "Chrome कैश",
+   "es": "Caché de Chrome",
+   "ar": "ذاكرة Chrome المؤقتة",
+   "fr": "Cache de Chrome",
+   "bn": "Chrome ক্যাশ",
+   "pt-BR": "Cache do Chrome",
+   "ru": "Кэш Chrome",
+   "id": "Cache Chrome"
+  },
+  "Edge cache": {
+   "zh-Hans": "Edge 缓存",
+   "hi": "Edge कैश",
+   "es": "Caché de Edge",
+   "ar": "ذاكرة Edge المؤقتة",
+   "fr": "Cache d'Edge",
+   "bn": "Edge ক্যাশ",
+   "pt-BR": "Cache do Edge",
+   "ru": "Кэш Edge",
+   "id": "Cache Edge"
+  },
+  "npm cache": {
+   "zh-Hans": "npm 缓存",
+   "hi": "npm कैश",
+   "es": "Caché de npm",
+   "ar": "ذاكرة npm المؤقتة",
+   "fr": "Cache npm",
+   "bn": "npm ক্যাশ",
+   "pt-BR": "Cache do npm",
+   "ru": "Кэш npm",
+   "id": "Cache npm"
+  },
+  "pip cache": {
+   "zh-Hans": "pip 缓存",
+   "hi": "pip कैश",
+   "es": "Caché de pip",
+   "ar": "ذاكرة pip المؤقتة",
+   "fr": "Cache pip",
+   "bn": "pip ক্যাশ",
+   "pt-BR": "Cache do pip",
+   "ru": "Кэш pip",
+   "id": "Cache pip"
+  },
+  "Recycle Bin": {
+   "zh-Hans": "回收站",
+   "hi": "रीसायकल बिन",
+   "es": "Papelera de reciclaje",
+   "ar": "سلة المحذوفات",
+   "fr": "Corbeille",
+   "bn": "রিসাইকেল বিন",
+   "pt-BR": "Lixeira",
+   "ru": "Корзина",
+   "id": "Recycle Bin"
+  },
+  "Freed {size}": {
+   "zh-Hans": "已释放 {size}",
+   "hi": "{size} खाली हुआ",
+   "es": "Liberados {size}",
+   "ar": "تم تحرير {size}",
+   "fr": "{size} libérés",
+   "bn": "{size} খালি হয়েছে",
+   "pt-BR": "{size} liberados",
+   "ru": "Освобождено {size}",
+   "id": "{size} dibebaskan"
+  },
+  "Cleaning…": {
+   "zh-Hans": "清理中…",
+   "hi": "सफ़ाई हो रही है…",
+   "es": "Limpiando…",
+   "ar": "جارٍ التنظيف…",
+   "fr": "Nettoyage…",
+   "bn": "পরিষ্কার হচ্ছে…",
+   "pt-BR": "Limpando…",
+   "ru": "Очистка…",
+   "id": "Membersihkan…"
+  },
+  "Scanning…": {
+   "zh-Hans": "扫描中…",
+   "hi": "स्कैन हो रहा है…",
+   "es": "Analizando…",
+   "ar": "جارٍ الفحص…",
+   "fr": "Analyse…",
+   "bn": "স্ক্যান হচ্ছে…",
+   "pt-BR": "Verificando…",
+   "ru": "Сканирование…",
+   "id": "Memindai…"
+  },
+  "See what caches and old build folders take. Nothing is deleted until you pick it and confirm.": {
+   "zh-Hans": "查看缓存和旧构建文件夹占用的空间。在你选择并确认之前不会删除任何内容。",
+   "hi": "देखें कि कैश और पुराने बिल्ड फ़ोल्डर कितनी जगह लेते हैं। जब तक आप चुनकर पुष्टि न करें, कुछ नहीं हटता।",
+   "es": "Mira cuánto ocupan las cachés y las carpetas de compilación antiguas. No se borra nada hasta que lo elijas y confirmes.",
+   "ar": "اعرف كم تشغل الذاكرات المؤقتة ومجلدات البناء القديمة. لا يُحذف شيء حتى تختاره وتؤكد.",
+   "fr": "Voyez ce que prennent les caches et les anciens dossiers de compilation. Rien n'est supprimé avant que vous le choisissiez et confirmiez.",
+   "bn": "ক্যাশ ও পুরোনো বিল্ড ফোল্ডার কত জায়গা নেয় দেখুন। আপনি বেছে নিশ্চিত না করা পর্যন্ত কিছু মোছা হয় না।",
+   "pt-BR": "Veja quanto espaço os caches e as pastas de build antigas ocupam. Nada é apagado até você escolher e confirmar.",
+   "ru": "Сколько места занимают кэши и старые папки сборки. Ничего не удаляется, пока вы не выберете и не подтвердите.",
+   "id": "Lihat seberapa besar cache dan folder build lama. Tidak ada yang dihapus sampai Anda memilih dan mengonfirmasi."
+  },
+  "Scan": {
+   "zh-Hans": "扫描",
+   "hi": "स्कैन करें",
+   "es": "Analizar",
+   "ar": "فحص",
+   "fr": "Analyser",
+   "bn": "স্ক্যান",
+   "pt-BR": "Verificar",
+   "ru": "Сканировать",
+   "id": "Pindai"
+  },
+  "Nothing to clean.": {
+   "zh-Hans": "没有需要清理的内容。",
+   "hi": "साफ़ करने के लिए कुछ नहीं।",
+   "es": "No hay nada que limpiar.",
+   "ar": "لا شيء للتنظيف.",
+   "fr": "Rien à nettoyer.",
+   "bn": "পরিষ্কার করার কিছু নেই।",
+   "pt-BR": "Nada para limpar.",
+   "ru": "Нечего очищать.",
+   "id": "Tidak ada yang perlu dibersihkan."
+  },
+  "Scan again": {
+   "zh-Hans": "重新扫描",
+   "hi": "फिर स्कैन करें",
+   "es": "Analizar de nuevo",
+   "ar": "فحص مرة أخرى",
+   "fr": "Analyser à nouveau",
+   "bn": "আবার স্ক্যান",
+   "pt-BR": "Verificar de novo",
+   "ru": "Сканировать снова",
+   "id": "Pindai lagi"
+  },
+  "Rebuilds later": {
+   "zh-Hans": "之后需重新构建",
+   "hi": "बाद में फिर बनेगा",
+   "es": "Se recompila luego",
+   "ar": "يُعاد بناؤه لاحقًا",
+   "fr": "Sera recompilé",
+   "bn": "পরে আবার তৈরি হবে",
+   "pt-BR": "Recompila depois",
+   "ru": "Пересоберётся позже",
+   "id": "Dibangun ulang nanti"
+  },
+  "Clean {size}": {
+   "zh-Hans": "清理 {size}",
+   "hi": "{size} साफ़ करें",
+   "es": "Limpiar {size}",
+   "ar": "تنظيف {size}",
+   "fr": "Nettoyer {size}",
+   "bn": "{size} পরিষ্কার করুন",
+   "pt-BR": "Limpar {size}",
+   "ru": "Очистить {size}",
+   "id": "Bersihkan {size}"
+  },
+  "Pick something": {
+   "zh-Hans": "请先选择",
+   "hi": "कुछ चुनें",
+   "es": "Elige algo",
+   "ar": "اختر شيئًا",
+   "fr": "Choisissez quelque chose",
+   "bn": "কিছু বেছে নিন",
+   "pt-BR": "Escolha algo",
+   "ru": "Выберите что-нибудь",
+   "id": "Pilih sesuatu"
   } }
 }

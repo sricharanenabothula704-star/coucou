@@ -12,6 +12,7 @@ import type {
   FocusAction, FocusState, MediaAction, MediaState, Play, QuickAction, ScreenTime, SpeedResult, SystemStats, Weather,
 } from "./dashboard";
 import type { ClaudeJob } from "./pc-context";
+import type { CleanupItem } from "./dashboard";
 
 export const IS_TAURI =
   typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
@@ -439,6 +440,9 @@ export const Bridge = {
   weather: () => call<Weather>("weather_fetch"),
   speedTest: () => call<SpeedResult>("speed_test"),
   quickAction: (action: QuickAction) => call<boolean>("quick_action", { action }),
+  /** PC cleanup (dashboard/cleanup.rs): what the caches take, then clear the named ones; bytes freed. */
+  cleanupScan: () => call<CleanupItem[]>("cleanup_scan"),
+  cleanupRun: (ids: string[]) => call<number>("cleanup_run", { ids }),
   /** Claude Code jobs (dashboard/jobs.rs), and where `claude` was found. */
   jobsList: () => call<{ jobs: ClaudeJob[]; claude: string | null }>("jobs_list"),
   jobSave: (job: Partial<ClaudeJob> & { prompt: string; at: string }) => call<ClaudeJob>("job_save", { job }),

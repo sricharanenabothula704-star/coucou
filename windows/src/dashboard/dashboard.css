@@ -1243,6 +1243,69 @@ a:focus-visible {
   user-select: text;
 }
 
+/* ── PC cleanup ──────────────────────────────────────────────────────────── */
+
+.cleanup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cleanup-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cleanup-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cleanup-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.cleanup-done {
+  color: #86efac;
+  font-size: 15px;
+  animation: cleanup-pop 0.5s cubic-bezier(0.3, 1.4, 0.4, 1) both;
+}
+
+@keyframes cleanup-pop {
+  from { transform: scale(0.8); opacity: 0; }
+}
+
+.cleanup-busy {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dim);
+}
+
+.cleanup-busy i {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--cyan);
+  animation: cleanup-spin 0.8s linear infinite;
+}
+
+@keyframes cleanup-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── Reduce motion ───────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {

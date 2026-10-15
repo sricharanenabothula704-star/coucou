@@ -403,10 +403,30 @@ export function weatherInfo(code: number, day = true): { icon: string; label: st
   return { icon: "🌡️", label: N_("Weather") };
 }
 
+// ── Cleanup ───────────────────────────────────────────────────────────────────
+
+export interface CleanupItem {
+  id: string;
+  kind: "temp" | "browser" | "dev" | "recycle" | "project";
+  label: string;
+  path: string;
+  bytes: number;
+}
+
+/** What a scan finds that is safe to tick by default: caches yes, a project's build folder no (it costs a rebuild). */
+export function cleanupDefault(item: CleanupItem): boolean {
+  return item.kind !== "project";
+}
+
+/** Total bytes of the ticked items. */
+export function cleanupTotal(items: readonly CleanupItem[], picked: ReadonlySet<string>): number {
+  return items.reduce((n, i) => n + (picked.has(i.id) ? i.bytes : 0), 0);
+}
+
 // ── Tiles ─────────────────────────────────────────────────────────────────────
 
 export const TILE_IDS = [
-  "music", "jobs", "focus", "claude", "cpu", "memory", "disk", "network", "uptime",
+  "music", "jobs", "focus", "cleanup", "claude", "cpu", "memory", "disk", "network", "uptime",
   "screentime", "apps", "news", "weather", "speed", "actions", "listening",
 ] as const;
 export type TileId = (typeof TILE_IDS)[number];

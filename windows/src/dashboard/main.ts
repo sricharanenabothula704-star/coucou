@@ -11,10 +11,10 @@
 import "./dashboard.css";
 import { Bridge, onEvent } from "../core/bridge";
 import {
-  DEFAULT_DASHBOARD, PHASE_COLOR, appColor, appName, diskLow, focusLeft, focusProgress,
+  DEFAULT_DASHBOARD, PHASE_COLOR, cleanupDefault, cleanupTotal, appColor, appName, diskLow, focusLeft, focusProgress,
   formatBytes, formatClock, formatDuration, formatRate, level, listeningSummary, mediaPosition, mochiMood,
   moveTile, phaseLabel, ratio, tempLevel, tileOrder, topApps, week, weatherInfo,
-  type DashboardPrefs, type FocusState, type MediaState, type Play, type ScreenTime, type SpeedResult,
+  type CleanupItem, type DashboardPrefs, type FocusState, type MediaState, type Play, type ScreenTime, type SpeedResult,
   type SystemStats, type TileId, type Weather,
 } from "../core/dashboard";
 import { DEFAULT_SETTINGS, dashboardPrefs, type Settings } from "../core/state";
@@ -206,9 +206,10 @@ const TITLES: Record<TileId, () => string> = {
   actions: () => t("Quick actions"),
   listening: () => t("Music played"),
   jobs: () => t("Claude jobs"),
+  cleanup: () => t("PC cleanup"),
 };
 
-const WIDE: ReadonlySet<TileId> = new Set(["music", "news", "screentime", "apps", "jobs"]);
+const WIDE: ReadonlySet<TileId> = new Set(["music", "news", "screentime", "apps", "jobs", "cleanup"]);
 
 function shell(id: TileId, extra?: HTMLElement): { el: HTMLElement; body: HTMLElement; title: HTMLElement } {
   const title = h("span", { class: "tile-title", text: TITLES[id]() });
@@ -919,7 +920,106 @@ async function loadJobs() {
   tiles.get("jobs")?.render();
 }
 
+
+// Cleanup ──────────────────────────────────────────────────────────────────────
+
+const CLEANUP_LABELS: Record<string, () => string> = {
+  "Temporary files": () => t("Temporary files"),
+  "Chrome cache": () => t("Chrome cache"),
+  "Edge cache": () => t("Edge cache"),
+  "npm cache": () => t("npm cache"),
+  "pip cache": () => t("pip cache"),
+  "Recycle Bin": () => t("Recycle Bin"),
+};
+
+function cleanupTile(): Tile {
+  const { el, body } = shell("cleanup");
+  let items: CleanupItem[] | null = null;
+  let picked = new Set<string>();
+  let scanning = false;
+  let freed: number | null = null;
+  let working = false;
+
+  const scan = async () => {
+    scanning = true;
+    freed = null;
+    render();
+    items = (await Bridge.cleanupScan()) ?? [];
+    picked = new Set(items.filter(cleanupDefault).map((i) => i.id));
+    scanning = false;
+    render();
+  };
+
+  const clean = async () => {
+    working = true;
+    render();
+    const ids = [...picked];
+    freed = (await Bridge.cleanupRun(ids)) ?? 0;
+    working = false;
+    items = null;
+    render();
+    void sampleSystem(false);
+  };
+
+  const render = () => {
+    clear(body);
+    const disk = data.stats;
+    if (disk) {
+      body.append(h("div", { class: "muted small", text: `${disk.disk} ${t("{size} free", { size: formatBytes(disk.diskFree) })}` }));
+    }
+    if (freed != null) {
+      body.append(h("div", { class: "cleanup-done" }, h("b", { text: t("Freed {size}", { size: formatBytes(freed) }) })));
+    }
+    if (scanning || working) {
+      body.append(h("div", { class: "cleanup-busy" }, h("i"), h("span", { text: working ? t("Cleaning…") : t("Scanning…") })));
+      return;
+    }
+    if (items == null) {
+      body.append(
+        h("div", { class: "muted small", text: t("See what caches and old build folders take. Nothing is deleted until you pick it and confirm.") }),
+        h("button", { class: "pill-btn", text: t("Scan"), onclick: () => void scan() }),
+      );
+      return;
+    }
+    if (items.length === 0) {
+      body.append(h("div", { class: "muted small", text: t("Nothing to clean.") }), h("button", { class: "pill-btn", text: t("Scan again"), onclick: () => void scan() }));
+      return;
+    }
+    const list = h("div", { class: "cleanup-list" });
+    for (const item of items) {
+      const box = h("input", { type: "checkbox" }) as HTMLInputElement;
+      box.checked = picked.has(item.id);
+      box.onchange = () => {
+        if (box.checked) picked.add(item.id);
+        else picked.delete(item.id);
+        render();
+      };
+      const label = CLEANUP_LABELS[item.label]?.() ?? item.label;
+      list.append(
+        h("label", { class: `cleanup-row ${item.kind}`, title: item.path },
+          box,
+          h("span", { class: "cleanup-name", text: label }),
+          item.kind === "project" ? h("span", { class: "tag", text: t("Rebuilds later") }) : null,
+          h("b", { class: "app-mem", text: formatBytes(item.bytes) }),
+        ),
+      );
+    }
+    const total = cleanupTotal(items, picked);
+    body.append(
+      list,
+      h("div", { class: "row" },
+        picked.size
+          ? confirmButton(t("Clean {size}", { size: formatBytes(total) }), t("Sure?"), "pill-btn", () => void clean())
+          : h("button", { class: "pill-btn", disabled: true, text: t("Pick something") }),
+        h("button", { class: "mini-btn", text: t("Scan again"), onclick: () => void scan() }),
+      ),
+    );
+  };
+  return { id: "cleanup", el, body, render };
+}
+
 const BUILDERS: Record<TileId, () => Tile> = {
+  cleanup: cleanupTile,
   jobs: jobsTile,
   music: musicTile, focus: focusTile, claude: claudeTile, cpu: cpuTile, memory: memoryTile, disk: diskTile,
   network: networkTile, uptime: uptimeTile, screentime: screenTile, apps: appsTile, news: newsTile,

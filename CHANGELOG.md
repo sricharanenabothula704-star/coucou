@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **PC cleanup** *(Windows)* — a dashboard tile that shows what the caches and old build folders take, then clears the ones you pick: temporary files older than a day, Chrome and Edge caches, npm and pip caches, the Recycle Bin, and the `target` / `node_modules` folders of your projects (found under your home folder; unticked by default because they cost a rebuild). Nothing is deleted until you pick it and confirm; Rust works out every path itself from a fixed list, never follows links, and only removes a build folder that sits next to its `Cargo.toml` / `package.json`
 - **Claude jobs** *(Windows)* — hand Claude Code a prompt and a folder from the dashboard, now or at a time (once, every day, weekdays): Coucou runs `claude -p` there, its permission requests still come to the island, and the answer is kept with the job. Mochi cheers when one finishes
 - **The chat sees your PC** — with each message the chat gets what the dashboard reads right now (CPU, memory, apps, music, focus, screen time, headlines, Claude jobs), and it can play music, run the focus timer, open the dashboard or propose a Claude Code job, which waits for your click. Two switches in Settings → Dashboard
 - **Talk to the chat** — a mic button next to Send: click, speak, click; Gemini writes it down with your Google AI key and the chat sends it. The button glows with your voice

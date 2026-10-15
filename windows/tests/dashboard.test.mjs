@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import {
   appColor, appName, dayBefore, diskLow, focusLeft, focusProgress, formatBytes, formatClock, formatDuration,
   formatRate, level, listeningSummary, mediaPosition, mochiMood, moveTile, ratio, tempLevel, tileOrder, TILE_IDS,
-  topApps, weatherInfo, week,
+  topApps, weatherInfo, week, cleanupDefault, cleanupTotal,
 } from "../src/core/dashboard.ts";
 import { DEFAULT_SETTINGS, dashboardPrefs } from "../src/core/state.ts";
 
@@ -132,4 +132,18 @@ test("dashboard settings: an older file gets every default, a partial focus keep
   assert.equal(q.focus.focusMin, 50);
   assert.equal(q.focus.shortMin, 5);
   assert.equal(q.weatherCity, "Pune");
+});
+
+test("cleanup: caches are ticked by default, a build folder (it costs a rebuild) is not", () => {
+  const items = [
+    { id: "temp", kind: "temp", label: "Temporary files", path: "", bytes: 100 },
+    { id: "chrome", kind: "browser", label: "Chrome cache", path: "", bytes: 200 },
+    { id: "proj:C:\p\target", kind: "project", label: "p · target", path: "", bytes: 5000 },
+  ];
+  assert.deepEqual(items.map(cleanupDefault), [true, true, false]);
+  const picked = new Set(items.filter(cleanupDefault).map((i) => i.id));
+  assert.equal(cleanupTotal(items, picked), 300);
+  picked.add(items[2].id);
+  assert.equal(cleanupTotal(items, picked), 5300);
+  assert.equal(cleanupTotal(items, new Set()), 0);
 });
