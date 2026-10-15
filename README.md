@@ -63,8 +63,7 @@ A tile that shows what caches and old build folders take, then clears the ones y
 
 - **Keep awake**: 30 min, 1 h, 3 h or until you stop it, so the PC and its screen don't sleep. Nothing survives a restart.
 - **Clipboard history** (off until you turn it on): the last 30 texts you copied, click to copy one again. Memory only, never written to disk; a password manager's copies are skipped.
-- **Notes**: a scratchpad that saves itself to `%APPDATA%\Coucou
-otes.json`.
+- **Notes**: a scratchpad that saves itself to `%APPDATA%\Coucou\notes.json`.
 - **Mic and camera in use**: a red chip in the dashboard header names the app using your microphone or camera right now, the same signal Windows' own taskbar dot reads.
 - **Low-battery warning**: the island opens when a laptop is under 15 % and not charging.
 
