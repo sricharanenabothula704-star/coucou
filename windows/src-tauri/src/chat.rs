@@ -226,6 +226,7 @@ pub fn model_for(settings: &Settings, provider: &str) -> String {
         .map(|m| m.trim().to_string())
         .filter(|m| !m.is_empty())
         .or_else(|| openai_compat::provider(provider).map(|p| p.default_model.to_string()))
+        .or_else(|| (provider == "jarvis").then(|| "jarvis".to_string()))
         .unwrap_or_default()
 }
 

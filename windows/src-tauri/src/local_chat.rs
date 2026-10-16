@@ -90,6 +90,11 @@ pub struct Server {
 
 /// Ollama, LM Studio or "custom", from the settings; None for any other id.
 pub fn server(settings: &Settings, id: &str) -> Option<Server> {
+    // Jarvis runs its own OpenAI-compatible server on this machine at a fixed address.
+    if id == "jarvis" {
+        let url = std::env::var("JARVIS_URL").unwrap_or_else(|_| "http://127.0.0.1:8765".to_string());
+        return Some(Server { id: "jarvis", name: "Jarvis", url, key: None });
+    }
     let (id, name, url, key) = match id {
         "ollama" => ("ollama", "Ollama", &settings.ollama_url, None),
         "lmstudio" => ("lmstudio", "LM Studio", &settings.lmstudio_url, None),

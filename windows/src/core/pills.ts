@@ -116,6 +116,10 @@ export const PILL_CATALOG: readonly PillDefinition[] = [
     subtitle: N_("Chat"), source: "n8n", support: "yes", connect: server("ollamaUrl") },
   { id: "ai_lmstudio", name: "LM Studio", color: ACCENT.lmstudio, category: "ai",
     subtitle: N_("Chat"), source: "n8n", support: "yes", connect: server("lmstudioUrl") },
+  // Jarvis: the local voice assistant's Opus brain, over its OpenAI-compatible server
+  // (127.0.0.1:8765). Always on this machine, so nothing to connect.
+  { id: "ai_jarvis", name: "Jarvis", color: "#38E1FF", category: "ai",
+    subtitle: N_("Chat"), source: "n8n", support: "windows", connect: none },
   // ── Services ───────────────────────────────────────────────────────────────
   { id: "integration_resend", name: "Resend", color: "#22C55E", category: "service",
     subtitle: N_("Integration"), source: "n8n", support: "yes", connect: key("resend-api-key") },
