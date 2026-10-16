@@ -100,6 +100,9 @@ export const PILL_CATALOG: readonly PillDefinition[] = [
   // Linux build.
   { id: "agent_claude-desktop", name: "Claude Desktop", color: "#D97757", category: "agent",
     subtitle: N_("Agent"), source: "agent", support: "windows", connect: none },
+  // Jarvis reports its own sessions through coucou-hook (--agent jarvis); nothing to install.
+  { id: "agent_jarvis", name: "Jarvis", color: "#38E1FF", category: "agent",
+    subtitle: N_("Agent"), source: "agent", support: "windows", connect: none },
   // ── AI for the chat ────────────────────────────────────────────────────────
   { id: "ai_anthropic", name: "Anthropic", color: ACCENT.anthropic, category: "ai",
     subtitle: N_("Chat"), source: "n8n", support: "yes", connect: key("anthropic-api-key") },
