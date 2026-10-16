@@ -610,7 +610,7 @@ dependencies = [
 
 [[package]]
 name = "coucou"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "dbus",
  "futures-util",
@@ -642,7 +642,7 @@ dependencies = [
 
 [[package]]
 name = "coucou-hook"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "libc",
  "serde_json",
