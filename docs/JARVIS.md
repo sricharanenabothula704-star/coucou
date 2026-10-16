@@ -32,9 +32,11 @@ is closed, Jarvis's local voice/HUD prompt still decides.
 ## 3. Jarvis as a chat brain
 
 Jarvis runs an **OpenAI-compatible server** on `http://127.0.0.1:8765` (`/v1/models`,
-`/v1/chat/completions`, streamed), backed by an answer-only Opus brain. It is registered as a chat
-provider (`src/core/providers.ts`, id `jarvis`, no key, no URL field), so **Jarvis** appears in the
-chat's model picker and routes there through `local_chat.rs` — always available while Jarvis is
+`/v1/chat/completions`, streamed), backed by an Opus brain with Jarvis's full toolset — it can open
+apps, read and write files, run PowerShell, search the web and use Gmail/Calendar/Drive, so the chat
+doesn't just answer, it acts (risky steps go through the approval gate above). It is registered as a
+chat provider (`src/core/providers.ts`, id `jarvis`, no key, no URL field), so **Jarvis** appears in
+the chat's model picker and routes there through `local_chat.rs` — always available while Jarvis is
 running, nothing to set up. Override the address with the `JARVIS_URL` environment variable.
 
 ## Keeping it running
