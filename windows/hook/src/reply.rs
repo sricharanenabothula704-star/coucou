@@ -12,7 +12,7 @@ use serde_json::{json, Map, Value};
 /// (no `--agent`), Codex, Copilot CLI and Muse Code. Any decision for another
 /// agent is ignored here too, whatever the app sent.
 pub fn takes_decisions(agent: &str) -> bool {
-    matches!(agent, "" | "codex" | "copilot" | "muse")
+    matches!(agent, "" | "codex" | "copilot" | "muse" | "jarvis")
 }
 
 /// Agents that read a JSON object on stdout after every hook and get `{}` —
